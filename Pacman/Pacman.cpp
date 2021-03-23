@@ -26,9 +26,9 @@ Pacman::Pacman(std::shared_ptr<Drawer> aDrawer)
 , myLives(3)
 , myGhostGhostCounter(0.f)
 {
-	myAvatar = new Avatar(Vector2f(13*22,22*22));
-	myGhost = new Ghost(Vector2f(13*22,13*22));
-	myWorld = new World();
+	myAvatar = std::make_shared<Avatar>(Vector2f(13*22,22*22));
+	myGhost = std::make_shared<Ghost>(Vector2f(13*22,13*22));
+	myWorld = std::make_shared<World>();
 }
 
 Pacman::~Pacman(void)

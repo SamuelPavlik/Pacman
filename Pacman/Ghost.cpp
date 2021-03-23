@@ -17,13 +17,13 @@ Ghost::~Ghost(void)
 {
 }
 
-void Ghost::Die(World* aWorld)
+void Ghost::Die(std::shared_ptr<World> aWorld)
 {
 	myPath.clear();
 	aWorld->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
 }
 
-void Ghost::Update(float aTime, World* aWorld)
+void Ghost::Update(float aTime, std::shared_ptr<World> aWorld)
 {
 	float speed = 30.f;
 	int nextTileX = GetCurrentTileX() + myDesiredMovementX;

@@ -38,9 +38,9 @@ private:
 
 	Vector2f myNextMovement;
 
-	Avatar* myAvatar;
-	Ghost* myGhost;
-	World* myWorld;
+	std::shared_ptr<Avatar> myAvatar;
+	std::shared_ptr<Ghost> myGhost;
+	std::shared_ptr<World> myWorld;
 
 };
 

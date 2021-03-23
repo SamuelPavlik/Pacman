@@ -13,14 +13,14 @@ public:
 	Ghost(const Vector2f& aPosition);
 	~Ghost(void);
 
-	void Update(float aTime, World* aWorld);
+	void Update(float aTime, std::shared_ptr<World> aWorld);
 
 	bool myIsClaimableFlag;
 	bool myIsDeadFlag;
 
 	void SetImage(const char* anImage);
 
-	void Die(World* aWorld);
+	void Die(std::shared_ptr<World> aWorld);
 
 	void Draw(std::shared_ptr<Drawer> aDrawer);
 
