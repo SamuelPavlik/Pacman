@@ -92,7 +92,7 @@ void Ghost::SetImage(const char* anImage)
 	myImage = anImage;
 }
 
-void Ghost::Draw(Drawer* aDrawer)
+void Ghost::Draw(std::shared_ptr<Drawer> aDrawer)
 {
 	if (myIsDeadFlag)
 		aDrawer->Draw("Ghost_Dead_32.png", (int)myPosition.myX + 220, (int)myPosition.myY + 60);

@@ -22,7 +22,7 @@ public:
 
 	void Die(World* aWorld);
 
-	void Draw(Drawer* aDrawer);
+	void Draw(std::shared_ptr<Drawer> aDrawer);
 
 protected:
 

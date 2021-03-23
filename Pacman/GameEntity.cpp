@@ -18,7 +18,7 @@ bool GameEntity::Intersect(GameEntity* aGameEntity)
 	return false;	
 }
 
-void GameEntity::Draw(Drawer* aDrawer)
+void GameEntity::Draw(std::shared_ptr<Drawer> aDrawer)
 {
 	aDrawer->Draw(myImage, (int)myPosition.myX + 220, (int)myPosition.myY + 60);
 }

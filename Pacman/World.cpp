@@ -102,7 +102,7 @@ bool World::InitBigDots()
 	return true;
 }
 
-void World::Draw(Drawer* aDrawer)
+void World::Draw(std::shared_ptr<Drawer> aDrawer)
 {
 	aDrawer->Draw("playfield.png");
 

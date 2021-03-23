@@ -1,8 +1,9 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <list>
 #include "Vector2f.h"
+#include <memory>
+#include <list>
 
 class Drawer;
 class PathmapTile;
@@ -18,7 +19,7 @@ public:
 
 	void Init();
 
-	void Draw(Drawer* aDrawer);
+	void Draw(std::shared_ptr<Drawer> aDrawer);
 	bool TileIsValid(int anX, int anY);
 
 	bool HasIntersectedDot(const Vector2f& aPosition);

@@ -3,6 +3,8 @@
 
 #include "Vector2f.h"
 
+#include <memory>
+
 struct SDL_Surface;
 class Drawer;
 class Avatar;
@@ -12,20 +14,20 @@ class Ghost;
 class Pacman
 {
 public:
-	static Pacman* Create(Drawer* aDrawer);
+	static std::shared_ptr<Pacman> Create(std::shared_ptr<Drawer> aDrawer);
+	Pacman(std::shared_ptr<Drawer> aDrawer);
 	~Pacman(void);
 
 	bool Update(float aTime);
 	bool Draw();
 
 private:
-	Pacman(Drawer* aDrawer);
-	bool Init();
+	void Init();
 	bool UpdateInput();
 	void MoveAvatar();
 	bool CheckEndGameCondition();
 
-	Drawer* myDrawer;
+	std::shared_ptr<Drawer> myDrawer;
 
 	float myTimeToNextUpdate;
 	float myGhostGhostCounter;

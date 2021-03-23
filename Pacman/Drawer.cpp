@@ -3,17 +3,16 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 
-Drawer* Drawer::Create(SDL_Window* aWindow, SDL_Renderer* aRenderer)
+std::shared_ptr<Drawer> Drawer::Create(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 {
-	Drawer* drawer = new Drawer(aWindow, aRenderer);
+	std::shared_ptr<Drawer> drawer = std::make_shared<Drawer>(aWindow, aRenderer);
 
-	if (!drawer->Init())
+	if (drawer->Init())
 	{
-		delete drawer;
-		drawer = NULL;
+		return drawer;
 	}
 
-	return drawer;
+	return NULL;
 }
 
 Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)

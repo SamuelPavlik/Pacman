@@ -10,20 +10,14 @@
 #include "World.h"
 #include "Ghost.h"
 
-Pacman* Pacman::Create(Drawer* aDrawer)
+std::shared_ptr<Pacman> Pacman::Create(std::shared_ptr<Drawer> aDrawer)
 {
-	Pacman* pacman = new Pacman(aDrawer);
-
-	if (!pacman->Init())
-	{
-		delete pacman;
-		pacman = NULL;
-	}
-
+	std::shared_ptr<Pacman> pacman = std::make_shared<Pacman>(aDrawer);
+	pacman->Init();
 	return pacman;
 }
 
-Pacman::Pacman(Drawer* aDrawer)
+Pacman::Pacman(std::shared_ptr<Drawer> aDrawer)
 : myDrawer(aDrawer)
 , myTimeToNextUpdate(0.f)
 , myNextMovement(-1.f,0.f)
@@ -41,11 +35,9 @@ Pacman::~Pacman(void)
 {
 }
 
-bool Pacman::Init()
+void Pacman::Init()
 {
 	myWorld->Init();
-
-	return true;
 }
 
 bool Pacman::Update(float aTime)

@@ -32,8 +32,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	Drawer* drawer = Drawer::Create(window, renderer);
-	Pacman* pacman = Pacman::Create(drawer);
+	auto drawer = Drawer::Create(window, renderer);
+	auto pacman = Pacman::Create(drawer);
 
 	float lastFrame = (float) SDL_GetTicks() * 0.001f;
 	SDL_Event event;
@@ -55,9 +55,6 @@ int main(int argc, char **argv)
 		SDL_RenderPresent(renderer);
 		SDL_Delay(1);
 	}
-
-	delete pacman;
-	delete drawer;
 
 	TTF_Quit();
 	IMG_Quit();
