@@ -4,6 +4,8 @@
 #include "Vector2f.h"
 #include <memory>
 #include <list>
+#include <vector>
+#include <unordered_map>
 
 class Drawer;
 class PathmapTile;
@@ -28,22 +30,21 @@ public:
 
 	void Update();
 
-	void GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList);
+	void GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<std::shared_ptr<PathmapTile>>& aList);
 
 private:
 
-	PathmapTile* GetTile(int aFromX, int aFromY);
-	bool Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList);
-	bool ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList);
+	bool Pathfind(std::shared_ptr<PathmapTile> aFromTile, std::shared_ptr<PathmapTile> aToTile, std::list<std::shared_ptr<PathmapTile>>& aList);
+	bool ListDoesNotContain(std::shared_ptr<PathmapTile> aFromTile, std::list<std::shared_ptr<PathmapTile>>& aList);
 
 
 	bool InitPathmap();
-	bool InitDots();
-	bool InitBigDots();
+	//bool InitDots();
+	//bool InitBigDots();
 
-	std::list<PathmapTile*> myPathmapTiles;
-	std::list<Dot*> myDots;
-	std::list<BigDot*> myBigDots;
+	std::vector<std::vector<std::shared_ptr<PathmapTile>>> myPathmapTiles;
+	std::vector<std::shared_ptr<Dot>> myDots;
+	std::vector<std::shared_ptr<BigDot>> myBigDots;
 	std::list<Cherry*> myCherry;
 
 };

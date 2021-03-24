@@ -3,11 +3,13 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 #include "PathmapTile.h"
 #include "Dot.h"
 #include "BigDot.h"
 #include "Drawer.h"
+#include "Constants.h"
 
 World::World(void)
 {
@@ -20,8 +22,6 @@ World::~World(void)
 void World::Init()
 {
 	InitPathmap();
-	InitDots();
-	InitBigDots();
 }
 
 bool World::InitPathmap()
@@ -33,64 +33,19 @@ bool World::InitPathmap()
 		int lineIndex = 0;
 		while (! myfile.eof() )
 		{
+			myPathmapTiles.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
 			std::getline (myfile,line);
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
-				PathmapTile* tile = new PathmapTile(i, lineIndex, (line[i] == 'x'));
-				myPathmapTiles.push_back(tile);
-			}
+				myPathmapTiles[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
 
-			lineIndex++;
-		}
-		myfile.close();
-	}
-
-	return true;
-}
-
-bool World::InitDots()
-{
-	std::string line;
-	std::ifstream myfile ("map.txt");
-	if (myfile.is_open())
-	{
-		int lineIndex = 0;
-		while (! myfile.eof() )
-		{
-			std::getline (myfile,line);
-			for (unsigned int i = 0; i < line.length(); i++)
-			{
 				if (line[i] == '.')
-				{
-					Dot* dot = new Dot(Vector2f(i*22, lineIndex*22));
-					myDots.push_back(dot);
+				{				
+					myDots.push_back(std::make_shared<Dot>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE)));
 				}
-			}
-
-			lineIndex++;
-		}
-		myfile.close();
-	}
-
-	return true;
-}
-
-bool World::InitBigDots()
-{
-	std::string line;
-	std::ifstream myfile ("map.txt");
-	if (myfile.is_open())
-	{
-		int lineIndex = 0;
-		while (! myfile.eof() )
-		{
-			std::getline (myfile,line);
-			for (unsigned int i = 0; i < line.length(); i++)
-			{
-				if (line[i] == 'o')
+				else if (line[i] == 'o')
 				{
-					BigDot* dot = new BigDot(Vector2f(i*22, lineIndex*22));
-					myBigDots.push_back(dot);
+					myBigDots.push_back(std::make_shared<BigDot>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE)));
 				}
 			}
 
@@ -106,59 +61,44 @@ void World::Draw(std::shared_ptr<Drawer> aDrawer)
 {
 	aDrawer->Draw("playfield.png");
 
-	for(std::list<Dot*>::iterator list_iter = myDots.begin(); list_iter != myDots.end(); list_iter++)
+	for(auto dot : myDots)
 	{
-		Dot* dot = *list_iter;
 		dot->Draw(aDrawer);
 	}
 
-	for(std::list<BigDot*>::iterator list_iter = myBigDots.begin(); list_iter != myBigDots.end(); list_iter++)
+	for(auto bigDot : myBigDots)
 	{
-		BigDot* dot = *list_iter;
-		dot->Draw(aDrawer);
+		bigDot->Draw(aDrawer);
 	}
 }
 
 bool World::TileIsValid(int anX, int anY)
 {
-	for(std::list<PathmapTile*>::iterator list_iter = myPathmapTiles.begin(); list_iter != myPathmapTiles.end(); list_iter++)
-	{
-		PathmapTile* tile = *list_iter;
-
-		if (anX == tile->myX && anY == tile->myY && !tile->myIsBlockingFlag)
-			return true;
-	}
-
-	return false;
+	return !myPathmapTiles[anY][anX]->myIsBlockingFlag;
 }
 
 bool World::HasIntersectedDot(const Vector2f& aPosition)
 {
-	for(std::list<Dot*>::iterator list_iter = myDots.begin(); list_iter != myDots.end(); list_iter++)
+	auto dotIt = std::find_if(myDots.begin(), myDots.end(), [&aPosition](auto dot) {
+			return (dot->GetPosition() - aPosition).Length() < 5.f;
+		});
+	if (dotIt != myDots.end())
 	{
-		Dot* dot = *list_iter;
-		if ((dot->GetPosition() - aPosition).Length() < 5.f)
-		{
-			myDots.remove(dot);
-			delete dot;
-			return true;
-		}
+		myDots.erase(dotIt);
+		return true;
 	}
-
 	return false;
 }
 
 bool World::HasIntersectedBigDot(const Vector2f& aPosition)
 {
-	for(std::list<BigDot*>::iterator list_iter = myBigDots.begin(); list_iter != myBigDots.end(); list_iter++)
+	auto bigDotIt = std::find_if(myBigDots.begin(), myBigDots.end(), [&aPosition](auto dot) {
+		return (dot->GetPosition() - aPosition).Length() < 5.f;
+		});
+	if (bigDotIt != myBigDots.end())
 	{
-		BigDot* dot = *list_iter;
-		if ((dot->GetPosition() - aPosition).Length() < 5.f)
-		{
-			myBigDots.remove(dot);
-			delete dot;
-			return true;
-		}
+		myBigDots.erase(bigDotIt);
+		return true;
 	}
 
 	return false;
@@ -169,49 +109,28 @@ bool World::HasIntersectedCherry(const Vector2f& aPosition)
 	return true;
 }
 
-void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<PathmapTile*>& aList)
+void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<std::shared_ptr<PathmapTile>>& aList)
 {
-	PathmapTile* fromTile = GetTile(aFromX, aFromY);
-	PathmapTile* toTile = GetTile(aToX, aToY);
+	auto fromTile = myPathmapTiles[aFromY][aFromX];
+	auto toTile = myPathmapTiles[aToY][aToX];
 
-	for(std::list<PathmapTile*>::iterator list_iter = myPathmapTiles.begin(); list_iter != myPathmapTiles.end(); list_iter++)
+	for(auto line : myPathmapTiles)
 	{
-		PathmapTile* tile = *list_iter;
-		tile->myIsVisitedFlag = false;
+		for (auto tile : line)
+		{
+			tile->myIsVisitedFlag = false;
+		}
 	}
 
 	Pathfind(fromTile, toTile, aList);
 }
 
-PathmapTile* World::GetTile(int aFromX, int aFromY)
+bool World::ListDoesNotContain(std::shared_ptr<PathmapTile> aFromTile, std::list<std::shared_ptr<PathmapTile>>& aList)
 {
-	for(std::list<PathmapTile*>::iterator list_iter = myPathmapTiles.begin(); list_iter != myPathmapTiles.end(); list_iter++)
-	{
-		PathmapTile* tile = *list_iter;
-		if (tile->myX == aFromX && tile->myY == aFromY)
-		{
-			return tile;
-		}
-	}
-
-	return NULL;
+	return aList.cend() == std::find(aList.cbegin(), aList.cend(), aFromTile);
 }
 
-bool World::ListDoesNotContain(PathmapTile* aFromTile, std::list<PathmapTile*>& aList)
-{
-	for(std::list<PathmapTile*>::iterator list_iter = aList.begin(); list_iter != aList.end(); list_iter++)
-	{
-		PathmapTile* tile = *list_iter;
-		if (tile == aFromTile)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool SortFromGhostSpawn(PathmapTile* a, PathmapTile* b)
+bool SortFromGhostSpawn(std::shared_ptr<PathmapTile> a, std::shared_ptr<PathmapTile> b)
 {
 	int la = abs(a->myX - 13) + abs(a->myY - 13);
 	int lb = abs(b->myX - 13) + abs(b->myY - 13);
@@ -219,7 +138,7 @@ bool SortFromGhostSpawn(PathmapTile* a, PathmapTile* b)
     return la < lb;
 }
 
-bool World::Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<PathmapTile*>& aList)
+bool World::Pathfind(std::shared_ptr<PathmapTile> aFromTile, std::shared_ptr<PathmapTile> aToTile, std::list<std::shared_ptr<PathmapTile>>& aList)
 {
 	aFromTile->myIsVisitedFlag = true;
 
@@ -229,30 +148,28 @@ bool World::Pathfind(PathmapTile* aFromTile, PathmapTile* aToTile, std::list<Pat
 	if (aFromTile == aToTile)
 		return true;
 
-	std::list<PathmapTile*> neighborList;
+	std::list<std::shared_ptr<PathmapTile>> neighborList;
 
-	PathmapTile* up = GetTile(aFromTile->myX, aFromTile->myY - 1);
+	std::shared_ptr<PathmapTile> up = myPathmapTiles[aFromTile->myY - 1][aFromTile->myX];
 	if (up && !up->myIsVisitedFlag && !up->myIsBlockingFlag && ListDoesNotContain(up, aList))
 		neighborList.push_front(up);
 
-	PathmapTile* down = GetTile(aFromTile->myX, aFromTile->myY + 1);
+	std::shared_ptr<PathmapTile> down = myPathmapTiles[aFromTile->myY + 1][aFromTile->myX];
 	if (down && !down->myIsVisitedFlag && !down->myIsBlockingFlag && ListDoesNotContain(down, aList))
 		neighborList.push_front(down);
 
-	PathmapTile* right = GetTile(aFromTile->myX + 1, aFromTile->myY);
+	std::shared_ptr<PathmapTile> right = myPathmapTiles[aFromTile->myY][aFromTile->myX + 1];
 	if (right && !right->myIsVisitedFlag && !right->myIsBlockingFlag && ListDoesNotContain(right, aList))
 		neighborList.push_front(right);
 
-	PathmapTile* left = GetTile(aFromTile->myX - 1, aFromTile->myY);
+	std::shared_ptr<PathmapTile> left = myPathmapTiles[aFromTile->myY][aFromTile->myX - 1];
 	if (left && !left->myIsVisitedFlag && !left->myIsBlockingFlag && ListDoesNotContain(left, aList))
 		neighborList.push_front(left);
 
 	neighborList.sort(SortFromGhostSpawn);
 
-	for(std::list<PathmapTile*>::iterator list_iter = neighborList.begin(); list_iter != neighborList.end(); list_iter++)
+	for(auto tile : neighborList)
 	{
-		PathmapTile* tile = *list_iter;
-
 		aList.push_back(tile);
 
 		if (Pathfind(tile, aToTile, aList))

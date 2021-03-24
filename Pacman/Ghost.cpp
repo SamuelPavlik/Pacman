@@ -36,7 +36,7 @@ void Ghost::Update(float aTime, std::shared_ptr<World> aWorld)
 	{
 		if (!myPath.empty())
 		{
-			PathmapTile* nextTile = myPath.front();
+			auto nextTile = myPath.front();
 			myPath.pop_front();
 			SetNextTile(nextTile->myX, nextTile->myY);
 		}

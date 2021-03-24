@@ -29,7 +29,7 @@ protected:
 	int myDesiredMovementX;
 	int myDesiredMovementY;
 
-	std::list<PathmapTile*> myPath;
+	std::list<std::shared_ptr<PathmapTile>> myPath;
 
 };
 
