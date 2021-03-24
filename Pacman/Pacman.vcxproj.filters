@@ -105,5 +105,8 @@
     <ClInclude Include="Vector2f.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

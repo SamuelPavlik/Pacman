@@ -137,6 +137,7 @@
     <ClInclude Include="Avatar.h" />
     <ClInclude Include="BigDot.h" />
     <ClInclude Include="Cherry.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="GameEntity.h" />
