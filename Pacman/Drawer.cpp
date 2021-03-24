@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "SDL_render.h"
 
 std::shared_ptr<Drawer> Drawer::Create(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 {
@@ -33,28 +34,23 @@ bool Drawer::Init()
 	return true;
 }
 
-void Drawer::Draw(const char* anImage, int aCellX, int aCellY)
+void Drawer::Draw(const char* name, int aCellX, int aCellY)
 {
-	SDL_Surface* surface = IMG_Load( anImage ) ;
-
-	if (!surface)
-		return;
-
-	SDL_Texture* optimizedSurface = SDL_CreateTextureFromSurface(myRenderer, surface);
+	Resource resource = resourceMap[name];
 
     SDL_Rect sizeRect;
     sizeRect.x = 0 ;
     sizeRect.y = 0 ;
-    sizeRect.w = surface->w ;
-    sizeRect.h = surface->h ;
+    sizeRect.w = std::get<1>(resource);
+    sizeRect.h = std::get<2>(resource);
 
     SDL_Rect posRect ;
     posRect.x = aCellX;
     posRect.y = aCellY;
-	posRect.w = sizeRect.w;
-	posRect.h = sizeRect.h;
+	posRect.w = std::get<1>(resource);
+	posRect.h = std::get<2>(resource);
 
-	SDL_RenderCopy(myRenderer, optimizedSurface, &sizeRect, &posRect);	
+	SDL_RenderCopy(myRenderer, std::get<0>(resource).get(), &sizeRect, &posRect);
 }
 
 void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
@@ -82,4 +78,18 @@ void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
 	SDL_DestroyTexture(optimizedSurface);
 	SDL_FreeSurface(surface);
 	TTF_CloseFont(font);
+}
+
+void Drawer::AddResource(const char* name)
+{
+	if (resourceMap.find(name) == resourceMap.end())
+	{
+		SDL_Surface* surface = IMG_Load(name);
+		if (!surface)
+			return;
+
+		resourceMap[name] = Resource(std::shared_ptr<SDL_Texture>(
+			SDL_CreateTextureFromSurface(myRenderer, surface)), 
+			surface->w, surface->h);
+	}
 }

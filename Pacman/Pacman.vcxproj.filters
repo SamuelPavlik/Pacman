@@ -64,6 +64,9 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EntityCollection.cpp" />
+    <ClCompile Include="S_Sprite.cpp" />
+    <ClCompile Include="C_Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -108,5 +111,8 @@
     <ClInclude Include="Constants.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="EntityCollection.h" />
+    <ClInclude Include="S_Sprite.h" />
+    <ClInclude Include="C_Sprite.h" />
   </ItemGroup>
 </Project>

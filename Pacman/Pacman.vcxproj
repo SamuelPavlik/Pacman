@@ -75,6 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\libs\SDL2-2.0.5\include;..\libs\SDL2_image-2.0.1\include;..\libs\SDL2_ttf-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\libs\SDL2-2.0.5\lib\x86\SDL2.lib;..\libs\SDL2-2.0.5\lib\x86\SDL2main.lib;..\libs\SDL2_image-2.0.1\lib\x86\SDL2_image.lib;..\libs\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.lib</AdditionalDependencies>
@@ -121,15 +122,18 @@
     <ClCompile Include="Avatar.cpp" />
     <ClCompile Include="BigDot.cpp" />
     <ClCompile Include="Cherry.cpp" />
+    <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovableGameEntity.cpp" />
+    <ClCompile Include="EntityCollection.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="StaticGameEntity.cpp" />
+    <ClCompile Include="S_Sprite.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -138,14 +142,17 @@
     <ClInclude Include="BigDot.h" />
     <ClInclude Include="Cherry.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="C_Sprite.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="MovableGameEntity.h" />
+    <ClInclude Include="EntityCollection.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
     <ClInclude Include="StaticGameEntity.h" />
+    <ClInclude Include="S_Sprite.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
