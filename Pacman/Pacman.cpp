@@ -11,8 +11,6 @@
 #include "Ghost.h"
 #include "Constants.h"
 
-const char* HUD_FONT = "freefont-ttf\\sfd\\FreeMono.ttf";
-
 std::shared_ptr<Pacman> Pacman::Create(std::shared_ptr<Drawer> aDrawer)
 {
 	std::shared_ptr<Pacman> pacman = std::make_shared<Pacman>(aDrawer);
