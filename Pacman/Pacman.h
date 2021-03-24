@@ -19,13 +19,14 @@ public:
 	~Pacman(void);
 
 	bool Update(float aTime);
-	bool Draw();
+	void Draw();
 
 private:
 	void Init();
 	bool UpdateInput();
 	void MoveAvatar();
 	bool CheckEndGameCondition();
+	void DrawHUD();
 
 	std::shared_ptr<Drawer> myDrawer;
 

@@ -9,6 +9,9 @@
 #include "Avatar.h"
 #include "World.h"
 #include "Ghost.h"
+#include "Constants.h"
+
+const char* HUD_FONT = "freefont-ttf\\sfd\\FreeMono.ttf";
 
 std::shared_ptr<Pacman> Pacman::Create(std::shared_ptr<Drawer> aDrawer)
 {
@@ -47,12 +50,12 @@ bool Pacman::Update(float aTime)
 
 	if (CheckEndGameCondition())
 	{
-		myDrawer->DrawText("You win!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);
+		myDrawer->DrawText("You win!", HUD_FONT, 20, 70);
 		return true;
 	}
 	else if (myLives <= 0)
 	{
-		myDrawer->DrawText("You lose!", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 70);	
+		myDrawer->DrawText("You lose!", HUD_FONT, 20, 70);	
 		return true;
 	}
 
@@ -61,14 +64,14 @@ bool Pacman::Update(float aTime)
 	myGhost->Update(aTime, myWorld);
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
-		myScore += 10;
+		myScore += SMALL_DOT_POINTS;
 
 	myGhostGhostCounter -= aTime;
 
 	if (myWorld->HasIntersectedBigDot(myAvatar->GetPosition()))
 	{
-		myScore += 20;
-		myGhostGhostCounter = 20.f;
+		myScore += BIG_DOT_POINTS;
+		myGhostGhostCounter = GHOST_COUNTER;
 		myGhost->myIsClaimableFlag = true;
 	}
 
@@ -138,32 +141,30 @@ bool Pacman::CheckEndGameCondition()
 	return false;
 }
 
-bool Pacman::Draw()
+void Pacman::DrawHUD()
+{
+	std::stringstream scoreStream;
+	scoreStream << myScore;
+	myDrawer->DrawText("Score", HUD_FONT, 20, 50);
+	myDrawer->DrawText(scoreStream.str().c_str(), HUD_FONT, 100, 50);
+
+	std::stringstream liveStream;
+	liveStream << myLives;
+	myDrawer->DrawText("Lives", HUD_FONT, 20, 80);
+	myDrawer->DrawText(liveStream.str().c_str(), HUD_FONT, 100, 80);
+
+	myDrawer->DrawText("FPS", HUD_FONT, 880, 50);
+	std::stringstream fpsStream;
+	fpsStream << myFps;
+	myDrawer->DrawText(fpsStream.str().c_str(), HUD_FONT, 930, 50);
+}
+
+void Pacman::Draw()
 {
 	myWorld->Draw(myDrawer);
 	myAvatar->Draw(myDrawer);
 	myGhost->Draw(myDrawer);
 
-	std::string scoreString;
-	std::stringstream scoreStream;
-	scoreStream << myScore;
-	scoreString = scoreStream.str();
-	myDrawer->DrawText("Score", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 50);
-	myDrawer->DrawText(scoreString.c_str(), "freefont-ttf\\sfd\\FreeMono.ttf", 90, 50);
+	DrawHUD();
 
-	std::string livesString;
-	std::stringstream liveStream;
-	liveStream << myLives;
-	livesString = liveStream.str();
-	myDrawer->DrawText("Lives", "freefont-ttf\\sfd\\FreeMono.ttf", 20, 80);
-	myDrawer->DrawText(livesString.c_str(), "freefont-ttf\\sfd\\FreeMono.ttf", 90, 80);
-
-	myDrawer->DrawText("FPS", "freefont-ttf\\sfd\\FreeMono.ttf", 880, 50);
-	std::string fpsString;
-	std::stringstream fpsStream;
-	fpsStream << myFps;
-	fpsString = fpsStream.str();
-	myDrawer->DrawText(fpsString.c_str(), "freefont-ttf\\sfd\\FreeMono.ttf", 930, 50);
-
-	return true;
 }
