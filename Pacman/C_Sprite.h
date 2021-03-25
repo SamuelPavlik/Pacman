@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Component.h"
 #include "SDL.h"
 
 #include <memory>
@@ -7,7 +8,7 @@
 class Drawer;
 class GameEntity;
 
-class C_Sprite
+class C_Sprite : public Component
 {
 public:
 	C_Sprite(GameEntity& owner, std::shared_ptr<Drawer> drawer, const char* name);
@@ -17,9 +18,6 @@ public:
 	void SetName(const char* name);
 
 	int sortOrder;
-
-protected:
-	GameEntity& owner;
 
 private:
 	const char* name;

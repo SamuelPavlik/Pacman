@@ -3,7 +3,7 @@
 #include "GameEntity.h"
 
 C_Sprite::C_Sprite(GameEntity& owner, std::shared_ptr<Drawer> drawer, const char* name) :
-	owner(owner),
+	Component(owner),
 	name(name)
 {
 	Load(drawer, name);

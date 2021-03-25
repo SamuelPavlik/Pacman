@@ -1,7 +1,6 @@
 #include "Pacman.h"
 #include "Drawer.h"
 #include "Avatar.h"
-#include "World.h"
 #include "Ghost.h"
 #include "Constants.h"
 #include "C_Sprite.h"
@@ -26,7 +25,8 @@ Pacman::Pacman(std::shared_ptr<Drawer> aDrawer)
 , myScore(0)
 , myFps(0)
 , myLives(3)
-, myGhostGhostCounter(0.f){}
+, myGhostGhostCounter(0.f)
+, myWorld() {}
 
 Pacman::~Pacman(void)
 {
@@ -35,8 +35,7 @@ Pacman::~Pacman(void)
 void Pacman::Init()
 {
 	//set up world
-	myWorld = std::make_shared<World>();
-	myWorld->Init(myDrawer, myDots, myBigDots);
+	myWorld.Init(myDrawer, myDots, myBigDots);
 
 	//set up edible entities
 	entityCollection.Add(myDots);
@@ -45,6 +44,7 @@ void Pacman::Init()
 	//set up avatar
 	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
 	myAvatar->SetSprite(myDrawer, "open_32.png");
+	myAvatar->SetMovement(input, myWorld);
 	entityCollection.Add(myAvatar);
 
 	//set up ghost
@@ -61,15 +61,15 @@ bool Pacman::Update(float time)
 	entityCollection.ProcessRemovals();
 	entityCollection.ProcessNewEntities();
 
-	if (!UpdateInput())
-		return false;
+	//if (!UpdateInput())
+	//	return false;
 
 	if (CheckEndGameCondition())
 		return false;
 
 	CheckGhostCounter(time);
 
-	MoveAvatar();
+	//MoveAvatar();
 	entityCollection.Update(time);
 
 	CheckIntersectedDot(myAvatar->GetPosition());
@@ -152,7 +152,7 @@ void Pacman::MoveAvatar()
 
 	if (myAvatar->IsAtDestination())
 	{
-		if (myWorld->TileIsValid(nextTileX, nextTileY))
+		if (myWorld.TileIsValid(nextTileX, nextTileY))
 		{
 			myAvatar->SetNextTile(nextTileX, nextTileY);
 		}
@@ -225,7 +225,7 @@ void Pacman::DrawHUD()
 void Pacman::Draw()
 {
 	//TODO load world resource
-	myWorld->Draw(myDrawer);
+	myWorld.Draw(myDrawer);
 
 	entityCollection.Draw(myDrawer);
 

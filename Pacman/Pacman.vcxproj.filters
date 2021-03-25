@@ -22,6 +22,12 @@
     <Filter Include="Math">
       <UniqueIdentifier>{407f4558-6586-4bc4-8b47-e4c33e7ecfdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Components">
+      <UniqueIdentifier>{aa218486-a446-4f49-bc55-d21ba9efe4a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Systems">
+      <UniqueIdentifier>{3213f398-00f1-49a3-8c96-4bd51cf94467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pacman.cpp">
@@ -64,9 +70,21 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="EntityCollection.cpp" />
-    <ClCompile Include="S_Sprite.cpp" />
-    <ClCompile Include="C_Sprite.cpp" />
+    <ClCompile Include="C_Sprite.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityCollection.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="S_Sprite.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="C_KeyboardMovement.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -111,8 +129,23 @@
     <ClInclude Include="Constants.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="EntityCollection.h" />
-    <ClInclude Include="S_Sprite.h" />
-    <ClInclude Include="C_Sprite.h" />
+    <ClInclude Include="C_Sprite.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityCollection.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="S_Sprite.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_KeyboardMovement.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

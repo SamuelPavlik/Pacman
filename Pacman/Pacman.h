@@ -3,13 +3,14 @@
 
 #include "Vector2f.h"
 #include "EntityCollection.h"
+#include "Input.h"
+#include "World.h"
 
 #include <memory>
 
 struct SDL_Surface;
 class Drawer;
 class Avatar;
-class World;
 class Ghost;
 
 class Pacman
@@ -47,14 +48,17 @@ private:
 
 	Vector2f myNextMovement;
 
+	//game entities
 	std::shared_ptr<Avatar> myAvatar;
 	std::shared_ptr<Ghost> myGhost;
 	std::vector<std::shared_ptr<GameEntity>> myDots;
 	std::vector<std::shared_ptr<GameEntity>> myBigDots;
 	std::vector<std::shared_ptr<GameEntity>> myCherries;
-	std::shared_ptr<World> myWorld;
-	EntityCollection entityCollection;
+	World myWorld;
 
+	//systems
+	EntityCollection entityCollection;
+	Input input;
 };
 
 #endif // PACMAN_H

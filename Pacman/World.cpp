@@ -73,7 +73,7 @@ void World::Draw(std::shared_ptr<Drawer> drawer)
 	drawer->Draw("playfield.png");
 }
 
-bool World::TileIsValid(int anX, int anY)
+bool World::TileIsValid(int anX, int anY) const
 {
 	if (anX < 0) return false;
 	if (anX >= myPathmapTiles[0].size()) return false;

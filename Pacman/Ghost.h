@@ -18,7 +18,7 @@ public:
 	bool myIsClaimableFlag;
 	bool myIsDeadFlag;
 
-	void SetWorld(std::shared_ptr<World> world);
+	void SetWorld(World& world);
 
 	void Die();
 
@@ -30,7 +30,7 @@ protected:
 	std::list<std::shared_ptr<PathmapTile>> myPath;
 
 private:
-	std::shared_ptr<World> world;
+	World* world;
 };
 
 #endif // GHOST_H

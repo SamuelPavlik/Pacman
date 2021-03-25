@@ -4,9 +4,16 @@ Simple 2D Pacman
 - pointers to shared pointers
 - constants class
 - compiled with C++ 17 for inline
+- created component system for sprites, no need to define them in entities' childrens
+- added EntityCollection for entity adding, update and removal
+- C for components, S for systems
 
 
 
+- !what is going on with pathfinding
+- !crash on ghost avatar intersect
+- !pacman turning and animation
+- !weird movements to previous location after death
 - !sort #pragma once and #ifndef
 - !all file names to constants
-- !what is going on with pathfinding
+- !check unneccessary includes

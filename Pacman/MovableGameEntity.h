@@ -11,8 +11,6 @@ public:
 	~MovableGameEntity(void);
 
 	void SetNextTile(int anX, int anY);
-	int GetCurrentTileX() const { return myCurrentTileX; }
-	int GetCurrentTileY() const { return myCurrentTileY; }
 
 	bool IsAtDestination();
 

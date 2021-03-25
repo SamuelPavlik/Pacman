@@ -45,6 +45,16 @@ public:
 		return *this;
 	}
 
+	bool Vector2f::operator==(const Vector2f& other)
+	{
+		return myX == other.myX && myY == other.myY;
+	}
+
+	bool Vector2f::operator!=(const Vector2f& other)
+	{
+		return !(*this == other);
+	}
+
 	Vector2f& Vector2f::operator*=(const float aFloat) 
 	{
 		myX *= aFloat;

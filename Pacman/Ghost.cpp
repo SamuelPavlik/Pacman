@@ -18,9 +18,9 @@ Ghost::~Ghost(void)
 {
 }
 
-void Ghost::SetWorld(std::shared_ptr<World> world)
+void Ghost::SetWorld(World& world)
 {
-	this->world = world;
+	this->world = &world;
 }
 
 void Ghost::Die()

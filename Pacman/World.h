@@ -21,7 +21,7 @@ public:
 		std::vector<std::shared_ptr<GameEntity>>& myBigDots);
 
 	void Draw(std::shared_ptr<Drawer> aDrawer);
-	bool TileIsValid(int anX, int anY);
+	bool TileIsValid(int anX, int anY) const;
 
 	void Update();
 
