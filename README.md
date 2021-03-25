@@ -4,3 +4,9 @@ Simple 2D Pacman
 - pointers to shared pointers
 - constants class
 - compiled with C++ 17 for inline
+
+
+
+- !sort #pragma once and #ifndef
+- !all file names to constants
+- !what is going on with pathfinding

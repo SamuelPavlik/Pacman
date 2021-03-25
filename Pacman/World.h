@@ -5,13 +5,10 @@
 #include <memory>
 #include <list>
 #include <vector>
-#include <unordered_map>
 
 class Drawer;
 class PathmapTile;
-class Dot;
-class BigDot;
-class Cherry;
+class GameEntity;
 
 class World
 {
@@ -19,7 +16,7 @@ public:
 	World(void);
 	~World(void);
 
-	void Init();
+	void Init(std::shared_ptr<Drawer> drawer);
 
 	void Draw(std::shared_ptr<Drawer> aDrawer);
 	bool TileIsValid(int anX, int anY);
@@ -38,14 +35,14 @@ private:
 	bool ListDoesNotContain(std::shared_ptr<PathmapTile> aFromTile, std::list<std::shared_ptr<PathmapTile>>& aList);
 
 
-	bool InitPathmap();
+	bool InitPathmap(std::shared_ptr<Drawer> drawer);
 	//bool InitDots();
 	//bool InitBigDots();
 
 	std::vector<std::vector<std::shared_ptr<PathmapTile>>> myPathmapTiles;
-	std::vector<std::shared_ptr<Dot>> myDots;
-	std::vector<std::shared_ptr<BigDot>> myBigDots;
-	std::list<Cherry*> myCherry;
+	std::vector<std::shared_ptr<GameEntity>> myDots;
+	std::vector<std::shared_ptr<GameEntity>> myBigDots;
+	std::vector<std::shared_ptr<GameEntity>> myCherries;
 
 };
 

@@ -13,12 +13,12 @@ class S_Sprite
 public:
     S_Sprite();
 
-    void Add(std::vector<std::shared_ptr<GameEntity>> entity);
+    void Add(std::vector<std::shared_ptr<GameEntity>> entities);
     void Add(std::shared_ptr<GameEntity> object);
 
     void ProcessRemovals();
 
-    void Draw(std::shared_ptr<Drawer> aDrawer);
+    void Draw(std::shared_ptr<Drawer> drawer);
 
 private:
     std::multiset<std::shared_ptr<GameEntity>, std::function<bool(std::shared_ptr<GameEntity>, std::shared_ptr<GameEntity>)>> drawables;

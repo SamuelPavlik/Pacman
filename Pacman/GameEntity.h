@@ -11,16 +11,17 @@ class C_Sprite;
 class GameEntity
 {
 public:
-	GameEntity(const Vector2f& aPosition, const char* anImage);
+	GameEntity(const Vector2f& aPosition);
 	~GameEntity(void);
 
 	void Start();
+	void SetSprite(std::shared_ptr<Drawer> drawer, const char* name);
 	Vector2f GetPosition() const { return myPosition; }
 	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
 
 	bool Intersect(GameEntity* aGameEntity);
-	virtual void Draw(std::shared_ptr<Drawer> aDrawer);
-	const char* GetImage();
+	virtual void Update(float time);
+	void Draw(std::shared_ptr<Drawer> drawer);
 	std::shared_ptr<C_Sprite> GetSprite() const;
 
 	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
@@ -30,7 +31,6 @@ protected:
 
 	bool myIdMarkedForDeleteFlag;
 	Vector2f myPosition;
-	const char* myImage;
 	std::shared_ptr<C_Sprite> mySprite;
 };
 

@@ -1,8 +1,8 @@
 #include "MovableGameEntity.h"
 #include "Constants.h"
 
-MovableGameEntity::MovableGameEntity(const Vector2f& aPosition, const char* anImage)
-: GameEntity(aPosition, anImage)
+MovableGameEntity::MovableGameEntity(const Vector2f& aPosition)
+: GameEntity(aPosition)
 {
 	myCurrentTileX = myNextTileX = myPosition.myX / TILE_SIZE;
 	myCurrentTileY = myNextTileY =  myPosition.myY / TILE_SIZE;

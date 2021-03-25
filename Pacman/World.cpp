@@ -1,15 +1,14 @@
 #include "World.h"
+#include "PathmapTile.h"
+#include "GameEntity.h"
+#include "Drawer.h"
+#include "Constants.h"
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <algorithm>
-
-#include "PathmapTile.h"
-#include "Dot.h"
-#include "BigDot.h"
-#include "Drawer.h"
-#include "Constants.h"
 
 World::World(void)
 {
@@ -19,13 +18,17 @@ World::~World(void)
 {
 }
 
-void World::Init()
+void World::Init(std::shared_ptr<Drawer> drawer)
 {
-	InitPathmap();
+	InitPathmap(drawer);
 }
 
-bool World::InitPathmap()
+bool World::InitPathmap(std::shared_ptr<Drawer> drawer)
 {
+	//load map image
+	drawer->AddResource("playfield.png");
+
+	//init edible game entities and walls
 	std::string line;
 	std::ifstream myfile ("map.txt");
 	if (myfile.is_open())
@@ -41,11 +44,15 @@ bool World::InitPathmap()
 
 				if (line[i] == '.')
 				{				
-					myDots.push_back(std::make_shared<Dot>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE)));
+					auto dot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
+					dot->SetSprite(drawer, "Small_Dot_32.png");
+					myDots.push_back(dot);
 				}
 				else if (line[i] == 'o')
 				{
-					myBigDots.push_back(std::make_shared<BigDot>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE)));
+					auto bigDot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
+					bigDot->SetSprite(drawer, "Big_Dot_32.png");
+					myBigDots.push_back(bigDot);
 				}
 			}
 
@@ -57,23 +64,27 @@ bool World::InitPathmap()
 	return true;
 }
 
-void World::Draw(std::shared_ptr<Drawer> aDrawer)
+void World::Draw(std::shared_ptr<Drawer> drawer)
 {
-	aDrawer->Draw("playfield.png");
+	drawer->Draw("playfield.png");
 
 	for(auto dot : myDots)
 	{
-		dot->Draw(aDrawer);
+		dot->Draw(drawer);
 	}
 
 	for(auto bigDot : myBigDots)
 	{
-		bigDot->Draw(aDrawer);
+		bigDot->Draw(drawer);
 	}
 }
 
 bool World::TileIsValid(int anX, int anY)
 {
+	if (anX < 0) return false;
+	if (anX >= myPathmapTiles[0].size()) return false;
+	if (anY < 0) return false;
+	if (anY >= myPathmapTiles.size()) return false;
 	return !myPathmapTiles[anY][anX]->myIsBlockingFlag;
 }
 

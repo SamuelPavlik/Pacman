@@ -7,7 +7,7 @@
 class StaticGameEntity : public GameEntity
 {
 public:
-	StaticGameEntity(Vector2f aPosition, const char* anImage);
+	StaticGameEntity(Vector2f aPosition);
 	~StaticGameEntity(void);
 };
 

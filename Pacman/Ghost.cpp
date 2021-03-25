@@ -2,9 +2,10 @@
 #include "World.h"
 #include "PathmapTile.h"
 #include "Drawer.h"
+#include "C_Sprite.h"
 
 Ghost::Ghost(const Vector2f& aPosition)
-: MovableGameEntity(aPosition, "ghost_32.png")
+: MovableGameEntity(aPosition)
 {
 	myIsClaimableFlag = false;
 	myIsDeadFlag = false;
@@ -17,13 +18,18 @@ Ghost::~Ghost(void)
 {
 }
 
-void Ghost::Die(std::shared_ptr<World> aWorld)
+void Ghost::SetWorld(std::shared_ptr<World> world)
 {
-	myPath.clear();
-	aWorld->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
+	this->world = world;
 }
 
-void Ghost::Update(float aTime, std::shared_ptr<World> aWorld)
+void Ghost::Die()
+{
+	myPath.clear();
+	world->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
+}
+
+void Ghost::Update(float aTime)
 {
 	float speed = 30.f;
 	int nextTileX = GetCurrentTileX() + myDesiredMovementX;
@@ -40,7 +46,7 @@ void Ghost::Update(float aTime, std::shared_ptr<World> aWorld)
 			myPath.pop_front();
 			SetNextTile(nextTile->myX, nextTile->myY);
 		}
-		else if (aWorld->TileIsValid(nextTileX, nextTileY))
+		else if (world->TileIsValid(nextTileX, nextTileY))
 		{
 			SetNextTile(nextTileX, nextTileY);
 		}
@@ -85,19 +91,10 @@ void Ghost::Update(float aTime, std::shared_ptr<World> aWorld)
 		direction.Normalize();
 		myPosition += direction * distanceToMove;
 	}
-}
 
-void Ghost::SetImage(const char* anImage)
-{
-	myImage = anImage;
-}
-
-void Ghost::Draw(std::shared_ptr<Drawer> aDrawer)
-{
+	//drawing logic
 	if (myIsDeadFlag)
-		aDrawer->Draw("Ghost_Dead_32.png", (int)myPosition.myX + 220, (int)myPosition.myY + 60);
+		mySprite->SetName("Ghost_Dead_32.png");
 	else if (myIsClaimableFlag)
-		aDrawer->Draw("Ghost_Vulnerable_32.png", (int)myPosition.myX + 220, (int)myPosition.myY + 60);
-	else
-		aDrawer->Draw(myImage, (int)myPosition.myX + 220, (int)myPosition.myY + 60);
+		mySprite->SetName("Ghost_Vulnerable_32.png");
 }

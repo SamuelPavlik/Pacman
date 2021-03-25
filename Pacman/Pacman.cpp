@@ -1,15 +1,16 @@
 #include "Pacman.h"
 #include "Drawer.h"
-#include "SDL.h"
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <string>
-
 #include "Avatar.h"
 #include "World.h"
 #include "Ghost.h"
 #include "Constants.h"
+#include "C_Sprite.h"
+#include "SDL.h"
+
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <string>
 
 std::shared_ptr<Pacman> Pacman::Create(std::shared_ptr<Drawer> aDrawer)
 {
@@ -27,9 +28,23 @@ Pacman::Pacman(std::shared_ptr<Drawer> aDrawer)
 , myLives(3)
 , myGhostGhostCounter(0.f)
 {
-	myAvatar = std::make_shared<Avatar>(Vector2f(13*22,22*22));
-	myGhost = std::make_shared<Ghost>(Vector2f(13*22,13*22));
+
+	//set up world
 	myWorld = std::make_shared<World>();
+
+	//set up avatar
+	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
+	myAvatar->SetSprite(aDrawer, "open_32.png");
+	entityCollection.Add(myAvatar);
+
+	//set up ghost
+	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
+	myGhost->SetWorld(myWorld);
+	myGhost->SetSprite(aDrawer, "ghost_32.png");
+	myGhost->GetSprite()->Load(aDrawer, "Ghost_Dead_32.png");
+	myGhost->GetSprite()->Load(aDrawer, "Ghost_Vulnerable_32.png");
+	entityCollection.Add(myGhost);
+
 }
 
 Pacman::~Pacman(void)
@@ -38,11 +53,14 @@ Pacman::~Pacman(void)
 
 void Pacman::Init()
 {
-	myWorld->Init();
+	myWorld->Init(myDrawer);
 }
 
 bool Pacman::Update(float aTime)
 {
+	entityCollection.ProcessRemovals();
+	entityCollection.ProcessNewEntities();
+
 	if (!UpdateInput())
 		return false;
 
@@ -58,8 +76,9 @@ bool Pacman::Update(float aTime)
 	}
 
 	MoveAvatar();
-	myAvatar->Update(aTime);
-	myGhost->Update(aTime, myWorld);
+	//myAvatar->Update(aTime);
+	//myGhost->Update(aTime);
+	entityCollection.Update(aTime);
 
 	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
 		myScore += SMALL_DOT_POINTS;
@@ -91,10 +110,10 @@ bool Pacman::Update(float aTime)
 		{
 			myScore += 50;
 			myGhost->myIsDeadFlag = true;
-			myGhost->Die(myWorld);
+			myGhost->Die();
 		}
 	}
-	
+
 	if (aTime > 0)
 		myFps = (int) (1 / aTime);
 
@@ -159,9 +178,10 @@ void Pacman::DrawHUD()
 
 void Pacman::Draw()
 {
+	//TODO load world resource
 	myWorld->Draw(myDrawer);
-	myAvatar->Draw(myDrawer);
-	myGhost->Draw(myDrawer);
+
+	entityCollection.Draw(myDrawer);
 
 	DrawHUD();
 

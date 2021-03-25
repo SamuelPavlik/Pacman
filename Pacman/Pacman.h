@@ -2,6 +2,7 @@
 #define PACMAN_H
 
 #include "Vector2f.h"
+#include "EntityCollection.h"
 
 #include <memory>
 
@@ -42,6 +43,7 @@ private:
 	std::shared_ptr<Avatar> myAvatar;
 	std::shared_ptr<Ghost> myGhost;
 	std::shared_ptr<World> myWorld;
+	EntityCollection entityCollection;
 
 };
 

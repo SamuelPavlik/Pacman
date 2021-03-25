@@ -13,16 +13,14 @@ public:
 	Ghost(const Vector2f& aPosition);
 	~Ghost(void);
 
-	void Update(float aTime, std::shared_ptr<World> aWorld);
+	void Update(float aTime) override;
 
 	bool myIsClaimableFlag;
 	bool myIsDeadFlag;
 
-	void SetImage(const char* anImage);
+	void SetWorld(std::shared_ptr<World> world);
 
-	void Die(std::shared_ptr<World> aWorld);
-
-	void Draw(std::shared_ptr<Drawer> aDrawer);
+	void Die();
 
 protected:
 
@@ -31,6 +29,8 @@ protected:
 
 	std::list<std::shared_ptr<PathmapTile>> myPath;
 
+private:
+	std::shared_ptr<World> world;
 };
 
 #endif // GHOST_H

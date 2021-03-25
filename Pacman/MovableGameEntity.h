@@ -7,7 +7,7 @@
 class MovableGameEntity : public GameEntity
 {
 public:
-	MovableGameEntity(const Vector2f& aPosition, const char* anImage);
+	MovableGameEntity(const Vector2f& aPosition);
 	~MovableGameEntity(void);
 
 	void SetNextTile(int anX, int anY);

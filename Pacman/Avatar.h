@@ -10,7 +10,7 @@ public:
 	Avatar(const Vector2f& aPosition);
 	~Avatar(void);
 
-	void Update(float aTime);
+	void Update(float aTime) override;
 
 private:
 

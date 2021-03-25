@@ -1,12 +1,7 @@
 #include "EntityCollection.h"
 #include "GameEntity.h"
-#include "SDL.h"
-#include "SDL_image.h"
 
 #include <algorithm>
-
-EntityCollection::EntityCollection(std::shared_ptr<S_Sprite> spriteSys) :
-    spriteSys(spriteSys) {}
 
 void EntityCollection::Update(float deltaTime)
 {
@@ -16,17 +11,9 @@ void EntityCollection::Update(float deltaTime)
     }
 }
 
-void EntityCollection::LateUpdate(float deltaTime)
+void EntityCollection::Draw(std::shared_ptr<Drawer> drawer)
 {
-    for (auto& o : entities)
-    {
-        o->LateUpdate(deltaTime);
-    }
-}
-
-void EntityCollection::Draw(std::shared_ptr<Drawer> aDrawer)
-{
-    //drawables.Draw(aDrawer);
+    spriteSys.Draw(drawer);
 }
 
 void EntityCollection::Add(std::shared_ptr<GameEntity> entity)
@@ -49,25 +36,8 @@ void EntityCollection::ProcessNewEntities()
         }
 
         entities.insert(entities.end(), newEntities.begin(), newEntities.end());
-        ProcessNewResources(entities);
+        spriteSys.Add(entities);
         newEntities.clear();
-    }
-}
-
-void EntityCollection::ProcessNewResources(std::vector<std::shared_ptr<GameEntity>> entities)
-{
-    for (auto entity : newEntities)
-    {
-        auto anImage = entity->GetImage();
-        if (resourceMap.find(anImage) == resourceMap.end())
-        {
-            SDL_Surface* surface = IMG_Load(anImage);
-            if (!surface)
-                return;
-
-            resourceMap[anImage] = std::shared_ptr<SDL_Texture>(
-                SDL_CreateTextureFromSurface(aRenderer, surface));
-        }
     }
 }
 
@@ -87,7 +57,6 @@ void EntityCollection::ProcessRemovals()
 
     if (isRemovedSth)
     {
-        drawables.ProcessRemovals();
-        collidables.ProcessRemovals();
+        spriteSys.ProcessRemovals();
     }
 }

@@ -1,12 +1,10 @@
 #include "GameEntity.h"
 #include "Drawer.h"
+#include "C_Sprite.h"
 
-GameEntity::GameEntity(const Vector2f& aPosition, const char* anImage)
+GameEntity::GameEntity(const Vector2f& aPosition)
 :myPosition(aPosition)
-,myImage(anImage)
-,myIdMarkedForDeleteFlag(false)
-{
-}
+,myIdMarkedForDeleteFlag(false) {}
 
 GameEntity::~GameEntity(void)
 {
@@ -16,20 +14,27 @@ void GameEntity::Start()
 {
 }
 
+void GameEntity::SetSprite(std::shared_ptr<Drawer> drawer, const char* name)
+{
+	mySprite = std::make_shared<C_Sprite>(*this, drawer, name);
+}
+
 bool GameEntity::Intersect(GameEntity* aGameEntity)
 {
 
 	return false;	
 }
 
-void GameEntity::Draw(std::shared_ptr<Drawer> aDrawer)
+void GameEntity::Update(float time)
 {
-	aDrawer->Draw(myImage, (int)myPosition.myX + 220, (int)myPosition.myY + 60);
 }
 
-const char* GameEntity::GetImage()
+void GameEntity::Draw(std::shared_ptr<Drawer> drawer)
 {
-	return myImage;
+	if (mySprite)
+	{
+		mySprite->Draw(drawer);
+	}
 }
 
 std::shared_ptr<C_Sprite> GameEntity::GetSprite() const

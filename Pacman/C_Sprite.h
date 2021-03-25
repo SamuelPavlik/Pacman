@@ -2,7 +2,6 @@
 
 #include "SDL.h"
 
-#include <unordered_map>
 #include <memory>
 
 class Drawer;
@@ -13,19 +12,16 @@ class C_Sprite
 public:
 	C_Sprite(GameEntity& owner, std::shared_ptr<Drawer> drawer, const char* name);
 	
-	void Update(float deltaTime);
-	void Draw();
-	void Load(const char* name);
+	void Draw(std::shared_ptr<Drawer> drawer);
+	void Load(std::shared_ptr<Drawer> drawer, const char* name);
+	void SetName(const char* name);
 
-	void SetSortOrder(int order);
-	int GetSortOrder() const;
+	int sortOrder;
 
 protected:
 	GameEntity& owner;
 
 private:
-	int sortOrder;
-	std::shared_ptr<Drawer> drawer;
-	std::shared_ptr<SDL_Texture> texture;
+	const char* name;
 };
 
