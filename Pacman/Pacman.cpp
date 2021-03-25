@@ -26,26 +26,7 @@ Pacman::Pacman(std::shared_ptr<Drawer> aDrawer)
 , myScore(0)
 , myFps(0)
 , myLives(3)
-, myGhostGhostCounter(0.f)
-{
-
-	//set up world
-	myWorld = std::make_shared<World>();
-
-	//set up avatar
-	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
-	myAvatar->SetSprite(aDrawer, "open_32.png");
-	entityCollection.Add(myAvatar);
-
-	//set up ghost
-	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
-	myGhost->SetWorld(myWorld);
-	myGhost->SetSprite(aDrawer, "ghost_32.png");
-	myGhost->GetSprite()->Load(aDrawer, "Ghost_Dead_32.png");
-	myGhost->GetSprite()->Load(aDrawer, "Ghost_Vulnerable_32.png");
-	entityCollection.Add(myGhost);
-
-}
+, myGhostGhostCounter(0.f){}
 
 Pacman::~Pacman(void)
 {
@@ -53,10 +34,29 @@ Pacman::~Pacman(void)
 
 void Pacman::Init()
 {
-	myWorld->Init(myDrawer);
+	//set up world
+	myWorld = std::make_shared<World>();
+	myWorld->Init(myDrawer, myDots, myBigDots);
+
+	//set up edible entities
+	entityCollection.Add(myDots);
+	entityCollection.Add(myBigDots);
+
+	//set up avatar
+	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
+	myAvatar->SetSprite(myDrawer, "open_32.png");
+	entityCollection.Add(myAvatar);
+
+	//set up ghost
+	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
+	myGhost->SetWorld(myWorld);
+	myGhost->SetSprite(myDrawer, "ghost_32.png");
+	myGhost->GetSprite()->Load(myDrawer, "Ghost_Dead_32.png");
+	myGhost->GetSprite()->Load(myDrawer, "Ghost_Vulnerable_32.png");
+	entityCollection.Add(myGhost);
 }
 
-bool Pacman::Update(float aTime)
+bool Pacman::Update(float time)
 {
 	entityCollection.ProcessRemovals();
 	entityCollection.ProcessNewEntities();
@@ -65,57 +65,19 @@ bool Pacman::Update(float aTime)
 		return false;
 
 	if (CheckEndGameCondition())
-	{
-		myDrawer->DrawText("You win!", HUD_FONT, 20, 70);
-		return true;
-	}
-	else if (myLives <= 0)
-	{
-		myDrawer->DrawText("You lose!", HUD_FONT, 20, 70);	
-		return true;
-	}
+		return false;
+
+	CheckGhostCounter(time);
 
 	MoveAvatar();
-	//myAvatar->Update(aTime);
-	//myGhost->Update(aTime);
-	entityCollection.Update(aTime);
+	entityCollection.Update(time);
 
-	if (myWorld->HasIntersectedDot(myAvatar->GetPosition()))
-		myScore += SMALL_DOT_POINTS;
+	CheckIntersectedDot(myAvatar->GetPosition());
+	CheckIntersectedBigDot(myAvatar->GetPosition());
+	CheckAvatarGhostCollision();
 
-	myGhostGhostCounter -= aTime;
-
-	if (myWorld->HasIntersectedBigDot(myAvatar->GetPosition()))
-	{
-		myScore += BIG_DOT_POINTS;
-		myGhostGhostCounter = GHOST_COUNTER;
-		myGhost->myIsClaimableFlag = true;
-	}
-
-	if (myGhostGhostCounter <= 0)
-	{
-		myGhost->myIsClaimableFlag = false;
-	}
-
-	if ((myGhost->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
-	{
-		if (myGhostGhostCounter <= 0.f)
-		{
-			myLives--;
-
-			myAvatar->SetPosition(Vector2f(13*22,22*22));
-			myGhost->SetPosition(Vector2f(13*22,13*22));
-		}
-		else if (myGhost->myIsClaimableFlag && !myGhost->myIsDeadFlag)
-		{
-			myScore += 50;
-			myGhost->myIsDeadFlag = true;
-			myGhost->Die();
-		}
-	}
-
-	if (aTime > 0)
-		myFps = (int) (1 / aTime);
+	if (time > 0)
+		myFps = (int) (1 / time);
 
 	return true;
 }
@@ -139,6 +101,50 @@ bool Pacman::UpdateInput()
 	return true;
 }
 
+bool Pacman::CheckIntersectedDot(const Vector2f& aPosition)
+{
+	auto dotIt = std::find_if(myDots.begin(), myDots.end(), [&aPosition](auto dot) {
+		return (dot->GetPosition() - aPosition).Length() < 5.f;
+		});
+	if (dotIt != myDots.end())
+	{
+		//game logic when dot eaten
+		myScore += SMALL_DOT_POINTS;
+
+		//delete dot
+		(*dotIt)->MarkForDelete();
+		myDots.erase(dotIt);
+		return true;
+	}
+	return false;
+}
+
+bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
+{
+	auto bigDotIt = std::find_if(myBigDots.begin(), myBigDots.end(), [&aPosition](auto dot) {
+		return (dot->GetPosition() - aPosition).Length() < 5.f;
+		});
+	if (bigDotIt != myBigDots.end())
+	{
+		//game logic when dot eaten
+		myScore += BIG_DOT_POINTS;
+		myGhostGhostCounter = GHOST_COUNTER;
+		myGhost->myIsClaimableFlag = true;
+		
+		//delete dot
+		(*bigDotIt)->MarkForDelete();
+		myBigDots.erase(bigDotIt);
+		return true;
+	}
+
+	return false;
+}
+
+bool Pacman::HasIntersectedCherry(const Vector2f& aPosition)
+{
+	return true;
+}
+
 void Pacman::MoveAvatar()
 {
 	int nextTileX = myAvatar->GetCurrentTileX() + myNextMovement.myX;
@@ -155,7 +161,47 @@ void Pacman::MoveAvatar()
 
 bool Pacman::CheckEndGameCondition()
 {
+	if (false)
+	{
+		myDrawer->DrawText("You win!", HUD_FONT, 20, 70);
+		return true;
+	}
+	else if (myLives <= 0)
+	{
+		myDrawer->DrawText("You lose!", HUD_FONT, 20, 70);
+		return true;
+	}
+
 	return false;
+}
+
+void Pacman::CheckAvatarGhostCollision()
+{
+	if ((myGhost->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
+	{
+		if (myGhostGhostCounter <= 0.f)
+		{
+			myLives--;
+
+			myAvatar->SetPosition(Vector2f(13 * 22, 22 * 22));
+			myGhost->SetPosition(Vector2f(13 * 22, 13 * 22));
+		}
+		else if (myGhost->myIsClaimableFlag && !myGhost->myIsDeadFlag)
+		{
+			myScore += 50;
+			myGhost->myIsDeadFlag = true;
+			myGhost->Die();
+		}
+	}
+}
+
+void Pacman::CheckGhostCounter(float time)
+{
+	if (myGhostGhostCounter <= 0)
+	{
+		myGhost->myIsClaimableFlag = false;
+	}
+	myGhostGhostCounter -= time;
 }
 
 void Pacman::DrawHUD()

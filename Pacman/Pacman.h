@@ -25,8 +25,15 @@ public:
 private:
 	void Init();
 	bool UpdateInput();
+
+	bool CheckIntersectedDot(const Vector2f& aPosition);
+	bool CheckIntersectedBigDot(const Vector2f& aPosition);
+	bool HasIntersectedCherry(const Vector2f& aPosition);
 	void MoveAvatar();
 	bool CheckEndGameCondition();
+	void CheckAvatarGhostCollision();
+	void CheckGhostCounter(float time);
+
 	void DrawHUD();
 
 	std::shared_ptr<Drawer> myDrawer;
@@ -42,6 +49,9 @@ private:
 
 	std::shared_ptr<Avatar> myAvatar;
 	std::shared_ptr<Ghost> myGhost;
+	std::vector<std::shared_ptr<GameEntity>> myDots;
+	std::vector<std::shared_ptr<GameEntity>> myBigDots;
+	std::vector<std::shared_ptr<GameEntity>> myCherries;
 	std::shared_ptr<World> myWorld;
 	EntityCollection entityCollection;
 

@@ -16,14 +16,12 @@ public:
 	World(void);
 	~World(void);
 
-	void Init(std::shared_ptr<Drawer> drawer);
+	void Init(std::shared_ptr<Drawer> drawer, 
+		std::vector<std::shared_ptr<GameEntity>>& myDots, 
+		std::vector<std::shared_ptr<GameEntity>>& myBigDots);
 
 	void Draw(std::shared_ptr<Drawer> aDrawer);
 	bool TileIsValid(int anX, int anY);
-
-	bool HasIntersectedDot(const Vector2f& aPosition);
-	bool HasIntersectedBigDot(const Vector2f& aPosition);
-	bool HasIntersectedCherry(const Vector2f& aPosition);
 
 	void Update();
 
@@ -35,15 +33,11 @@ private:
 	bool ListDoesNotContain(std::shared_ptr<PathmapTile> aFromTile, std::list<std::shared_ptr<PathmapTile>>& aList);
 
 
-	bool InitPathmap(std::shared_ptr<Drawer> drawer);
-	//bool InitDots();
-	//bool InitBigDots();
+	bool InitPathmap(std::shared_ptr<Drawer> drawer, 
+		std::vector<std::shared_ptr<GameEntity>>& myDots, 
+		std::vector<std::shared_ptr<GameEntity>>& myBigDots);
 
 	std::vector<std::vector<std::shared_ptr<PathmapTile>>> myPathmapTiles;
-	std::vector<std::shared_ptr<GameEntity>> myDots;
-	std::vector<std::shared_ptr<GameEntity>> myBigDots;
-	std::vector<std::shared_ptr<GameEntity>> myCherries;
-
 };
 
 #endif // WORLD_H

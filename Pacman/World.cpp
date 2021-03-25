@@ -18,12 +18,16 @@ World::~World(void)
 {
 }
 
-void World::Init(std::shared_ptr<Drawer> drawer)
+void World::Init(std::shared_ptr<Drawer> drawer, 
+	std::vector<std::shared_ptr<GameEntity>>& myDots, 
+	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
 {
-	InitPathmap(drawer);
+	InitPathmap(drawer, myDots, myBigDots);
 }
 
-bool World::InitPathmap(std::shared_ptr<Drawer> drawer)
+bool World::InitPathmap(std::shared_ptr<Drawer> drawer, 
+	std::vector<std::shared_ptr<GameEntity>>& myDots, 
+	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
 {
 	//load map image
 	drawer->AddResource("playfield.png");
@@ -67,16 +71,6 @@ bool World::InitPathmap(std::shared_ptr<Drawer> drawer)
 void World::Draw(std::shared_ptr<Drawer> drawer)
 {
 	drawer->Draw("playfield.png");
-
-	for(auto dot : myDots)
-	{
-		dot->Draw(drawer);
-	}
-
-	for(auto bigDot : myBigDots)
-	{
-		bigDot->Draw(drawer);
-	}
 }
 
 bool World::TileIsValid(int anX, int anY)
@@ -86,38 +80,6 @@ bool World::TileIsValid(int anX, int anY)
 	if (anY < 0) return false;
 	if (anY >= myPathmapTiles.size()) return false;
 	return !myPathmapTiles[anY][anX]->myIsBlockingFlag;
-}
-
-bool World::HasIntersectedDot(const Vector2f& aPosition)
-{
-	auto dotIt = std::find_if(myDots.begin(), myDots.end(), [&aPosition](auto dot) {
-			return (dot->GetPosition() - aPosition).Length() < 5.f;
-		});
-	if (dotIt != myDots.end())
-	{
-		myDots.erase(dotIt);
-		return true;
-	}
-	return false;
-}
-
-bool World::HasIntersectedBigDot(const Vector2f& aPosition)
-{
-	auto bigDotIt = std::find_if(myBigDots.begin(), myBigDots.end(), [&aPosition](auto dot) {
-		return (dot->GetPosition() - aPosition).Length() < 5.f;
-		});
-	if (bigDotIt != myBigDots.end())
-	{
-		myBigDots.erase(bigDotIt);
-		return true;
-	}
-
-	return false;
-}
-
-bool World::HasIntersectedCherry(const Vector2f& aPosition)
-{
-	return true;
 }
 
 void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<std::shared_ptr<PathmapTile>>& aList)
