@@ -12,16 +12,16 @@ otherwise their smart pointers like entities
 - MovableGameEntity functionality moved to separate components for better maintainability
 
 ## Necessary
-- !pacman turning and animation
-- !weird movements to previous location after death
+- pacman turning and animation
+- weird movements to previous location after death
 
 ## Good to have
 - ghost movement in separate component
-- !ghost returning to cage
-- !pathfinding looking for pacman
+- ghost returning to cage
+- pathfinding looking for pacman
 - incorporate cherry somehow
 
 ## Clean-ups
-- !sort #pragma once and #ifndef
-- !all file names to constants
-- !check unneccessary includes
+- sort #pragma once and #ifndef
+- all file names to constants
+- check unneccessary includes
