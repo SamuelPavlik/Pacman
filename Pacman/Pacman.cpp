@@ -44,15 +44,13 @@ void Pacman::Init()
 
 	//set up avatar
 	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
-	//myAvatar->SetSprite(myDrawer, "open_32.png");
 	myAvatar->AddComponent<C_Sprite>(&myDrawer, "open_32.png");
 	myAvatar->AddComponent<C_KeyboardMovement>(&input, &myWorld);
 	entityCollection.Add(myAvatar);
 
 	//set up ghost
 	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
-	myGhost->SetWorld(myWorld);
-	//myGhost->SetSprite(myDrawer, "ghost_32.png");
+	myGhost->SetWorld(&myWorld);
 	auto ghostSprite = myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
 	ghostSprite->Load(&myDrawer, "Ghost_Dead_32.png");
 	ghostSprite->Load(&myDrawer, "Ghost_Vulnerable_32.png");
@@ -152,14 +150,22 @@ void Pacman::CheckAvatarGhostCollision()
 		{
 			myLives--;
 
-			myAvatar->SetPosition(Vector2f(13 * 22, 22 * 22));
-			myGhost->SetPosition(Vector2f(13 * 22, 13 * 22));
+			//reset avatar
+			myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
+				AVATAR_START_TILE_Y * TILE_SIZE));
+			myAvatar->GetComponent<C_KeyboardMovement>()->Start();
+
+			//reset ghost
+			myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
+				GHOST_START_TILE_Y * TILE_SIZE));
+			myGhost->Start();
 		}
 		else if (myGhost->myIsClaimableFlag && !myGhost->myIsDeadFlag)
 		{
 			myScore += 50;
-			myGhost->myIsDeadFlag = true;
+			//myGhost->MarkForDelete();
 			myGhost->Die();
+			myGhostGhostCounter = 0.f;
 		}
 	}
 }

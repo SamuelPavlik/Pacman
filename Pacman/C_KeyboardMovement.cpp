@@ -8,11 +8,7 @@ C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const Wo
     Component(owner), 
     moveSpeed(AVATAR_SPEED), 
     input{ input },
-    world{ world },
-    nextMovement(-1.f, 0.f) {
-    myCurrentTileX = myNextTileX = owner.GetPosition().myX / TILE_SIZE;
-    myCurrentTileY = myNextTileY = owner.GetPosition().myY / TILE_SIZE;
-}
+    world{ world } {}
 
 void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 {
@@ -31,6 +27,13 @@ void C_KeyboardMovement::Update(float time)
         nextMovement = Vector2f(1.f, 0.f);
 
     Move(time);
+}
+
+void C_KeyboardMovement::Start()
+{
+    nextMovement = Vector2f(-1.f, 0.f);
+    myCurrentTileX = myNextTileX = owner.GetPosition().myX / TILE_SIZE;
+    myCurrentTileY = myNextTileY = owner.GetPosition().myY / TILE_SIZE;
 }
 
 void C_KeyboardMovement::Move(float time)

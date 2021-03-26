@@ -53,20 +53,17 @@ public:
         return nullptr;
     };
 
-	void Start();
-	void SetSprite(Drawer* drawer, const char* name);
+	virtual void Start();
+	virtual void Update(float time);
+	bool Intersect(GameEntity* aGameEntity);
+
 	Vector2f GetPosition() const { return myPosition; }
-	Vector2f AddPosition(const Vector2f& toAdd) 
-	{ 
-		myPosition += toAdd; 
-		return myPosition; 
-	}
+    Vector2f AddPosition(const Vector2f& toAdd);
 	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
 
-	bool Intersect(GameEntity* aGameEntity);
-	virtual void Update(float time);
 	void Draw(Drawer* drawer);
-	std::shared_ptr<C_Sprite> GetSprite() const;
+	
+    std::shared_ptr<C_Sprite> GetSprite() const;
 
 	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
 	bool IsMarkedForDelete() const { return myIdMarkedForDeleteFlag; }

@@ -17,6 +17,7 @@ public:
     void SetMoveSpeed(float moveSpeed);
 
     void Update(float time) override;
+    void Start() override;
 
 private:
     void Move(float time);

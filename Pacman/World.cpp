@@ -49,14 +49,12 @@ bool World::InitPathmap(Drawer* drawer,
 				{				
 					auto dot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
 					dot->AddComponent<C_Sprite>(drawer, "Small_Dot_32.png");
-					//dot->SetSprite(drawer, "Small_Dot_32.png");
 					myDots.push_back(dot);
 				}
 				else if (line[i] == 'o')
 				{
 					auto bigDot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
 					bigDot->AddComponent<C_Sprite>(drawer, "Big_Dot_32.png");
-					//bigDot->SetSprite(drawer, "Big_Dot_32.png");
 					myBigDots.push_back(bigDot);
 				}
 			}

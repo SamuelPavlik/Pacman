@@ -12,11 +12,16 @@ GameEntity::~GameEntity(void)
 
 void GameEntity::Start()
 {
+	for (int i = components.size() - 1; i >= 0; i--)
+	{
+		components[i]->Start();
+	}
 }
 
-void GameEntity::SetSprite(Drawer* drawer, const char* name)
+Vector2f GameEntity::AddPosition(const Vector2f& toAdd)
 {
-	mySprite = std::make_shared<C_Sprite>(*this, drawer, name);
+	myPosition += toAdd;
+	return myPosition;
 }
 
 bool GameEntity::Intersect(GameEntity* aGameEntity)

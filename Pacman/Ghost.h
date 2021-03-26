@@ -14,11 +14,12 @@ public:
 	~Ghost(void);
 
 	void Update(float aTime) override;
+	void Start() override;
 
 	bool myIsClaimableFlag;
 	bool myIsDeadFlag;
 
-	void SetWorld(World& world);
+	void SetWorld(World* world);
 
 	void Die();
 

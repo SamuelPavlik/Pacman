@@ -11,12 +11,17 @@ Simple 2D Pacman
 otherwise their smart pointers like entities
 - MovableGameEntity functionality moved to separate components for better maintainability
 
-
-- !what is going on with pathfinding
-- !crash on ghost avatar intersect
+## Necessary
 - !pacman turning and animation
 - !weird movements to previous location after death
-- !remove MovableGameEntity
+
+## Good to have
+- ghost movement in separate component
+- !ghost returning to cage
+- !pathfinding looking for pacman
+- incorporate cherry somehow
+
+## Clean-ups
 - !sort #pragma once and #ifndef
 - !all file names to constants
 - !check unneccessary includes

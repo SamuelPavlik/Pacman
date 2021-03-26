@@ -5,30 +5,22 @@
 #include "C_Sprite.h"
 
 Ghost::Ghost(const Vector2f& aPosition)
-: GameEntity(aPosition)
-{
-	myIsClaimableFlag = false;
-	myIsDeadFlag = false;
+: GameEntity(aPosition) {}
 
-	myDesiredMovementX = 0;
-	myDesiredMovementY = -1;
-	myCurrentTileX = myNextTileX = myPosition.myX / TILE_SIZE;
-	myCurrentTileY = myNextTileY = myPosition.myY / TILE_SIZE;
-}
+Ghost::~Ghost(void) {}
 
-Ghost::~Ghost(void)
+void Ghost::SetWorld(World* world)
 {
-}
-
-void Ghost::SetWorld(World& world)
-{
-	this->world = &world;
+	this->world = world;
 }
 
 void Ghost::Die()
 {
 	myPath.clear();
-	world->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
+	//world->GetPath(myCurrentTileX, myCurrentTileY, 13, 13, myPath);
+	//TODO temporary solution; try to actually get a path
+	SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE, GHOST_START_TILE_Y * TILE_SIZE));
+	Start();
 }
 
 void Ghost::Update(float aTime)
@@ -101,4 +93,16 @@ void Ghost::Update(float aTime)
 		mySprite->SetName("Ghost_Dead_32.png");
 	else if (myIsClaimableFlag)
 		mySprite->SetName("Ghost_Vulnerable_32.png");
+}
+
+void Ghost::Start()
+{
+	mySprite->SetName("ghost_32.png");
+	myIsClaimableFlag = false;
+	myIsDeadFlag = false;
+
+	myDesiredMovementX = 0;
+	myDesiredMovementY = -1;
+	myCurrentTileX = myNextTileX = myPosition.myX / TILE_SIZE;
+	myCurrentTileY = myNextTileY = myPosition.myY / TILE_SIZE;
 }
