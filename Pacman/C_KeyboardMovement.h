@@ -19,11 +19,16 @@ public:
     void Update(float time) override;
 
 private:
-    void Move(Vector2f nextMove, float time);
+    void Move(float time);
 
     float moveSpeed;
     Input& input;
     const World& world;
     Vector2f nextMovement;
+
+    int myCurrentTileX;
+    int myCurrentTileY;
+    int myNextTileX;
+    int myNextTileY;
 };
 

@@ -9,7 +9,6 @@ Simple 2D Pacman
 - C for components, S for systems
 
 
-
 - !what is going on with pathfinding
 - !crash on ghost avatar intersect
 - !pacman turning and animation
