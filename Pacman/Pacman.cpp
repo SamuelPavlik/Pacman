@@ -61,15 +61,14 @@ bool Pacman::Update(float time)
 	entityCollection.ProcessRemovals();
 	entityCollection.ProcessNewEntities();
 
-	//if (!UpdateInput())
-	//	return false;
+	if (input.IsKeyDown(Input::Key::Esc))
+		return false;
 
 	if (CheckEndGameCondition())
 		return false;
 
 	CheckGhostCounter(time);
 
-	//MoveAvatar();
 	entityCollection.Update(time);
 
 	CheckIntersectedDot(myAvatar->GetPosition());
@@ -143,20 +142,6 @@ bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
 bool Pacman::HasIntersectedCherry(const Vector2f& aPosition)
 {
 	return true;
-}
-
-void Pacman::MoveAvatar()
-{
-	int nextTileX = myAvatar->GetCurrentTileX() + myNextMovement.myX;
-	int nextTileY = myAvatar->GetCurrentTileY() + myNextMovement.myY;
-
-	if (myAvatar->IsAtDestination())
-	{
-		if (myWorld.TileIsValid(nextTileX, nextTileY))
-		{
-			myAvatar->SetNextTile(nextTileX, nextTileY);
-		}
-	}
 }
 
 bool Pacman::CheckEndGameCondition()

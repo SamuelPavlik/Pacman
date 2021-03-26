@@ -13,6 +13,7 @@ Simple 2D Pacman
 - !crash on ghost avatar intersect
 - !pacman turning and animation
 - !weird movements to previous location after death
+- !remove MovableGameEntity
 - !sort #pragma once and #ifndef
 - !all file names to constants
 - !check unneccessary includes

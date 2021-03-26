@@ -2,12 +2,12 @@
 #define GHOST_H
 
 #include <list>
-#include "MovableGameEntity.h"
+#include "GameEntity.h"
 
 class World;
 class PathmapTile;
 
-class Ghost : public MovableGameEntity
+class Ghost : public GameEntity
 {
 public:
 	Ghost(const Vector2f& aPosition);
@@ -30,6 +30,11 @@ protected:
 	std::list<std::shared_ptr<PathmapTile>> myPath;
 
 private:
+	int myCurrentTileX;
+	int myCurrentTileY;
+	int myNextTileX;
+	int myNextTileY;
+
 	World* world;
 };
 

@@ -1,14 +1,14 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
-#include "MovableGameEntity.h"
+#include "GameEntity.h"
 #include "Vector2f.h"
 
 class C_KeyboardMovement;
 class Input;
 class World;
 
-class Avatar : public MovableGameEntity
+class Avatar : public GameEntity
 {
 public:
 	Avatar(const Vector2f& aPosition);

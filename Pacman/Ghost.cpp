@@ -5,13 +5,15 @@
 #include "C_Sprite.h"
 
 Ghost::Ghost(const Vector2f& aPosition)
-: MovableGameEntity(aPosition)
+: GameEntity(aPosition)
 {
 	myIsClaimableFlag = false;
 	myIsDeadFlag = false;
 
 	myDesiredMovementX = 0;
 	myDesiredMovementY = -1;
+	myCurrentTileX = myNextTileX = myPosition.myX / TILE_SIZE;
+	myCurrentTileY = myNextTileY = myPosition.myY / TILE_SIZE;
 }
 
 Ghost::~Ghost(void)
@@ -32,23 +34,25 @@ void Ghost::Die()
 void Ghost::Update(float aTime)
 {
 	float speed = 30.f;
-	int nextTileX = GetCurrentTileX() + myDesiredMovementX;
-	int nextTileY = GetCurrentTileY() + myDesiredMovementY;
+	int nextTileX = myCurrentTileX + myDesiredMovementX;
+	int nextTileY = myCurrentTileY + myDesiredMovementY;
 
 	if (myIsDeadFlag)
 		speed = 120.f;
 
-	if (IsAtDestination())
+	if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY)
 	{
 		if (!myPath.empty())
 		{
 			auto nextTile = myPath.front();
 			myPath.pop_front();
-			SetNextTile(nextTile->myX, nextTile->myY);
+			myNextTileX = nextTile->myX;
+			myNextTileY = nextTile->myY;
 		}
 		else if (world->TileIsValid(nextTileX, nextTileY))
 		{
-			SetNextTile(nextTileX, nextTileY);
+			myNextTileX = nextTileX;
+			myNextTileY = nextTileY;
 		}
 		else
 		{

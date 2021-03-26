@@ -24,8 +24,6 @@ public:
 		return myPosition; 
 	}
 	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
-	int GetCurrentTileX() const { return myPosition.myX / TILE_SIZE; }
-	int GetCurrentTileY() const { return myPosition.myY / TILE_SIZE; }
 
 	bool Intersect(GameEntity* aGameEntity);
 	virtual void Update(float time);
