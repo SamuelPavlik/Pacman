@@ -3,6 +3,7 @@
 #include "GameEntity.h"
 #include "Drawer.h"
 #include "Constants.h"
+#include "C_Sprite.h"
 
 #include <iostream>
 #include <sstream>
@@ -10,23 +11,21 @@
 #include <string>
 #include <algorithm>
 
-World::World(void)
-{
-}
+World::World(void) {}
 
-World::~World(void)
-{
-}
+World::~World(void) {}
 
-void World::Init(std::shared_ptr<Drawer> drawer, 
-	std::vector<std::shared_ptr<GameEntity>>& myDots, 
+void World::Init(Drawer* drawer,
+	std::vector<std::shared_ptr<GameEntity>>& myDots,
 	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
 {
 	InitPathmap(drawer, myDots, myBigDots);
 }
 
-bool World::InitPathmap(std::shared_ptr<Drawer> drawer, 
-	std::vector<std::shared_ptr<GameEntity>>& myDots, 
+bool World::InitPathmap(Drawer* drawer,
+ 
+	std::vector<std::shared_ptr<GameEntity>>& myDots,
+ 
 	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
 {
 	//load map image
@@ -49,13 +48,15 @@ bool World::InitPathmap(std::shared_ptr<Drawer> drawer,
 				if (line[i] == '.')
 				{				
 					auto dot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
-					dot->SetSprite(drawer, "Small_Dot_32.png");
+					dot->AddComponent<C_Sprite>(drawer, "Small_Dot_32.png");
+					//dot->SetSprite(drawer, "Small_Dot_32.png");
 					myDots.push_back(dot);
 				}
 				else if (line[i] == 'o')
 				{
 					auto bigDot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
-					bigDot->SetSprite(drawer, "Big_Dot_32.png");
+					bigDot->AddComponent<C_Sprite>(drawer, "Big_Dot_32.png");
+					//bigDot->SetSprite(drawer, "Big_Dot_32.png");
 					myBigDots.push_back(bigDot);
 				}
 			}
@@ -68,7 +69,7 @@ bool World::InitPathmap(std::shared_ptr<Drawer> drawer,
 	return true;
 }
 
-void World::Draw(std::shared_ptr<Drawer> drawer)
+void World::Draw(Drawer* drawer)
 {
 	drawer->Draw("playfield.png");
 }

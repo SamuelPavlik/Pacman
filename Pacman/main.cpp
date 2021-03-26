@@ -32,7 +32,9 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	auto drawer = Drawer::Create(window, renderer);
+	if (!window)
+		return -1;
+	auto drawer = Drawer(window, renderer);
 	auto pacman = Pacman::Create(drawer);
 
 	float lastFrame = (float) SDL_GetTicks() * 0.001f;

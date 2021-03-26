@@ -42,7 +42,7 @@ void S_Sprite::ProcessRemovals()
     }
 }
 
-void S_Sprite::Draw(std::shared_ptr<Drawer> drawer)
+void S_Sprite::Draw(Drawer* drawer)
 {
     for (auto d : drawables)
         d->Draw(drawer);

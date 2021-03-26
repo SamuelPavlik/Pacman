@@ -16,7 +16,7 @@ public:
     void Add(std::vector<std::shared_ptr<GameEntity>> entities);
 
     void Update(float deltaTime);
-    void Draw(std::shared_ptr<Drawer> drawer);
+    void Draw(Drawer* drawer);
 
     void ProcessNewEntities();
     void ProcessRemovals();

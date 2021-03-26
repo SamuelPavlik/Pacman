@@ -14,8 +14,8 @@ public:
 	Avatar(const Vector2f& aPosition);
 	~Avatar(void);
 
-	void SetMovement(Input& input, const World& world);
-	void Update(float aTime) override;
+	//void SetMovement(Input& input, const World& world);
+	//void Update(float aTime) override;
 
 private:
 	std::shared_ptr<C_KeyboardMovement> movement;

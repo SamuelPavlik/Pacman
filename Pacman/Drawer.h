@@ -17,7 +17,6 @@ using ResourceMap = std::unordered_map<const char*, Resource>;
 class Drawer
 {
 public:
-	static std::shared_ptr<Drawer> Create(SDL_Window* aWindow, SDL_Renderer* aRenderer);
 	Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer);
 	~Drawer(void);
 
@@ -26,8 +25,6 @@ public:
 	void AddResource(const char* name);
 
 private:
-	bool Init();
-	
 	SDL_Window* myWindow;
 	SDL_Renderer* myRenderer;
 	SDL_Surface* world;

@@ -12,7 +12,7 @@ class World;
 class C_KeyboardMovement : public Component
 {
 public:
-    C_KeyboardMovement(GameEntity& owner, Input& input, const World& world);
+    C_KeyboardMovement(GameEntity& owner, Input* input, const World* world);
 
     void SetMoveSpeed(float moveSpeed);
 
@@ -22,8 +22,8 @@ private:
     void Move(float time);
 
     float moveSpeed;
-    Input& input;
-    const World& world;
+    Input* input;
+    const World* world;
     Vector2f nextMovement;
 
     int myCurrentTileX;

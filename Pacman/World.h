@@ -16,11 +16,11 @@ public:
 	World(void);
 	~World(void);
 
-	void Init(std::shared_ptr<Drawer> drawer, 
-		std::vector<std::shared_ptr<GameEntity>>& myDots, 
+	void Init(Drawer* drawer,
+		std::vector<std::shared_ptr<GameEntity>>& myDots,
 		std::vector<std::shared_ptr<GameEntity>>& myBigDots);
 
-	void Draw(std::shared_ptr<Drawer> aDrawer);
+	void Draw(Drawer* drawer);
 	bool TileIsValid(int anX, int anY) const;
 
 	void Update();
@@ -33,8 +33,8 @@ private:
 	bool ListDoesNotContain(std::shared_ptr<PathmapTile> aFromTile, std::list<std::shared_ptr<PathmapTile>>& aList);
 
 
-	bool InitPathmap(std::shared_ptr<Drawer> drawer, 
-		std::vector<std::shared_ptr<GameEntity>>& myDots, 
+	bool InitPathmap(Drawer* drawer,
+		std::vector<std::shared_ptr<GameEntity>>& myDots,
 		std::vector<std::shared_ptr<GameEntity>>& myBigDots);
 
 	std::vector<std::vector<std::shared_ptr<PathmapTile>>> myPathmapTiles;

@@ -7,6 +7,9 @@ Simple 2D Pacman
 - created component system for sprites, no need to define them in entities' childrens
 - added EntityCollection for entity adding, update and removal
 - C for components, S for systems
+- members which should have just one instance are kept as raw pointers like Input 
+otherwise their smart pointers like entities
+- MovableGameEntity functionality moved to separate components for better maintainability
 
 
 - !what is going on with pathfinding

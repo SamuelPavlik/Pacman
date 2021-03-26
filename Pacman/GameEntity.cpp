@@ -14,7 +14,7 @@ void GameEntity::Start()
 {
 }
 
-void GameEntity::SetSprite(std::shared_ptr<Drawer> drawer, const char* name)
+void GameEntity::SetSprite(Drawer* drawer, const char* name)
 {
 	mySprite = std::make_shared<C_Sprite>(*this, drawer, name);
 }
@@ -27,9 +27,13 @@ bool GameEntity::Intersect(GameEntity* aGameEntity)
 
 void GameEntity::Update(float time)
 {
+	for (int i = components.size() - 1; i >= 0; i--)
+	{
+		components[i]->Update(time);
+	}
 }
 
-void GameEntity::Draw(std::shared_ptr<Drawer> drawer)
+void GameEntity::Draw(Drawer* drawer)
 {
 	if (mySprite)
 	{

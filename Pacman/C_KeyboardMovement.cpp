@@ -4,12 +4,11 @@
 #include "GameEntity.h"
 #include "Constants.h"
 
-C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, 
-    Input& input, const World& world) : 
+C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const World* world) : 
     Component(owner), 
     moveSpeed(AVATAR_SPEED), 
-    input(input),
-    world(world),
+    input{ input },
+    world{ world },
     nextMovement(-1.f, 0.f) {
     myCurrentTileX = myNextTileX = owner.GetPosition().myX / TILE_SIZE;
     myCurrentTileY = myNextTileY = owner.GetPosition().myY / TILE_SIZE;
@@ -22,13 +21,13 @@ void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 
 void C_KeyboardMovement::Update(float time)
 {
-    if (input.IsKeyDown(Input::Key::Up))
+    if (input->IsKeyDown(Input::Key::Up))
         nextMovement = Vector2f(0.f, -1.f);
-    else if (input.IsKeyDown(Input::Key::Down))
+    else if (input->IsKeyDown(Input::Key::Down))
         nextMovement = Vector2f(0.f, 1.f);
-    else if (input.IsKeyDown(Input::Key::Left))
+    else if (input->IsKeyDown(Input::Key::Left))
         nextMovement = Vector2f(-1.f, 0.f);
-    else if (input.IsKeyDown(Input::Key::Right))
+    else if (input->IsKeyDown(Input::Key::Right))
         nextMovement = Vector2f(1.f, 0.f);
 
     Move(time);
@@ -41,7 +40,7 @@ void C_KeyboardMovement::Move(float time)
 
     if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY)
     {
-        if (world.TileIsValid(nextTileX, nextTileY))
+        if (world->TileIsValid(nextTileX, nextTileY))
         {
             myNextTileX = nextTileX;
             myNextTileY = nextTileY;
@@ -51,7 +50,7 @@ void C_KeyboardMovement::Move(float time)
     Vector2f destination(myNextTileX * TILE_SIZE, myNextTileY * TILE_SIZE);
     Vector2f direction = destination - owner.GetPosition();
 
-    float distanceToMove = time * AVATAR_SPEED;
+    float distanceToMove = time * moveSpeed;
 
     if (distanceToMove > direction.Length())
     {

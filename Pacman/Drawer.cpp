@@ -4,18 +4,6 @@
 #include "SDL_ttf.h"
 #include "SDL_render.h"
 
-std::shared_ptr<Drawer> Drawer::Create(SDL_Window* aWindow, SDL_Renderer* aRenderer)
-{
-	std::shared_ptr<Drawer> drawer = std::make_shared<Drawer>(aWindow, aRenderer);
-
-	if (drawer->Init())
-	{
-		return drawer;
-	}
-
-	return NULL;
-}
-
 Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 : myWindow(aWindow)
 , myRenderer(aRenderer)
@@ -24,14 +12,6 @@ Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 
 Drawer::~Drawer(void)
 {
-}
-
-bool Drawer::Init()
-{
-	if (!myWindow)
-		return false;
-
-	return true;
 }
 
 void Drawer::Draw(const char* name, int aCellX, int aCellY)
