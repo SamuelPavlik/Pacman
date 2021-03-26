@@ -13,13 +13,14 @@ class C_Sprite : public Component
 public:
 	C_Sprite(GameEntity& owner, Drawer* drawer, const char* name);
 	
-	void Draw(Drawer* drawer);
-	void Load(Drawer* drawer, const char* name);
+	void Draw();
+	void Load(const char* name);
 	void SetName(const char* name);
 
 	int sortOrder;
 
 private:
 	const char* name;
+	Drawer* drawer;
 };
 

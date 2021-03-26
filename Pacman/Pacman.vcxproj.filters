@@ -82,6 +82,12 @@
     <ClCompile Include="C_KeyboardMovement.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="C_Animation.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -139,6 +145,12 @@
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="C_KeyboardMovement.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_Animation.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include "C_Animation.h"
 
 std::shared_ptr<Pacman> Pacman::Create(Drawer& aDrawer)
 {
@@ -46,14 +47,39 @@ void Pacman::Init()
 	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
 	myAvatar->AddComponent<C_Sprite>(&myDrawer, "open_32.png");
 	myAvatar->AddComponent<C_KeyboardMovement>(&input, &myWorld);
+
+	//set up avatar animation
+	auto animation = myAvatar->AddComponent<C_Animation>();
+	std::shared_ptr<Animation> goingLeftAnim = std::make_shared<Animation>(AnimationState::GoingLeft);
+	const float eatingFrameSeconds = 0.2f;
+	goingLeftAnim->AddFrame(&myDrawer, "closed_left_32", eatingFrameSeconds);
+	goingLeftAnim->AddFrame(&myDrawer, "open_left_32", eatingFrameSeconds);
+
+	std::shared_ptr<Animation> goingRightAnim = std::make_shared<Animation>(AnimationState::GoingRight);
+	goingRightAnim->AddFrame(&myDrawer, "closed_right_32", eatingFrameSeconds);
+	goingRightAnim->AddFrame(&myDrawer, "open_right_32", eatingFrameSeconds);
+
+	std::shared_ptr<Animation> goingUpAnim = std::make_shared<Animation>(AnimationState::GoingUp);
+	goingUpAnim->AddFrame(&myDrawer, "closed_up_32", eatingFrameSeconds);
+	goingUpAnim->AddFrame(&myDrawer, "open_up_32", eatingFrameSeconds);
+
+	std::shared_ptr<Animation> goingDownAnim = std::make_shared<Animation>(AnimationState::GoingDown);
+	goingDownAnim->AddFrame(&myDrawer, "closed_down_32", eatingFrameSeconds);
+	goingDownAnim->AddFrame(&myDrawer, "open_down_32", eatingFrameSeconds);
+
+	animation->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
+	animation->AddAnimation(AnimationState::GoingRight, goingRightAnim);
+	animation->AddAnimation(AnimationState::GoingUp, goingUpAnim);
+	animation->AddAnimation(AnimationState::GoingDown, goingDownAnim);
+
 	entityCollection.Add(myAvatar);
 
 	//set up ghost
 	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
 	myGhost->SetWorld(&myWorld);
 	auto ghostSprite = myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
-	ghostSprite->Load(&myDrawer, "Ghost_Dead_32.png");
-	ghostSprite->Load(&myDrawer, "Ghost_Vulnerable_32.png");
+	ghostSprite->Load("Ghost_Dead_32.png");
+	ghostSprite->Load("Ghost_Vulnerable_32.png");
 	entityCollection.Add(myGhost);
 }
 
@@ -202,7 +228,7 @@ void Pacman::Draw()
 	//TODO load world resource
 	myWorld.Draw(&myDrawer);
 
-	entityCollection.Draw(&myDrawer);
+	entityCollection.Draw();
 
 	DrawHUD();
 

@@ -60,16 +60,20 @@ void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
 	TTF_CloseFont(font);
 }
 
-void Drawer::AddResource(const char* name)
+bool Drawer::AddResource(const char* name)
 {
 	if (resourceMap.find(name) == resourceMap.end())
 	{
 		SDL_Surface* surface = IMG_Load(name);
 		if (!surface)
-			return;
+			return false;
 
-		resourceMap[name] = Resource(std::shared_ptr<SDL_Texture>(
-			SDL_CreateTextureFromSurface(myRenderer, surface)), 
+		auto texture = SDL_CreateTextureFromSurface(myRenderer, surface);
+		if (!texture)
+			return false;
+
+		resourceMap[name] = Resource(std::shared_ptr<SDL_Texture>(texture), 
 			surface->w, surface->h);
 	}
+	return true;
 }

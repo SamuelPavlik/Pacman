@@ -10,6 +10,14 @@ GameEntity::~GameEntity(void)
 {
 }
 
+void GameEntity::Awake()
+{
+	for (int i = components.size() - 1; i >= 0; i--)
+	{
+		components[i]->Awake();
+	}
+}
+
 void GameEntity::Start()
 {
 	for (int i = components.size() - 1; i >= 0; i--)
@@ -38,11 +46,11 @@ void GameEntity::Update(float time)
 	}
 }
 
-void GameEntity::Draw(Drawer* drawer)
+void GameEntity::Draw()
 {
 	if (mySprite)
 	{
-		mySprite->Draw(drawer);
+		mySprite->Draw();
 	}
 }
 

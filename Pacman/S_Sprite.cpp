@@ -42,8 +42,8 @@ void S_Sprite::ProcessRemovals()
     }
 }
 
-void S_Sprite::Draw(Drawer* drawer)
+void S_Sprite::Draw()
 {
     for (auto d : drawables)
-        d->Draw(drawer);
+        d->Draw();
 }

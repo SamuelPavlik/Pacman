@@ -53,6 +53,7 @@ public:
         return nullptr;
     };
 
+    virtual void Awake();
 	virtual void Start();
 	virtual void Update(float time);
 	bool Intersect(GameEntity* aGameEntity);
@@ -61,7 +62,7 @@ public:
     Vector2f AddPosition(const Vector2f& toAdd);
 	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
 
-	void Draw(Drawer* drawer);
+	void Draw();
 	
     std::shared_ptr<C_Sprite> GetSprite() const;
 

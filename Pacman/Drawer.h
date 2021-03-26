@@ -22,7 +22,7 @@ public:
 
 	void Draw(const char* anImage, int aCellX = 0, int aCellY = 0);
 	void DrawText(const char* aText, const char* aFontFile, int aX, int aY);
-	void AddResource(const char* name);
+	bool AddResource(const char* name);
 
 private:
 	SDL_Window* myWindow;

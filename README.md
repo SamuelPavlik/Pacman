@@ -13,13 +13,15 @@ otherwise their smart pointers like entities
 
 ## Necessary
 - pacman turning and animation
-- weird movements to previous location after death
 
 ## Good to have
 - ghost movement in separate component
 - ghost returning to cage
 - pathfinding looking for pacman
 - incorporate cherry somehow
+- sound
+- multiple ghosts
+- teleport tunnel in the middle
 
 ## Clean-ups
 - sort #pragma once and #ifndef

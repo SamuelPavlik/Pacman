@@ -11,9 +11,9 @@ void EntityCollection::Update(float deltaTime)
     }
 }
 
-void EntityCollection::Draw(Drawer* drawer)
+void EntityCollection::Draw()
 {
-    spriteSys.Draw(drawer);
+    spriteSys.Draw();
 }
 
 void EntityCollection::Add(std::shared_ptr<GameEntity> entity)

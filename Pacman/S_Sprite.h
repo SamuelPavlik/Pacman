@@ -18,7 +18,7 @@ public:
 
     void ProcessRemovals();
 
-    void Draw(Drawer* drawer);
+    void Draw();
 
 private:
     std::multiset<std::shared_ptr<GameEntity>, std::function<bool(std::shared_ptr<GameEntity>, std::shared_ptr<GameEntity>)>> drawables;
