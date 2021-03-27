@@ -1,4 +1,5 @@
 #include "C_KeyboardMovement.h"
+#include "C_Animation.h"
 #include "Input.h"
 #include "World.h"
 #include "GameEntity.h"
@@ -13,6 +14,11 @@ C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const Wo
 void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 {
     this->moveSpeed = moveSpeed;
+}
+
+void C_KeyboardMovement::Awake()
+{
+    animation = owner.GetComponent<C_Animation>();
 }
 
 void C_KeyboardMovement::Update(float time)
@@ -47,6 +53,27 @@ void C_KeyboardMovement::Move(float time)
         {
             myNextTileX = nextTileX;
             myNextTileY = nextTileY;
+            auto state = animation->GetAnimationState();
+            if (nextMovement.myX == 1)
+            {
+                if (animation && state != AnimationState::GoingRight)
+                    animation->SetAnimationState(AnimationState::GoingRight);
+            }
+            else if (nextMovement.myX == -1)
+            {
+                if (animation && state != AnimationState::GoingLeft)
+                    animation->SetAnimationState(AnimationState::GoingLeft);
+            }
+            else if (nextMovement.myY == 1)
+            {
+                if (animation && state != AnimationState::GoingDown)
+                    animation->SetAnimationState(AnimationState::GoingDown);
+            }
+            else if (nextMovement.myY == -1)
+            {
+                if (animation && state != AnimationState::GoingUp)
+                    animation->SetAnimationState(AnimationState::GoingUp);
+            }
         }
     }
 

@@ -15,7 +15,7 @@ void C_Animation::Update(float deltaTime) {
 
         if (newFrame) {
             const FrameData data = *currentAnimation.second->GetCurrentFrame();
-            sprite->Load(data.name);
+            sprite->SetName(data.name);
         }
     }
 }
@@ -38,6 +38,8 @@ void C_Animation::SetAnimationState(AnimationState state) {
         currentAnimation.first = animation->first;
         currentAnimation.second = animation->second;
         currentAnimation.second->Reset();
+        if (sprite)
+            sprite->SetName(animation->second->GetCurrentFrame()->name);
     }
 }
 

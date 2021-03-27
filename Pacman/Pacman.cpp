@@ -50,22 +50,22 @@ void Pacman::Init()
 
 	//set up avatar animation
 	auto animation = myAvatar->AddComponent<C_Animation>();
-	std::shared_ptr<Animation> goingLeftAnim = std::make_shared<Animation>(AnimationState::GoingLeft);
+	std::shared_ptr<Animation> goingLeftAnim = std::make_shared<Animation>();
 	const float eatingFrameSeconds = 0.2f;
-	goingLeftAnim->AddFrame(&myDrawer, "closed_left_32", eatingFrameSeconds);
-	goingLeftAnim->AddFrame(&myDrawer, "open_left_32", eatingFrameSeconds);
+	goingLeftAnim->AddFrame(&myDrawer, "closed_left_32.png", eatingFrameSeconds);
+	goingLeftAnim->AddFrame(&myDrawer, "open_left_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingRightAnim = std::make_shared<Animation>(AnimationState::GoingRight);
-	goingRightAnim->AddFrame(&myDrawer, "closed_right_32", eatingFrameSeconds);
-	goingRightAnim->AddFrame(&myDrawer, "open_right_32", eatingFrameSeconds);
+	std::shared_ptr<Animation> goingRightAnim = std::make_shared<Animation>();
+	goingRightAnim->AddFrame(&myDrawer, "closed_right_32.png", eatingFrameSeconds);
+	goingRightAnim->AddFrame(&myDrawer, "open_right_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingUpAnim = std::make_shared<Animation>(AnimationState::GoingUp);
-	goingUpAnim->AddFrame(&myDrawer, "closed_up_32", eatingFrameSeconds);
-	goingUpAnim->AddFrame(&myDrawer, "open_up_32", eatingFrameSeconds);
+	std::shared_ptr<Animation> goingUpAnim = std::make_shared<Animation>();
+	goingUpAnim->AddFrame(&myDrawer, "closed_up_32.png", eatingFrameSeconds);
+	goingUpAnim->AddFrame(&myDrawer, "open_up_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingDownAnim = std::make_shared<Animation>(AnimationState::GoingDown);
-	goingDownAnim->AddFrame(&myDrawer, "closed_down_32", eatingFrameSeconds);
-	goingDownAnim->AddFrame(&myDrawer, "open_down_32", eatingFrameSeconds);
+	std::shared_ptr<Animation> goingDownAnim = std::make_shared<Animation>();
+	goingDownAnim->AddFrame(&myDrawer, "closed_down_32.png", eatingFrameSeconds);
+	goingDownAnim->AddFrame(&myDrawer, "open_down_32.png", eatingFrameSeconds);
 
 	animation->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
 	animation->AddAnimation(AnimationState::GoingRight, goingRightAnim);

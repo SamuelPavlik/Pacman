@@ -32,6 +32,10 @@ void EntityCollection::ProcessNewEntities()
     {
         for (const auto& o : newEntities)
         {
+            o->Awake();
+        }
+        for (const auto& o : newEntities)
+        {
             o->Start();
         }
 

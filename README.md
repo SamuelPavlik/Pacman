@@ -12,7 +12,6 @@ otherwise their smart pointers like entities
 - MovableGameEntity functionality moved to separate components for better maintainability
 
 ## Necessary
-- pacman turning and animation
 
 ## Good to have
 - ghost movement in separate component
@@ -22,6 +21,7 @@ otherwise their smart pointers like entities
 - sound
 - multiple ghosts
 - teleport tunnel in the middle
+- don't stop when not open road and pressing in dir
 
 ## Clean-ups
 - sort #pragma once and #ifndef
