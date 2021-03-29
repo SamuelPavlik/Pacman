@@ -120,45 +120,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Avatar.cpp" />
-    <ClCompile Include="BigDot.cpp" />
-    <ClCompile Include="Cherry.cpp" />
     <ClCompile Include="C_Animation.cpp" />
+    <ClCompile Include="C_GhostBehavior.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
-    <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="GameEntity.cpp" />
-    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EntityCollection.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
-    <ClCompile Include="StaticGameEntity.cpp" />
     <ClCompile Include="S_Sprite.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Avatar.h" />
-    <ClInclude Include="BigDot.h" />
-    <ClInclude Include="Cherry.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="C_Animation.h" />
+    <ClInclude Include="C_GhostBehavior.h" />
     <ClInclude Include="C_KeyboardMovement.h" />
     <ClInclude Include="C_Sprite.h" />
-    <ClInclude Include="Dot.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="Ghost.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="EntityCollection.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
-    <ClInclude Include="StaticGameEntity.h" />
     <ClInclude Include="S_Sprite.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="World.h" />

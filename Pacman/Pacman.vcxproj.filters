@@ -7,12 +7,6 @@
     <Filter Include="Game\Game entities">
       <UniqueIdentifier>{f58e9c74-955c-4053-aeb9-45aeae8568c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game entities\Static">
-      <UniqueIdentifier>{8e80d2fc-ffcf-4187-b541-d35a283721ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Game entities\Movable">
-      <UniqueIdentifier>{534d0c22-4923-4d78-b772-8511e1871aa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\World">
       <UniqueIdentifier>{cf8fdefa-6d25-49ff-99c5-564e289a7b61}</UniqueIdentifier>
     </Filter>
@@ -35,24 +29,6 @@
     </ClCompile>
     <ClCompile Include="GameEntity.cpp">
       <Filter>Game\Game entities</Filter>
-    </ClCompile>
-    <ClCompile Include="BigDot.cpp">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Cherry.cpp">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Dot.cpp">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticGameEntity.cpp">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Avatar.cpp">
-      <Filter>Game\Game entities\Movable</Filter>
-    </ClCompile>
-    <ClCompile Include="Ghost.cpp">
-      <Filter>Game\Game entities\Movable</Filter>
     </ClCompile>
     <ClCompile Include="PathmapTile.cpp">
       <Filter>Game\World</Filter>
@@ -88,6 +64,9 @@
     <ClCompile Include="C_Animation.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="C_GhostBehavior.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -95,24 +74,6 @@
     </ClInclude>
     <ClInclude Include="GameEntity.h">
       <Filter>Game\Game entities</Filter>
-    </ClInclude>
-    <ClInclude Include="BigDot.h">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Cherry.h">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Dot.h">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticGameEntity.h">
-      <Filter>Game\Game entities\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Avatar.h">
-      <Filter>Game\Game entities\Movable</Filter>
-    </ClInclude>
-    <ClInclude Include="Ghost.h">
-      <Filter>Game\Game entities\Movable</Filter>
     </ClInclude>
     <ClInclude Include="PathmapTile.h">
       <Filter>Game\World</Filter>
@@ -151,6 +112,9 @@
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="C_Animation.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_GhostBehavior.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
