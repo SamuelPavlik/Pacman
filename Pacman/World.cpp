@@ -81,6 +81,11 @@ bool World::TileIsValid(int anX, int anY) const
 	return !myPathmapTiles[anY][anX]->myIsBlockingFlag;
 }
 
+const std::vector<std::vector<std::shared_ptr<PathmapTile>>> World::GetMap() const
+{
+	return myPathmapTiles;
+}
+
 void World::GetPath(int aFromX, int aFromY, int aToX, int aToY, std::list<std::shared_ptr<PathmapTile>>& aList)
 {
 	auto fromTile = myPathmapTiles[aFromY][aFromX];

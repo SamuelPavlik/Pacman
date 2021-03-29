@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <list>
+#include <algorithm>
 
 class C_Animation;
 class World;
@@ -21,12 +22,24 @@ public:
 
     void Die();
 
+private:
+    void Move(float time);
+    void GetPath(int aToX, int aToY);
+    bool Pathfind(std::shared_ptr<PathmapTile> aFromTile, 
+        std::shared_ptr<PathmapTile> aToTile);
+
+    template<typename T>
+    bool Contains(T collection, std::shared_ptr<PathmapTile> aFromTile)
+    {
+        return std::find(collection.begin(), collection.end(), aFromTile);
+    }
+
+
+public:
     bool isClaimableFlag;
     bool isDeadFlag;
 
 private:
-    void Move(float time);
-
     float moveSpeed;
     const World* world;
     std::shared_ptr<C_Animation> animation;

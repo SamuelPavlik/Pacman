@@ -4,6 +4,19 @@
 #include "World.h"
 #include "PathmapTile.h"
 
+#include <set>
+#include <queue>
+
+struct PathNode
+{
+	PathNode(std::shared_ptr<PathmapTile> tile, float pathLength) :
+		tile(tile),
+		pathLength(pathLength) {}
+
+	std::shared_ptr<PathmapTile> tile;
+	float pathLength = 0.f;
+};
+
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world, float moveSpeed) :
 	Component(owner),
 	world(world),
@@ -110,4 +123,83 @@ void C_GhostBehavior::Move(float time)
 		direction.Normalize();
 		owner.AddPosition(direction * distanceToMove);
 	}
+}
+
+void C_GhostBehavior::GetPath(int aToX, int aToY)
+{
+	const auto map = world->GetMap();
+	auto fromTile = map[currentTileX][currentTileY];
+	auto toTile = map[aToY][aToX];
+
+	for (const auto line : map)
+	{
+		for (const auto tile : line)
+		{
+			tile->myIsVisitedFlag = false;
+		}
+	}
+
+	Pathfind(fromTile, toTile);
+}
+
+bool C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile, 
+	std::shared_ptr<PathmapTile> aToTile)
+{
+	if (aFromTile->myIsBlockingFlag)
+		return false;
+
+	const auto map = world->GetMap();
+	std::set<std::shared_ptr<PathmapTile>> visited;
+	//compare function for priority queue
+	auto comp = [aToTile](auto a, auto b) {
+		int la = abs(a.tile->myX - aToTile->myX) + abs(a.tile->myY - aToTile->myY);
+		int lb = abs(b.tile->myX - aToTile->myX) + abs(b.tile->myY - aToTile->myY);
+		return la < lb;
+	};
+	std::priority_queue<PathNode, std::vector<PathNode>, decltype(comp)> tileQueue;
+
+	tileQueue.push(PathNode(aFromTile, 0.f));
+	while (!tileQueue.empty())
+	{
+		auto next = tileQueue.top(); tileQueue.pop();
+
+		if (next.tile == aToTile)
+			return true;
+
+		//init and populate a collection of adjacent tiles
+		std::vector<std::shared_ptr<PathmapTile>> neighborList (4);
+
+		auto up = map[aFromTile->myY - 1][aFromTile->myX];
+		if (up && !Contains(visited, up) && !up->myIsBlockingFlag && !Contains(path, up))
+			tileQueue.push(up, tile);
+
+		auto down = map[aFromTile->myY + 1][aFromTile->myX];
+		if (down && !Contains(visited, down) && !down->myIsBlockingFlag && !Contains(path, down))
+			tileQueue.push(down);
+
+		auto right = map[aFromTile->myY][aFromTile->myX + 1];
+		if (right && !Contains(visited, right) && !right->myIsBlockingFlag && !Contains(path, right))
+			tileQueue.push(right);
+
+		auto left = map[aFromTile->myY][aFromTile->myX - 1];
+		if (left && !Contains(visited, left) && !left->myIsBlockingFlag && !Contains(path, left))
+			tileQueue.push(left);
+
+		//sort the adjacent tiles by euclidian distance
+		//std::sort(neighborList.begin(), neighborList.end(), comp);
+
+		//find the shortest path recursively
+		for (auto tile : neighborList)
+		{
+			path.push_back(tile);
+
+			if (Pathfind(tile, aToTile))
+				return true;
+
+			path.pop_back();
+		}
+	}
+
+
+	return false;
 }

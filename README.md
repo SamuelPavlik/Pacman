@@ -14,12 +14,10 @@ otherwise their smart pointers like entities
 - decided not to do testing for time purposes
 
 ## Necessary
-- ghost animation comp
-- ghost movement comp (possible parent to keyboard comp too)
+- pathfinding looking for pacman (A* search)
 
 ## Good to have
 - ghost returning to cage
-- pathfinding looking for pacman
 - incorporate cherry somehow
 - sound
 - multiple ghosts
