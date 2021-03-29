@@ -45,8 +45,8 @@ private:
 	Vector2f myNextMovement;
 
 	//game entities
-	std::shared_ptr<Avatar> myAvatar;
-	std::shared_ptr<Ghost> myGhost;
+	std::shared_ptr<GameEntity> myAvatar;
+	std::shared_ptr<GameEntity> myGhost;
 	std::vector<std::shared_ptr<GameEntity>> myDots;
 	std::vector<std::shared_ptr<GameEntity>> myBigDots;
 	std::vector<std::shared_ptr<GameEntity>> myCherries;

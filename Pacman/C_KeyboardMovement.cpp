@@ -3,13 +3,12 @@
 #include "Input.h"
 #include "World.h"
 #include "GameEntity.h"
-#include "Constants.h"
 
-C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const World* world) : 
+C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const World* world, float moveSpeed) : 
     Component(owner), 
-    moveSpeed(AVATAR_SPEED), 
     input{ input },
-    world{ world } {}
+    world{ world },
+    moveSpeed(moveSpeed) {}
 
 void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 {
@@ -23,16 +22,19 @@ void C_KeyboardMovement::Awake()
 
 void C_KeyboardMovement::Update(float time)
 {
+    Vector2f possibleMovement;
     if (input->IsKeyDown(Input::Key::Up))
-        nextMovement = Vector2f(0.f, -1.f);
+        possibleMovement = Vector2f(0.f, -1.f);
     else if (input->IsKeyDown(Input::Key::Down))
-        nextMovement = Vector2f(0.f, 1.f);
+        possibleMovement = Vector2f(0.f, 1.f);
     else if (input->IsKeyDown(Input::Key::Left))
-        nextMovement = Vector2f(-1.f, 0.f);
+        possibleMovement = Vector2f(-1.f, 0.f);
     else if (input->IsKeyDown(Input::Key::Right))
-        nextMovement = Vector2f(1.f, 0.f);
+        possibleMovement = Vector2f(1.f, 0.f);
 
-    Move(time);
+    if (possibleMovement == Vector2f(0.f, 0.f))
+        possibleMovement = nextMovement;
+    Move(time, possibleMovement);
 }
 
 void C_KeyboardMovement::Start()
@@ -42,10 +44,10 @@ void C_KeyboardMovement::Start()
     myCurrentTileY = myNextTileY = owner.GetPosition().myY / TILE_SIZE;
 }
 
-void C_KeyboardMovement::Move(float time)
+void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 {
-    int nextTileX = myCurrentTileX + nextMovement.myX;
-    int nextTileY = myCurrentTileY + nextMovement.myY;
+    int nextTileX = myCurrentTileX + possibleMove.myX;
+    int nextTileY = myCurrentTileY + possibleMove.myY;
 
     if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY)
     {
@@ -53,6 +55,7 @@ void C_KeyboardMovement::Move(float time)
         {
             myNextTileX = nextTileX;
             myNextTileY = nextTileY;
+            nextMovement = possibleMove;
             auto state = animation->GetAnimationState();
             if (nextMovement.myX == 1)
             {

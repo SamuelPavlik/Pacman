@@ -10,11 +10,14 @@ Simple 2D Pacman
 - members which should have just one instance are kept as raw pointers like Input 
 otherwise their smart pointers like entities
 - MovableGameEntity functionality moved to separate components for better maintainability
+- describe all the components
+- decided not to do testing for time purposes
 
 ## Necessary
+- ghost animation comp
+- ghost movement comp (possible parent to keyboard comp too)
 
 ## Good to have
-- ghost movement in separate component
 - ghost returning to cage
 - pathfinding looking for pacman
 - incorporate cherry somehow
@@ -22,6 +25,7 @@ otherwise their smart pointers like entities
 - multiple ghosts
 - teleport tunnel in the middle
 - don't stop when not open road and pressing in dir
+- make avatar invulnerable after respawn for a while
 
 ## Clean-ups
 - sort #pragma once and #ifndef

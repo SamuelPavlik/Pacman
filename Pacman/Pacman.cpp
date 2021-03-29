@@ -1,9 +1,10 @@
 #include "Pacman.h"
 #include "Drawer.h"
-#include "Avatar.h"
-#include "Ghost.h"
+#include "GameEntity.h"
 #include "Constants.h"
 #include "C_Sprite.h"
+#include "C_Animation.h"
+#include "C_GhostBehavior.h"
 #include "C_KeyboardMovement.h"
 #include "SDL.h"
 
@@ -11,7 +12,6 @@
 #include <sstream>
 #include <fstream>
 #include <string>
-#include "C_Animation.h"
 
 std::shared_ptr<Pacman> Pacman::Create(Drawer& aDrawer)
 {
@@ -44,42 +44,55 @@ void Pacman::Init()
 	entityCollection.Add(myBigDots);
 
 	//set up avatar
-	myAvatar = std::make_shared<Avatar>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
+	myAvatar = std::make_shared<GameEntity>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
 	myAvatar->AddComponent<C_Sprite>(&myDrawer, "open_32.png");
 	myAvatar->AddComponent<C_KeyboardMovement>(&input, &myWorld);
 
 	//set up avatar animation
-	auto animation = myAvatar->AddComponent<C_Animation>();
-	std::shared_ptr<Animation> goingLeftAnim = std::make_shared<Animation>();
+	auto avatarAnim = myAvatar->AddComponent<C_Animation>();
+	auto goingLeftAnim = std::make_shared<Animation>();
 	const float eatingFrameSeconds = 0.2f;
 	goingLeftAnim->AddFrame(&myDrawer, "closed_left_32.png", eatingFrameSeconds);
 	goingLeftAnim->AddFrame(&myDrawer, "open_left_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingRightAnim = std::make_shared<Animation>();
+	auto goingRightAnim = std::make_shared<Animation>();
 	goingRightAnim->AddFrame(&myDrawer, "closed_right_32.png", eatingFrameSeconds);
 	goingRightAnim->AddFrame(&myDrawer, "open_right_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingUpAnim = std::make_shared<Animation>();
+	auto goingUpAnim = std::make_shared<Animation>();
 	goingUpAnim->AddFrame(&myDrawer, "closed_up_32.png", eatingFrameSeconds);
 	goingUpAnim->AddFrame(&myDrawer, "open_up_32.png", eatingFrameSeconds);
 
-	std::shared_ptr<Animation> goingDownAnim = std::make_shared<Animation>();
+	auto goingDownAnim = std::make_shared<Animation>();
 	goingDownAnim->AddFrame(&myDrawer, "closed_down_32.png", eatingFrameSeconds);
 	goingDownAnim->AddFrame(&myDrawer, "open_down_32.png", eatingFrameSeconds);
 
-	animation->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
-	animation->AddAnimation(AnimationState::GoingRight, goingRightAnim);
-	animation->AddAnimation(AnimationState::GoingUp, goingUpAnim);
-	animation->AddAnimation(AnimationState::GoingDown, goingDownAnim);
+	avatarAnim->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
+	avatarAnim->AddAnimation(AnimationState::GoingRight, goingRightAnim);
+	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
+	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
 
 	entityCollection.Add(myAvatar);
 
 	//set up ghost
-	myGhost = std::make_shared<Ghost>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
-	myGhost->SetWorld(&myWorld);
-	auto ghostSprite = myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
-	ghostSprite->Load("Ghost_Dead_32.png");
-	ghostSprite->Load("Ghost_Vulnerable_32.png");
+	myGhost = std::make_shared<GameEntity>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
+	myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
+	myGhost->AddComponent<C_GhostBehavior>(&myWorld);
+	auto ghostAnim = myGhost->AddComponent<C_Animation>();
+	
+	auto normalAnim = std::make_shared<Animation>();
+	normalAnim->AddFrame(&myDrawer, "ghost_32.png", 0.f);
+
+	auto vulnerableAnim = std::make_shared<Animation>();
+	vulnerableAnim->AddFrame(&myDrawer, "Ghost_Vulnerable_32.png", 0.f);
+
+	auto deadAnim = std::make_shared<Animation>();
+	deadAnim->AddFrame(&myDrawer, "Ghost_Dead_32.png", 0.f);
+
+	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
+	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
+	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
+	
 	entityCollection.Add(myGhost);
 }
 
@@ -136,7 +149,8 @@ bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
 		myGhostGhostCounter = GHOST_COUNTER;
-		myGhost->myIsClaimableFlag = true;
+		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
+			moveComp->isClaimableFlag = true;
 		
 		//delete dot
 		(*bigDotIt)->MarkForDelete();
@@ -179,19 +193,21 @@ void Pacman::CheckAvatarGhostCollision()
 			//reset avatar
 			myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
 				AVATAR_START_TILE_Y * TILE_SIZE));
-			myAvatar->GetComponent<C_KeyboardMovement>()->Start();
+			myAvatar->Start();
 
 			//reset ghost
 			myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
 				GHOST_START_TILE_Y * TILE_SIZE));
 			myGhost->Start();
 		}
-		else if (myGhost->myIsClaimableFlag && !myGhost->myIsDeadFlag)
+		else if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
 		{
-			myScore += 50;
-			//myGhost->MarkForDelete();
-			myGhost->Die();
-			myGhostGhostCounter = 0.f;
+			if (moveComp->isClaimableFlag && !moveComp->isDeadFlag)
+			{
+				myScore += 50;
+				moveComp->Die();
+				myGhostGhostCounter = 0.f;
+			}
 		}
 	}
 }
@@ -200,7 +216,8 @@ void Pacman::CheckGhostCounter(float time)
 {
 	if (myGhostGhostCounter <= 0)
 	{
-		myGhost->myIsClaimableFlag = false;
+		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
+			moveComp->isClaimableFlag = false;
 	}
 	myGhostGhostCounter -= time;
 }

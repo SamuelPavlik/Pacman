@@ -14,7 +14,9 @@ enum class AnimationState {
     GoingLeft,
     GoingRight,
     GoingUp,
-    GoingDown
+    GoingDown,
+    Dead,
+    Vulnerable
 };
 
 class C_Animation : public Component {
