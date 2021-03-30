@@ -31,6 +31,7 @@ void C_GhostBehavior::Start()
 	currentTileX = nextTileX = owner.GetPosition().myX / TILE_SIZE;
 	currentTileY = nextTileY = owner.GetPosition().myY / TILE_SIZE;
 	moveSpeed = GHOST_SPEED;
+	claimableCounter = GHOST_COUNTER;
 }
 
 
@@ -45,6 +46,12 @@ void C_GhostBehavior::Update(float time)
 		animation->SetAnimationState(AnimationState::Vulnerable);
 	else
 		animation->SetAnimationState(AnimationState::GoingUp);
+
+	//claimable logic
+	if (claimableCounter > 0.f)
+		claimableCounter -= time;
+	else
+		isClaimableFlag = false;
 }
 
 void C_GhostBehavior::Die()
@@ -54,6 +61,12 @@ void C_GhostBehavior::Die()
 	GetPath(GHOST_START_TILE_X, GHOST_START_TILE_Y);
 }
 
+void C_GhostBehavior::MarkClaimable()
+{
+	isClaimableFlag = true;
+	claimableCounter = GHOST_COUNTER;
+}
+
 void C_GhostBehavior::Move(float time)
 {
 	int possibleTileX = currentTileX + desiredMovementX;
@@ -61,7 +74,7 @@ void C_GhostBehavior::Move(float time)
 
 	if (currentTileX == nextTileX && currentTileY == nextTileY)
 	{
-		if (!isDeadFlag)
+		if (!isDeadFlag && !avatar->IsMarkedForDelete())
 		{
 			auto pos = avatar->GetPosition();
 			GetPath(pos.myX / TILE_SIZE, pos.myY / TILE_SIZE);

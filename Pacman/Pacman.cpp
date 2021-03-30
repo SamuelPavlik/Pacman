@@ -22,13 +22,11 @@ std::shared_ptr<Pacman> Pacman::Create(Drawer& aDrawer)
 
 Pacman::Pacman(Drawer& aDrawer)
 : myDrawer(aDrawer)
-, myTimeToNextUpdate(0.f)
-, myNextMovement(-1.f,0.f)
 , myScore(0)
 , myFps(0)
 , myLives(3)
-, myGhostGhostCounter(0.f)
-, myWorld() {}
+, myWorld()
+, gameEndCounter (0.f) {}
 
 Pacman::~Pacman(void)
 {
@@ -109,8 +107,6 @@ bool Pacman::Update(float time)
 	if (CheckEndGameCondition())
 		return false;
 
-	CheckGhostCounter(time);
-
 	entityCollection.Update(time);
 
 	CheckIntersectedDot(myAvatar->GetPosition());
@@ -150,9 +146,8 @@ bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
 	{
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
-		myGhostGhostCounter = GHOST_COUNTER;
 		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
-			moveComp->isClaimableFlag = true;
+			moveComp->MarkClaimable();
 		
 		//delete dot
 		(*bigDotIt)->MarkForDelete();
@@ -178,6 +173,7 @@ bool Pacman::CheckEndGameCondition()
 	else if (myLives <= 0)
 	{
 		myDrawer.DrawText("You lose!", HUD_FONT, 20, 70);
+		myAvatar->MarkForDelete();
 		return true;
 	}
 
@@ -193,7 +189,7 @@ void Pacman::CheckAvatarGhostCollision()
 			if (moveComp->isDeadFlag)
 				return;
 			
-			if (myGhostGhostCounter <= 0.f)
+			if (!moveComp->isClaimableFlag)
 			{
 				myLives--;
 
@@ -207,24 +203,13 @@ void Pacman::CheckAvatarGhostCollision()
 					GHOST_START_TILE_Y * TILE_SIZE));
 				myGhost->Start();
 			}
-			else if (moveComp->isClaimableFlag)
+			else
 			{
 				moveComp->Die();
 				myScore += 50;
-				myGhostGhostCounter = 0.f;
 			}
 		}
 	}
-}
-
-void Pacman::CheckGhostCounter(float time)
-{
-	if (myGhostGhostCounter <= 0)
-	{
-		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
-			moveComp->isClaimableFlag = false;
-	}
-	myGhostGhostCounter -= time;
 }
 
 void Pacman::DrawHUD()

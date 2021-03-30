@@ -31,18 +31,14 @@ private:
 	bool HasIntersectedCherry(const Vector2f& aPosition);
 	bool CheckEndGameCondition();
 	void CheckAvatarGhostCollision();
-	void CheckGhostCounter(float time);
 
 	void DrawHUD();
-
-	float myTimeToNextUpdate;
-	float myGhostGhostCounter;
 
 	int myLives;
 	int myScore;
 	int myFps;
 
-	Vector2f myNextMovement;
+	float gameEndCounter;
 
 	//game entities
 	std::shared_ptr<GameEntity> myAvatar;

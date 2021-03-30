@@ -16,11 +16,13 @@ otherwise their smart pointers like entities
 - A* search for ghost pathfinding
 
 ## Necessary
+- win and loss rules and UI
 - sort out collisions and World class
+- ghost running away on big dot eaten (reverse '<' in lambda)
+- sound
 
 ## Good to have
 - incorporate cherry somehow
-- sound
 - multiple ghosts
 - teleport tunnel in the middle
 - don't stop when not open road and pressing in dir

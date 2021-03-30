@@ -37,6 +37,7 @@ public:
 	void Update(float time) override;
 
     void Die();
+    void MarkClaimable();
 
 private:
     void Move(float time);
@@ -68,5 +69,6 @@ private:
     int currentTileY;
     int nextTileX;
     int nextTileY;
+    float claimableCounter;
 };
 
