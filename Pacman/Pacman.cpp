@@ -44,7 +44,8 @@ void Pacman::Init()
 	entityCollection.Add(myBigDots);
 
 	//set up avatar
-	myAvatar = std::make_shared<GameEntity>(Vector2f(13 * TILE_SIZE, 22 * TILE_SIZE));
+	myAvatar = std::make_shared<GameEntity>(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
+		AVATAR_START_TILE_Y * TILE_SIZE));
 	myAvatar->AddComponent<C_Sprite>(&myDrawer, "open_32.png");
 	myAvatar->AddComponent<C_KeyboardMovement>(&input, &myWorld);
 
@@ -75,7 +76,8 @@ void Pacman::Init()
 	entityCollection.Add(myAvatar);
 
 	//set up ghost
-	myGhost = std::make_shared<GameEntity>(Vector2f(13 * TILE_SIZE, 13 * TILE_SIZE));
+	myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
+		GHOST_START_TILE_Y * TILE_SIZE));
 	myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
 	myGhost->AddComponent<C_GhostBehavior>(&myWorld);
 	auto ghostAnim = myGhost->AddComponent<C_Animation>();
@@ -186,26 +188,29 @@ void Pacman::CheckAvatarGhostCollision()
 {
 	if ((myGhost->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
 	{
-		if (myGhostGhostCounter <= 0.f)
+		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
 		{
-			myLives--;
-
-			//reset avatar
-			myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
-				AVATAR_START_TILE_Y * TILE_SIZE));
-			myAvatar->Start();
-
-			//reset ghost
-			myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
-				GHOST_START_TILE_Y * TILE_SIZE));
-			myGhost->Start();
-		}
-		else if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
-		{
-			if (moveComp->isClaimableFlag && !moveComp->isDeadFlag)
+			if (moveComp->isDeadFlag)
+				return;
+			
+			if (myGhostGhostCounter <= 0.f)
 			{
-				myScore += 50;
+				myLives--;
+
+				//reset avatar
+				myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
+					AVATAR_START_TILE_Y * TILE_SIZE));
+				myAvatar->Start();
+
+				//reset ghost
+				myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
+					GHOST_START_TILE_Y * TILE_SIZE));
+				myGhost->Start();
+			}
+			else if (moveComp->isClaimableFlag)
+			{
 				moveComp->Die();
+				myScore += 50;
 				myGhostGhostCounter = 0.f;
 			}
 		}
