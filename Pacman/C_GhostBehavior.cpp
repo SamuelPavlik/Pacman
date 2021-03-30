@@ -6,7 +6,7 @@
 
 #include <set>
 #include <queue>
-#include <chrono>
+#include <functional>
 
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world, 
 	std::shared_ptr<GameEntity> avatar, float moveSpeed) :
@@ -57,6 +57,7 @@ void C_GhostBehavior::Update(float time)
 void C_GhostBehavior::Die()
 {
 	isDeadFlag = true;
+	isClaimableFlag = false;
 	moveSpeed = DEATH_SPEED_MULTIPLIER * moveSpeed;
 	GetPath(GHOST_START_TILE_X, GHOST_START_TILE_Y);
 }
@@ -141,11 +142,23 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 	std::set<std::shared_ptr<PathmapTile>> visited;
 
 	//compare function for priority queue
-	auto comp = [aToTile](auto a, auto b) {
-		int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
-		int lb = b->pathLength + abs(b->tile->myX - aToTile->myX) + abs(b->tile->myY - aToTile->myY);
-		return la > lb;
-	};
+	std::function<bool(PathNodePtr, PathNodePtr)> comp;
+	if (isClaimableFlag)
+	{
+		comp = [aToTile](auto a, auto b) {
+			int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
+			int lb = b->pathLength + abs(b->tile->myX - aToTile->myX) + abs(b->tile->myY - aToTile->myY);
+			return la < lb;
+		};
+	}
+	else
+	{
+		comp = [aToTile](auto a, auto b) {
+			int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
+			int lb = b->pathLength + abs(b->tile->myX - aToTile->myX) + abs(b->tile->myY - aToTile->myY);
+			return la > lb;
+		};
+	}
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
 	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, NULL, 0.f)));

@@ -18,15 +18,14 @@ otherwise their smart pointers like entities
 ## Necessary
 - win and loss rules and UI
 - sort out collisions and World class
-- ghost running away on big dot eaten (reverse '<' in lambda)
 - sound
 
 ## Good to have
 - incorporate cherry somehow
 - multiple ghosts
 - teleport tunnel in the middle
-- don't stop when not open road and pressing in dir
 - make avatar invulnerable after respawn for a while
+- menu
 
 ## Clean-ups
 - sort #pragma once and #ifndef
