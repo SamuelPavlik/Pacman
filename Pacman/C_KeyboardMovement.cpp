@@ -57,27 +57,33 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
             myNextTileX = nextTileX;
             myNextTileY = nextTileY;
             nextMovement = possibleMove;
-            auto state = animation->GetAnimationState();
-            if (nextMovement.myX == 1)
-            {
-                if (animation && state != AnimationState::GoingRight)
-                    animation->SetAnimationState(AnimationState::GoingRight);
-            }
-            else if (nextMovement.myX == -1)
-            {
-                if (animation && state != AnimationState::GoingLeft)
-                    animation->SetAnimationState(AnimationState::GoingLeft);
-            }
-            else if (nextMovement.myY == 1)
-            {
-                if (animation && state != AnimationState::GoingDown)
-                    animation->SetAnimationState(AnimationState::GoingDown);
-            }
-            else if (nextMovement.myY == -1)
-            {
-                if (animation && state != AnimationState::GoingUp)
-                    animation->SetAnimationState(AnimationState::GoingUp);
-            }
+        }
+        else if (world->TileIsValid(myCurrentTileX + nextMovement.myX, myCurrentTileY + nextMovement.myY))
+        {
+            myNextTileX = myCurrentTileX + nextMovement.myX;
+            myNextTileY = myCurrentTileY + nextMovement.myY;
+        }
+
+        auto state = animation->GetAnimationState();
+        if (nextMovement.myX == 1)
+        {
+            if (animation && state != AnimationState::GoingRight)
+                animation->SetAnimationState(AnimationState::GoingRight);
+        }
+        else if (nextMovement.myX == -1)
+        {
+            if (animation && state != AnimationState::GoingLeft)
+                animation->SetAnimationState(AnimationState::GoingLeft);
+        }
+        else if (nextMovement.myY == 1)
+        {
+            if (animation && state != AnimationState::GoingDown)
+                animation->SetAnimationState(AnimationState::GoingDown);
+        }
+        else if (nextMovement.myY == -1)
+        {
+            if (animation && state != AnimationState::GoingUp)
+                animation->SetAnimationState(AnimationState::GoingUp);
         }
     }
 
