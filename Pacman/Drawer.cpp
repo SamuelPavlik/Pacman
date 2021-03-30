@@ -10,10 +10,6 @@ Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 {
 }
 
-Drawer::~Drawer(void)
-{
-}
-
 void Drawer::Draw(const char* name, int aCellX, int aCellY)
 {
 	Resource resource = resourceMap[name];

@@ -12,6 +12,8 @@ otherwise their smart pointers like entities
 - MovableGameEntity functionality moved to separate components for better maintainability
 - describe all the components
 - decided not to do testing for time purposes
+- xs around the txt map
+- A* search for ghost pathfinding
 
 ## Necessary
 - pathfinding looking for pacman (A* search)

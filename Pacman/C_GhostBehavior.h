@@ -11,6 +11,20 @@ class C_Animation;
 class World;
 class PathmapTile;
 
+struct PathNode
+{
+    PathNode(std::shared_ptr<PathmapTile> tile, std::shared_ptr<PathNode> prev, float pathLength) :
+        tile(tile),
+        prev(prev),
+        pathLength(pathLength) {}
+
+    std::shared_ptr<PathmapTile> tile;
+    std::shared_ptr<PathNode> prev;
+    float pathLength = 0.f;
+};
+
+using PathNodePtr = std::shared_ptr<PathNode>;
+
 class C_GhostBehavior : public Component
 {
 public:
@@ -25,13 +39,13 @@ public:
 private:
     void Move(float time);
     void GetPath(int aToX, int aToY);
-    bool Pathfind(std::shared_ptr<PathmapTile> aFromTile, 
+    PathNodePtr Pathfind(std::shared_ptr<PathmapTile> aFromTile,
         std::shared_ptr<PathmapTile> aToTile);
 
     template<typename T>
     bool Contains(T collection, std::shared_ptr<PathmapTile> aFromTile)
     {
-        return std::find(collection.begin(), collection.end(), aFromTile);
+        return std::find(collection.begin(), collection.end(), aFromTile) != collection.end();
     }
 
 

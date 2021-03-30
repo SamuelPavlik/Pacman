@@ -18,7 +18,6 @@ class Drawer
 {
 public:
 	Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer);
-	~Drawer(void);
 
 	void Draw(const char* anImage, int aCellX = 0, int aCellY = 0);
 	void DrawText(const char* aText, const char* aFontFile, int aX, int aY);
