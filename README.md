@@ -16,10 +16,9 @@ otherwise their smart pointers like entities
 - A* search for ghost pathfinding
 
 ## Necessary
-- pathfinding looking for pacman (A* search)
+- sort out collisions and World class
 
 ## Good to have
-- ghost returning to cage
 - incorporate cherry somehow
 - sound
 - multiple ghosts

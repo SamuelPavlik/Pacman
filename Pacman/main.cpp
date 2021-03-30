@@ -2,8 +2,9 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "assert.h"
-#include "pacman.h"
-#include "drawer.h"
+#include "Pacman.h"
+#include "Drawer.h"
+
 #include <iostream>
 
 int main(int argc, char **argv)
@@ -58,8 +59,8 @@ int main(int argc, char **argv)
 		SDL_Delay(1);
 	}
 
-	TTF_Quit();
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 

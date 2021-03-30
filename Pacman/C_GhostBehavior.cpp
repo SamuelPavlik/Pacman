@@ -33,6 +33,7 @@ void C_GhostBehavior::Start()
 	moveSpeed = GHOST_SPEED;
 }
 
+
 void C_GhostBehavior::Update(float time)
 {
 	Move(time);
@@ -49,7 +50,7 @@ void C_GhostBehavior::Update(float time)
 void C_GhostBehavior::Die()
 {
 	isDeadFlag = true;
-	moveSpeed = 5 * moveSpeed;
+	moveSpeed = DEATH_SPEED_MULTIPLIER * moveSpeed;
 	GetPath(GHOST_START_TILE_X, GHOST_START_TILE_Y);
 }
 

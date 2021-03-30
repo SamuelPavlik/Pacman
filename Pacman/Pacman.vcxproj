@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\libs\SDL2-2.0.5\include;..\libs\SDL2_image-2.0.1\include;..\libs\SDL2_ttf-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\libs\SDL2-2.0.5\lib\x86\SDL2.lib;..\libs\SDL2-2.0.5\lib\x86\SDL2main.lib;..\libs\SDL2_image-2.0.1\lib\x86\SDL2_image.lib;..\libs\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.lib</AdditionalDependencies>

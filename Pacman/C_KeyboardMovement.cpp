@@ -49,7 +49,8 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
     int nextTileX = myCurrentTileX + possibleMove.myX;
     int nextTileY = myCurrentTileY + possibleMove.myY;
 
-    if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY)
+    if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY 
+        || possibleMove != nextMovement)
     {
         if (world->TileIsValid(nextTileX, nextTileY))
         {
