@@ -10,6 +10,7 @@
 class C_Animation;
 class World;
 class PathmapTile;
+class GameEntity;
 
 struct PathNode
 {
@@ -28,7 +29,8 @@ using PathNodePtr = std::shared_ptr<PathNode>;
 class C_GhostBehavior : public Component
 {
 public:
-    C_GhostBehavior(GameEntity& owner, const World* world, float moveSpeed = GHOST_SPEED);
+    C_GhostBehavior(GameEntity& owner, const World* world, 
+        std::shared_ptr<GameEntity> avatar, float moveSpeed = GHOST_SPEED);
 
 	void Awake() override;
 	void Start() override;
@@ -57,6 +59,7 @@ private:
     float moveSpeed;
     const World* world;
     std::shared_ptr<C_Animation> animation;
+    std::shared_ptr<GameEntity> avatar;
 
     std::list<std::shared_ptr<PathmapTile>> path;
     int desiredMovementX;

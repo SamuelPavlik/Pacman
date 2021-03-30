@@ -6,10 +6,13 @@
 
 #include <set>
 #include <queue>
+#include <chrono>
 
-C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world, float moveSpeed) :
+C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world, 
+	std::shared_ptr<GameEntity> avatar, float moveSpeed) :
 	Component(owner),
 	world(world),
+	avatar(avatar),
 	moveSpeed(moveSpeed) {}
 
 void C_GhostBehavior::Awake()
@@ -57,44 +60,22 @@ void C_GhostBehavior::Move(float time)
 
 	if (currentTileX == nextTileX && currentTileY == nextTileY)
 	{
+		if (!isDeadFlag)
+		{
+			auto pos = avatar->GetPosition();
+			GetPath(pos.myX / TILE_SIZE, pos.myY / TILE_SIZE);
+		}
+
 		if (!path.empty())
 		{
 			auto nextTile = path.front();
 			path.pop_front();
 
-			if (path.empty())
+			if (path.empty() && isDeadFlag)
 				Start();
 
 			nextTileX = nextTile->myX;
 			nextTileY = nextTile->myY;
-		}
-		else if (world->TileIsValid(possibleTileX, possibleTileY))
-		{
-			nextTileX = possibleTileX;
-			nextTileY = possibleTileY;
-		}
-		else
-		{
-			if (desiredMovementX == 1)
-			{
-				desiredMovementX = 0;
-				desiredMovementY = 1;
-			}
-			else if (desiredMovementY == 1)
-			{
-				desiredMovementX = -1;
-				desiredMovementY = 0;
-			}
-			else if (desiredMovementX == -1)
-			{
-				desiredMovementX = 0;
-				desiredMovementY = -1;
-			}
-			else
-			{
-				desiredMovementX = 1;
-				desiredMovementY = 0;
-			}
 		}
 	}
 
@@ -124,7 +105,8 @@ void C_GhostBehavior::GetPath(int aToX, int aToY)
 	auto toTile = map[aToY][aToX];
 
 	auto foundPath = Pathfind(fromTile, toTile);
-	while (foundPath) 
+
+	while (foundPath && foundPath->prev) 
 	{
 		auto nodeTile = foundPath->tile;
 		path.push_front(nodeTile);
@@ -143,6 +125,7 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 
 	const auto map = world->GetMap();
 	std::set<std::shared_ptr<PathmapTile>> visited;
+
 	//compare function for priority queue
 	auto comp = [aToTile](auto a, auto b) {
 		int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
@@ -152,30 +135,45 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
 	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, NULL, 0.f)));
+	visited.insert(aFromTile);
 	while (!tileQueue.empty())
 	{
 		auto prev = tileQueue.top(); tileQueue.pop();
-		visited.insert(prev->tile);
-		if (prev->tile == aToTile)
+
+		//search with limited depth when looking for player
+		if (prev->tile == aToTile || (!isDeadFlag && prev->pathLength >= MAX_PATH_SEARCH_LENGTH))
+		{
 			return PathNodePtr(prev);
+		}
 
 		auto up = map[prev->tile->myY - 1][prev->tile->myX];
 		if (up && !Contains(visited, up) && !up->myIsBlockingFlag)
-			tileQueue.emplace(std::make_shared<PathNode>(up, prev, prev->pathLength + TILE_SIZE));
+		{
+			tileQueue.emplace(std::make_shared<PathNode>(up, prev, prev->pathLength + 1));
+			visited.insert(up);
+		}
 
 		auto down = map[prev->tile->myY + 1][prev->tile->myX];
 		if (down && !Contains(visited, down) && !down->myIsBlockingFlag)
-			tileQueue.emplace(std::make_shared<PathNode>(down, prev, prev->pathLength + TILE_SIZE));
+		{
+			tileQueue.emplace(std::make_shared<PathNode>(down, prev, prev->pathLength + 1));
+			visited.insert(down);
+		}
 
 		auto right = map[prev->tile->myY][prev->tile->myX + 1];
 		if (right && !Contains(visited, right) && !right->myIsBlockingFlag)
-			tileQueue.emplace(std::make_shared<PathNode>(right, prev, prev->pathLength + TILE_SIZE));
+		{
+			tileQueue.emplace(std::make_shared<PathNode>(right, prev, prev->pathLength + 1));
+			visited.insert(right);
+		}
 
 		auto left = map[prev->tile->myY][prev->tile->myX - 1];
 		if (left && !Contains(visited, left) && !left->myIsBlockingFlag)
-			tileQueue.emplace(std::make_shared<PathNode>(left, prev, prev->pathLength + TILE_SIZE));
+		{
+			tileQueue.emplace(std::make_shared<PathNode>(left, prev, prev->pathLength + 1));
+			visited.insert(left);
+		}
 	}
-
 
 	return NULL;
 }

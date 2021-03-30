@@ -79,7 +79,7 @@ void Pacman::Init()
 	myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
 		GHOST_START_TILE_Y * TILE_SIZE));
 	myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
-	myGhost->AddComponent<C_GhostBehavior>(&myWorld);
+	myGhost->AddComponent<C_GhostBehavior>(&myWorld, myAvatar);
 	auto ghostAnim = myGhost->AddComponent<C_Animation>();
 	
 	auto normalAnim = std::make_shared<Animation>();
