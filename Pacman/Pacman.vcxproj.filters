@@ -67,6 +67,9 @@
     <ClCompile Include="C_GhostBehavior.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -118,6 +121,9 @@
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="Collisions.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>

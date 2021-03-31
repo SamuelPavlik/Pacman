@@ -14,16 +14,19 @@ otherwise their smart pointers like entities
 - decided not to do testing for time purposes
 - xs around the txt map
 - A* search for ghost pathfinding
+- collision detection in separate class with static methods
+- world holds the tile collision logic and loads the tiles
 
 ## Necessary
-- sound
+- make avatar invulnerable after respawn for a while
+- sound (SoundManager)
 
 ## Good to have
 - incorporate cherry somehow
 - multiple ghosts
 - teleport tunnel in the middle
-- make avatar invulnerable after respawn for a while
 - menu
+- collision component with onOverlap functions
 
 ## Clean-ups
 - sort #pragma once and #ifndef

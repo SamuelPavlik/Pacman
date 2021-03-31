@@ -5,6 +5,7 @@
 #include "EntityCollection.h"
 #include "Input.h"
 #include "World.h"
+#include "SoundManager.h"
 
 #include <memory>
 
@@ -58,6 +59,7 @@ private:
 	EntityCollection entityCollection;
 	Input input;
 	Drawer& myDrawer;
+	SoundManager soundManager;
 };
 
 #endif // PACMAN_H

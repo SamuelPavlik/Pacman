@@ -17,6 +17,6 @@ inline const int GHOST_START_TILE_Y = 14;
 inline const int TOTAL_OFFSET_X = 198;
 inline const int TOTAL_OFFSET_Y = 38;
 inline const int MAX_PATH_SEARCH_LENGTH = 10;
-inline const float COLLISION_DELTA = 10.f;
+inline const float COLLISION_DELTA = 20.f;
 
 #endif // CONSTANTS_H

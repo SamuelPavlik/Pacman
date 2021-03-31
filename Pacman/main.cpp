@@ -10,9 +10,9 @@
 int main(int argc, char **argv)
 {
 	/* initialize SDL */
-	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 )
 	{
-		assert(0 && "Failed to initialize video!");
+		assert(0 && "Failed to initialize video or audio!");
 		exit(-1);
 	}
 	

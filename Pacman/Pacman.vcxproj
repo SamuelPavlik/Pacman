@@ -74,12 +74,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\libs\SDL2-2.0.5\include;..\libs\SDL2_image-2.0.1\include;..\libs\SDL2_ttf-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\SDL2-2.0.5\include;..\libs\SDL2_image-2.0.1\include;..\libs\SDL2_mixer-2.0.0\include;..\libs\SDL2_ttf-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\libs\SDL2-2.0.5\lib\x86\SDL2.lib;..\libs\SDL2-2.0.5\lib\x86\SDL2main.lib;..\libs\SDL2_image-2.0.1\lib\x86\SDL2_image.lib;..\libs\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\libs\SDL2-2.0.5\lib\x86\SDL2.lib;..\libs\SDL2-2.0.5\lib\x86\SDL2main.lib;..\libs\SDL2_image-2.0.1\lib\x86\SDL2_image.lib;..\libs\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.lib;..\libs\SDL2_mixer-2.0.0\lib\x86\SDL2_mixer.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -132,6 +132,7 @@
     <ClCompile Include="EntityCollection.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="S_Sprite.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="EntityCollection.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="S_Sprite.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="World.h" />

@@ -37,6 +37,12 @@ Pacman::~Pacman(void)
 
 void Pacman::Init()
 {
+	soundManager.AddResource("pacman_chomp.wav");
+	soundManager.AddResource("pacman_eatghost.wav");
+	soundManager.AddResource("pacman_death.wav");
+	soundManager.AddResource("pacman_intermission.wav");
+	soundManager.AddResource("coin.wav");
+
 	//set up world
 	myWorld.Init(&myDrawer, myDots, myBigDots);
 
@@ -125,6 +131,8 @@ void Pacman::CheckIntersectedDot()
 	GameIt dotIt;
 	if (Collisions::IsColliding(myDots, myAvatar, dotIt))
 	{
+		soundManager.Play("coin.wav");
+
 		//game logic when dot eaten
 		myScore += SMALL_DOT_POINTS;
 
@@ -139,6 +147,8 @@ void Pacman::CheckIntersectedBigDot()
 	GameIt bigDotIt;
 	if (Collisions::IsColliding(myBigDots, myAvatar, bigDotIt))
 	{
+		soundManager.Play("pacman_chomp.wav");
+
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
 		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
@@ -157,11 +167,17 @@ void Pacman::HasIntersectedCherry()
 
 void Pacman::CheckEndGameCondition()
 {
+	static bool isPlaying = false;
 	if (myDots.empty())
 	{
 		myGhost->MarkForDelete();
 		gameOverText = "You win!";
 		isGameOver = true;
+		if (!isPlaying)
+		{
+			soundManager.Play("pacman_intermission.wav");
+			isPlaying = true;
+		}
 	}
 	else if (myLives <= 0)
 	{
@@ -183,6 +199,8 @@ void Pacman::CheckAvatarGhostCollision()
 			if (!moveComp->isClaimableFlag)
 			{
 				myLives--;
+				if (myLives <= 0)
+					soundManager.Play("pacman_death.wav");
 
 				//reset avatar
 				myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
@@ -196,6 +214,7 @@ void Pacman::CheckAvatarGhostCollision()
 			}
 			else
 			{
+				soundManager.Play("pacman_eatghost.wav");
 				moveComp->Die();
 				myScore += 50;
 			}
