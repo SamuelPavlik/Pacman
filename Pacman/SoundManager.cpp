@@ -2,8 +2,16 @@
 
 SoundManager::SoundManager()
 {
-	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 512);
+}
+
+SoundManager::~SoundManager()
+{
+	for (auto res : resourceMap)
+	{
+		Mix_FreeChunk(res.second);
+	}
+	Mix_CloseAudio();
 }
 
 void SoundManager::AddResource(const char* name)
@@ -18,6 +26,7 @@ void SoundManager::Play(const char* name)
 {
 	if (resourceMap.find(name) != resourceMap.end())
 	{
+		Mix_HaltChannel(-1);
 		Mix_PlayChannel(-1, resourceMap[name], 0);
 	}
 }

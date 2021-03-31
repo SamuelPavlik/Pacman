@@ -19,7 +19,6 @@ otherwise their smart pointers like entities
 
 ## Necessary
 - make avatar invulnerable after respawn for a while
-- sound (SoundManager)
 
 ## Good to have
 - incorporate cherry somehow
