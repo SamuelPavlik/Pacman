@@ -13,6 +13,9 @@ class Drawer;
 class Avatar;
 class Ghost;
 
+using GameCollection = std::vector<std::shared_ptr<GameEntity>>;
+using GameIt = GameCollection::iterator;
+
 class Pacman
 {
 public:
@@ -26,10 +29,10 @@ public:
 private:
 	void Init();
 
-	bool CheckIntersectedDot(const Vector2f& aPosition);
-	bool CheckIntersectedBigDot(const Vector2f& aPosition);
-	bool HasIntersectedCherry(const Vector2f& aPosition);
-	bool CheckEndGameCondition();
+	void CheckIntersectedDot();
+	void CheckIntersectedBigDot();
+	void HasIntersectedCherry();
+	void CheckEndGameCondition();
 	void CheckAvatarGhostCollision();
 
 	void DrawHUD();
@@ -37,6 +40,8 @@ private:
 	int myLives;
 	int myScore;
 	int myFps;
+	bool isGameOver;
+	const char* gameOverText;
 
 	float gameEndCounter;
 

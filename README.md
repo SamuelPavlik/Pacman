@@ -16,8 +16,6 @@ otherwise their smart pointers like entities
 - A* search for ghost pathfinding
 
 ## Necessary
-- win and loss rules and UI
-- sort out collisions and World class
 - sound
 
 ## Good to have

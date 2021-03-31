@@ -7,6 +7,7 @@
 #include "C_GhostBehavior.h"
 #include "C_KeyboardMovement.h"
 #include "SDL.h"
+#include "Collisions.h"
 
 #include <iostream>
 #include <sstream>
@@ -25,6 +26,8 @@ Pacman::Pacman(Drawer& aDrawer)
 , myScore(0)
 , myFps(0)
 , myLives(3)
+, isGameOver(false)
+, gameOverText("")
 , myWorld()
 , gameEndCounter (0.f) {}
 
@@ -104,14 +107,12 @@ bool Pacman::Update(float time)
 	if (input.IsKeyDown(Input::Key::Esc))
 		return false;
 
-	if (CheckEndGameCondition())
-		return false;
-
 	entityCollection.Update(time);
 
-	CheckIntersectedDot(myAvatar->GetPosition());
-	CheckIntersectedBigDot(myAvatar->GetPosition());
+	CheckIntersectedDot();
+	CheckIntersectedBigDot();
 	CheckAvatarGhostCollision();
+	CheckEndGameCondition();
 
 	if (time > 0)
 		myFps = (int) (1 / time);
@@ -119,12 +120,10 @@ bool Pacman::Update(float time)
 	return true;
 }
 
-bool Pacman::CheckIntersectedDot(const Vector2f& aPosition)
+void Pacman::CheckIntersectedDot()
 {
-	auto dotIt = std::find_if(myDots.begin(), myDots.end(), [&aPosition](auto dot) {
-		return (dot->GetPosition() - aPosition).Length() < 5.f;
-		});
-	if (dotIt != myDots.end())
+	GameIt dotIt;
+	if (Collisions::IsColliding(myDots, myAvatar, dotIt))
 	{
 		//game logic when dot eaten
 		myScore += SMALL_DOT_POINTS;
@@ -132,17 +131,13 @@ bool Pacman::CheckIntersectedDot(const Vector2f& aPosition)
 		//delete dot
 		(*dotIt)->MarkForDelete();
 		myDots.erase(dotIt);
-		return true;
 	}
-	return false;
 }
 
-bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
+void Pacman::CheckIntersectedBigDot()
 {
-	auto bigDotIt = std::find_if(myBigDots.begin(), myBigDots.end(), [&aPosition](auto dot) {
-		return (dot->GetPosition() - aPosition).Length() < 5.f;
-		});
-	if (bigDotIt != myBigDots.end())
+	GameIt bigDotIt;
+	if (Collisions::IsColliding(myBigDots, myAvatar, bigDotIt))
 	{
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
@@ -152,37 +147,33 @@ bool Pacman::CheckIntersectedBigDot(const Vector2f& aPosition)
 		//delete dot
 		(*bigDotIt)->MarkForDelete();
 		myBigDots.erase(bigDotIt);
-		return true;
 	}
 
-	return false;
 }
 
-bool Pacman::HasIntersectedCherry(const Vector2f& aPosition)
+void Pacman::HasIntersectedCherry()
 {
-	return true;
 }
 
-bool Pacman::CheckEndGameCondition()
+void Pacman::CheckEndGameCondition()
 {
-	if (false)
+	if (myDots.empty())
 	{
-		myDrawer.DrawText("You win!", HUD_FONT, 20, 70);
-		return true;
+		myGhost->MarkForDelete();
+		gameOverText = "You win!";
+		isGameOver = true;
 	}
 	else if (myLives <= 0)
 	{
-		myDrawer.DrawText("You lose!", HUD_FONT, 20, 70);
+		gameOverText = "You lose!";
 		myAvatar->MarkForDelete();
-		return true;
+		isGameOver = true;
 	}
-
-	return false;
 }
 
 void Pacman::CheckAvatarGhostCollision()
 {
-	if ((myGhost->GetPosition() - myAvatar->GetPosition()).Length() < 10.f)
+	if (Collisions::IsColliding(myAvatar, myGhost))
 	{
 		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
 		{
@@ -228,6 +219,11 @@ void Pacman::DrawHUD()
 	std::stringstream fpsStream;
 	fpsStream << myFps;
 	myDrawer.DrawText(fpsStream.str().c_str(), HUD_FONT, 930, 50);
+
+	if (isGameOver)
+	{
+		myDrawer.DrawText(gameOverText, HUD_FONT, 450, 350);
+	}
 }
 
 void Pacman::Draw()

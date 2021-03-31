@@ -117,5 +117,8 @@
     <ClInclude Include="C_GhostBehavior.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Collisions.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
