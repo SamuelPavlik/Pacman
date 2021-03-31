@@ -10,6 +10,15 @@ Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)
 {
 }
 
+Drawer::~Drawer()
+{
+	for (auto elem : resourceMap)
+	{
+		SDL_DestroyTexture(std::get<0>(elem.second));
+		SDL_FreeSurface(std::get<1>(elem.second));
+	}
+}
+
 void Drawer::Draw(const char* name, int aCellX, int aCellY)
 {
 	Resource resource = resourceMap[name];
@@ -17,16 +26,16 @@ void Drawer::Draw(const char* name, int aCellX, int aCellY)
     SDL_Rect sizeRect;
     sizeRect.x = 0 ;
     sizeRect.y = 0 ;
-    sizeRect.w = std::get<1>(resource);
-    sizeRect.h = std::get<2>(resource);
+    sizeRect.w = std::get<1>(resource)->w;
+    sizeRect.h = std::get<1>(resource)->h;
 
     SDL_Rect posRect ;
     posRect.x = aCellX;
     posRect.y = aCellY;
-	posRect.w = std::get<1>(resource);
-	posRect.h = std::get<2>(resource);
+	posRect.w = std::get<1>(resource)->w;
+	posRect.h = std::get<1>(resource)->h;
 
-	SDL_RenderCopy(myRenderer, std::get<0>(resource).get(), &sizeRect, &posRect);
+	SDL_RenderCopy(myRenderer, std::get<0>(resource), &sizeRect, &posRect);
 }
 
 void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
@@ -68,8 +77,7 @@ bool Drawer::AddResource(const char* name)
 		if (!texture)
 			return false;
 
-		resourceMap[name] = Resource(std::shared_ptr<SDL_Texture>(texture), 
-			surface->w, surface->h);
+		resourceMap[name] = Resource(texture, surface);
 	}
 	return true;
 }

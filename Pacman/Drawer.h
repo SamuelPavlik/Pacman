@@ -11,13 +11,14 @@ struct SDL_Surface;
 struct SDL_Texture;
 struct SDL_Rect;
 
-using Resource = std::tuple<std::shared_ptr<SDL_Texture>, int, int>;
+using Resource = std::tuple<SDL_Texture*, SDL_Surface*>;
 using ResourceMap = std::unordered_map<const char*, Resource>;
 
 class Drawer
 {
 public:
 	Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer);
+	~Drawer();
 
 	void Draw(const char* anImage, int aCellX = 0, int aCellY = 0);
 	void DrawText(const char* aText, const char* aFontFile, int aX, int aY);
