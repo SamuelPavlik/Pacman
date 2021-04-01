@@ -8,12 +8,23 @@
 #include <queue>
 #include <functional>
 
-C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world, 
+C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world,
 	std::shared_ptr<GameEntity> avatar, float moveSpeed) :
 	Component(owner),
+	isClaimableFlag(false),
+	isDeadFlag(false),
+	moveSpeed(moveSpeed),
 	world(world),
 	avatar(avatar),
-	moveSpeed(moveSpeed) {}
+	desiredMovementX(),
+	desiredMovementY(),
+	currentTileX(),
+	currentTileY(),
+	nextTileX(),
+	nextTileY(),
+	claimableCounter()
+{
+}
 
 void C_GhostBehavior::Awake()
 {

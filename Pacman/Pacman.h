@@ -50,7 +50,7 @@ private:
 
 	//game entities
 	std::shared_ptr<GameEntity> myAvatar;
-	std::shared_ptr<GameEntity> myGhost;
+	std::vector<std::shared_ptr<GameEntity>> ghosts;
 	std::vector<std::shared_ptr<GameEntity>> dots;
 	std::vector<std::shared_ptr<GameEntity>> bigDots;
 
@@ -59,7 +59,7 @@ private:
 	//systems
 	EntityCollection entityCollection;
 	Input input;
-	Drawer& myDrawer;
+	Drawer& drawer;
 	SoundManager soundManager;
 };
 

@@ -14,14 +14,14 @@ class GameEntity;
 
 struct PathNode
 {
-    PathNode(std::shared_ptr<PathmapTile> tile, std::shared_ptr<PathNode> prev, float pathLength) :
+    PathNode(std::shared_ptr<PathmapTile> tile, std::shared_ptr<PathNode> prev, int pathLength) :
         tile(tile),
         prev(prev),
         pathLength(pathLength) {}
 
     std::shared_ptr<PathmapTile> tile;
     std::shared_ptr<PathNode> prev;
-    float pathLength = 0.f;
+    int pathLength = 0;
 };
 
 using PathNodePtr = std::shared_ptr<PathNode>;

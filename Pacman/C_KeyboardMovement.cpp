@@ -6,9 +6,14 @@
 
 C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const World* world, float moveSpeed) : 
     Component(owner), 
-    input{ input },
-    world{ world },
-    moveSpeed(moveSpeed) {}
+    moveSpeed(moveSpeed),
+    input( input ),
+    world( world ),
+    myCurrentTileX(),
+    myCurrentTileY(),
+    myNextTileX(),
+    myNextTileY()
+{}
 
 void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 {

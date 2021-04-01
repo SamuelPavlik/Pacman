@@ -2,6 +2,8 @@
 #define WORLD_H
 
 #include "Vector2f.h"
+#include "EntityFactory.h"
+
 #include <memory>
 #include <list>
 #include <vector>
@@ -17,7 +19,7 @@ public:
 	World(void);
 	~World(void);
 
-	void Init(Drawer* drawer,
+	void Init(Drawer& drawer, EntityFactory& factory,
 		std::vector<std::shared_ptr<GameEntity>>& dots,
 		std::vector<std::shared_ptr<GameEntity>>& bigDots);
 

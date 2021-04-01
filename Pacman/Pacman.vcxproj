@@ -127,6 +127,7 @@
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -141,7 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Collisions.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="C_Animation.h" />
@@ -150,6 +150,7 @@
     <ClInclude Include="C_KeyboardMovement.h" />
     <ClInclude Include="C_Sprite.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="EntityCollection.h" />

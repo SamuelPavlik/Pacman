@@ -17,12 +17,12 @@ World::World(void) {}
 
 World::~World(void) {}
 
-void World::Init(Drawer* drawer,
+void World::Init(Drawer& drawer, EntityFactory& factory,
 	std::vector<std::shared_ptr<GameEntity>>& dots,
 	std::vector<std::shared_ptr<GameEntity>>& bigDots)
 {
 	//load map image
-	drawer->AddResource("playfield.png");
+	drawer.AddResource("playfield.png");
 
 	//init edible game entities and walls
 	std::string line;
@@ -40,18 +40,14 @@ void World::Init(Drawer* drawer,
 
 				if (line[i] == '.')
 				{
-					auto dot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
-					dot->AddComponent<C_Sprite>(drawer, "Small_Dot_32.png");
-					dot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
-					dot->tag = DOT_TAG;
+					auto dot = factory.CreateDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
+						"Small_Dot_32.png");
 					dots.push_back(dot);
 				}
 				else if (line[i] == 'o')
 				{
-					auto bigDot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
-					bigDot->AddComponent<C_Sprite>(drawer, "Big_Dot_32.png");
-					bigDot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
-					bigDot->tag = BIG_DOT_TAG;
+					auto bigDot = factory.CreateBigDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
+						"Big_Dot_32.png");
 					bigDots.push_back(bigDot);
 				}
 			}

@@ -76,6 +76,7 @@
     <ClCompile Include="S_Collision.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="EntityFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -126,9 +127,6 @@
     <ClInclude Include="C_GhostBehavior.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions.h">
-      <Filter>Game\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
@@ -138,5 +136,6 @@
     <ClInclude Include="S_Collision.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="EntityFactory.h" />
   </ItemGroup>
 </Project>

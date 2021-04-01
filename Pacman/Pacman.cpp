@@ -7,7 +7,7 @@
 #include "C_GhostBehavior.h"
 #include "C_KeyboardMovement.h"
 #include "SDL.h"
-#include "Collisions.h"
+#include "EntityFactory.h"
 
 #include <iostream>
 #include <sstream>
@@ -21,15 +21,16 @@ std::shared_ptr<Pacman> Pacman::Create(Drawer& aDrawer)
 	return pacman;
 }
 
-Pacman::Pacman(Drawer& aDrawer)
-: myDrawer(aDrawer)
-, myScore(0)
-, myFps(0)
-, myLives(3)
-, isGameOver(false)
-, gameOverText("")
-, myWorld()
-, gameEndCounter (0.f) {}
+Pacman::Pacman(Drawer& aDrawer) :
+	drawer(aDrawer),
+	myScore(0),
+	myFps(0),
+	myLives(3),
+	isGameOver(false),
+	gameOverText(""),
+	myWorld(),
+	gameEndCounter(0.f),
+	totalPoints() {}
 
 Pacman::~Pacman(void)
 {
@@ -44,68 +45,27 @@ void Pacman::Init()
 	soundManager.AddResource("pacman_intermission.wav");
 	soundManager.AddResource("coin.wav");
 
+	EntityFactory factory(drawer, input, myWorld);
+
 	//set up world
-	myWorld.Init(&myDrawer, dots, bigDots);
+	myWorld.Init(drawer, factory, dots, bigDots);
+
 
 	//set up avatar
-	myAvatar = std::make_shared<GameEntity>(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
-		AVATAR_START_TILE_Y * TILE_SIZE));
-	myAvatar->AddComponent<C_Sprite>(&myDrawer, "open_32.png");
-	myAvatar->AddComponent<C_KeyboardMovement>(&input, &myWorld);
-	auto collision = myAvatar->AddComponent<C_Collision>(CollisionLayer::Player);
-	std::function<void(CollisionData)> func = [this](CollisionData cd) {
+	std::function<void(CollisionData)> onOverlapFunc = [this](CollisionData cd) {
 		OnIntersectedDot(cd);
 		OnIntersectedBigDot(cd);
 		OnAvatarGhostCollision(cd);
 	};
-	collision->BindOnOverlapFunc(func);
-
-	//set up avatar animation
-	auto avatarAnim = myAvatar->AddComponent<C_Animation>();
-	auto goingLeftAnim = std::make_shared<Animation>();
-	const float eatingFrameSeconds = 0.2f;
-	goingLeftAnim->AddFrame(&myDrawer, "closed_left_32.png", eatingFrameSeconds);
-	goingLeftAnim->AddFrame(&myDrawer, "open_left_32.png", eatingFrameSeconds);
-
-	auto goingRightAnim = std::make_shared<Animation>();
-	goingRightAnim->AddFrame(&myDrawer, "closed_right_32.png", eatingFrameSeconds);
-	goingRightAnim->AddFrame(&myDrawer, "open_right_32.png", eatingFrameSeconds);
-
-	auto goingUpAnim = std::make_shared<Animation>();
-	goingUpAnim->AddFrame(&myDrawer, "closed_up_32.png", eatingFrameSeconds);
-	goingUpAnim->AddFrame(&myDrawer, "open_up_32.png", eatingFrameSeconds);
-
-	auto goingDownAnim = std::make_shared<Animation>();
-	goingDownAnim->AddFrame(&myDrawer, "closed_down_32.png", eatingFrameSeconds);
-	goingDownAnim->AddFrame(&myDrawer, "open_down_32.png", eatingFrameSeconds);
-
-	avatarAnim->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingRight, goingRightAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
-
-	//set up ghost
-	myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
-		GHOST_START_TILE_Y * TILE_SIZE));
-	myGhost->AddComponent<C_Sprite>(&myDrawer, "ghost_32.png");
-	myGhost->AddComponent<C_GhostBehavior>(&myWorld, myAvatar);
-	myGhost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
-	myGhost->tag = ENEMY_TAG;
-
-	auto ghostAnim = myGhost->AddComponent<C_Animation>();
+	myAvatar = factory.CreatePacman(
+		Vector2f(AVATAR_START_TILE_X * TILE_SIZE, AVATAR_START_TILE_Y * TILE_SIZE), 
+		onOverlapFunc, "open_32.png");
 	
-	auto normalAnim = std::make_shared<Animation>();
-	normalAnim->AddFrame(&myDrawer, "ghost_32.png", 0.f);
-
-	auto vulnerableAnim = std::make_shared<Animation>();
-	vulnerableAnim->AddFrame(&myDrawer, "Ghost_Vulnerable_32.png", 0.f);
-
-	auto deadAnim = std::make_shared<Animation>();
-	deadAnim->AddFrame(&myDrawer, "Ghost_Dead_32.png", 0.f);
-
-	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
-	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
-	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
+	//set up ghost
+	ghosts.push_back(factory.CreateGhost(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
+		GHOST_START_TILE_Y * TILE_SIZE), Vector2f(), myAvatar, "ghost_32.png"));
+	ghosts.push_back(factory.CreateGhost(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
+		(GHOST_START_TILE_Y + 1) * TILE_SIZE), Vector2f(2.f, 2.f), myAvatar, "ghost_32.png"));
 	
 	//add all entities to entity collection
 	Restart();
@@ -115,12 +75,14 @@ void Pacman::Restart()
 {
 	myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE,
 		AVATAR_START_TILE_Y * TILE_SIZE));
-	myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
+	ghosts[0]->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE));
+	ghosts[1]->SetPosition(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
+		(GHOST_START_TILE_Y + 1) * TILE_SIZE));
 
 	entityCollection.Clear();
 	entityCollection.Add(myAvatar);
-	entityCollection.Add(myGhost);
+	entityCollection.Add(ghosts);
 	entityCollection.Add(dots);
 	entityCollection.Add(bigDots);
 
@@ -166,8 +128,11 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
-		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
-			moveComp->MarkClaimable();
+		for (auto ghost : ghosts)
+		{
+			if (auto moveComp = ghost->GetComponent<C_GhostBehavior>())
+				moveComp->MarkClaimable();
+		}
 		
 		//delete dot
 		cd.other->SetDelete();
@@ -179,7 +144,7 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 {
 	if (cd.other->tag == ENEMY_TAG)
 	{
-		if (auto moveComp = myGhost->GetComponent<C_GhostBehavior>())
+		if (auto moveComp = cd.other->GetComponent<C_GhostBehavior>())
 		{
 			if (moveComp->isDeadFlag)
 				return;
@@ -231,7 +196,8 @@ void Pacman::CheckEndGameCondition(float time)
 		gameEndCounter = 5.f;
 		if (isWon)
 		{
-			myGhost->SetDelete();
+			for (auto ghost : ghosts)
+				ghost->SetDelete();
 			gameOverText = "You win!";
 			soundManager.Play("pacman_intermission.wav");
 		}
@@ -248,29 +214,29 @@ void Pacman::DrawHUD()
 {
 	std::stringstream scoreStream;
 	scoreStream << myScore;
-	myDrawer.DrawText("Score", HUD_FONT, 20, 50);
-	myDrawer.DrawText(scoreStream.str().c_str(), HUD_FONT, 100, 50);
+	drawer.DrawText("Score", HUD_FONT, 20, 50);
+	drawer.DrawText(scoreStream.str().c_str(), HUD_FONT, 100, 50);
 
 	std::stringstream liveStream;
 	liveStream << myLives;
-	myDrawer.DrawText("Lives", HUD_FONT, 20, 80);
-	myDrawer.DrawText(liveStream.str().c_str(), HUD_FONT, 100, 80);
+	drawer.DrawText("Lives", HUD_FONT, 20, 80);
+	drawer.DrawText(liveStream.str().c_str(), HUD_FONT, 100, 80);
 
-	myDrawer.DrawText("FPS", HUD_FONT, 880, 50);
+	drawer.DrawText("FPS", HUD_FONT, 880, 50);
 	std::stringstream fpsStream;
 	fpsStream << myFps;
-	myDrawer.DrawText(fpsStream.str().c_str(), HUD_FONT, 930, 50);
+	drawer.DrawText(fpsStream.str().c_str(), HUD_FONT, 930, 50);
 
 	if (isGameOver)
 	{
-		myDrawer.DrawText(gameOverText, HUD_FONT, 450, 350);
+		drawer.DrawText(gameOverText, HUD_FONT, 450, 350);
 	}
 }
 
 void Pacman::Draw()
 {
 	//TODO load world resource
-	myWorld.Draw(&myDrawer);
+	myWorld.Draw(&drawer);
 
 	entityCollection.Draw();
 
