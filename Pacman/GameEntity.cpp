@@ -4,7 +4,7 @@
 
 GameEntity::GameEntity(const Vector2f& aPosition)
 :myPosition(aPosition)
-,myIdMarkedForDeleteFlag(false) {}
+,isDeletedFlag(false) {}
 
 GameEntity::~GameEntity(void)
 {
@@ -12,6 +12,7 @@ GameEntity::~GameEntity(void)
 
 void GameEntity::Awake()
 {
+	isDeletedFlag = false;
 	for (int i = components.size() - 1; i >= 0; i--)
 	{
 		components[i]->Awake();

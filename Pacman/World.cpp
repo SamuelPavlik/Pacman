@@ -17,7 +17,9 @@ World::World(void) {}
 
 World::~World(void) {}
 
-void World::Init(Drawer* drawer, EntityCollection& entityCollection, int& totalPoints)
+void World::Init(Drawer* drawer,
+	std::vector<std::shared_ptr<GameEntity>>& dots,
+	std::vector<std::shared_ptr<GameEntity>>& bigDots)
 {
 	//load map image
 	drawer->AddResource("playfield.png");
@@ -28,7 +30,6 @@ void World::Init(Drawer* drawer, EntityCollection& entityCollection, int& totalP
 	if (myfile.is_open())
 	{
 		int lineIndex = 0;
-		totalPoints = 0;
 		while (!myfile.eof())
 		{
 			myPathmapTiles.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
@@ -43,8 +44,7 @@ void World::Init(Drawer* drawer, EntityCollection& entityCollection, int& totalP
 					dot->AddComponent<C_Sprite>(drawer, "Small_Dot_32.png");
 					dot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 					dot->tag = DOT_TAG;
-					totalPoints++;
-					entityCollection.Add(dot);
+					dots.push_back(dot);
 				}
 				else if (line[i] == 'o')
 				{
@@ -52,7 +52,7 @@ void World::Init(Drawer* drawer, EntityCollection& entityCollection, int& totalP
 					bigDot->AddComponent<C_Sprite>(drawer, "Big_Dot_32.png");
 					bigDot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 					bigDot->tag = BIG_DOT_TAG;
-					entityCollection.Add(bigDot);
+					bigDots.push_back(bigDot);
 				}
 			}
 

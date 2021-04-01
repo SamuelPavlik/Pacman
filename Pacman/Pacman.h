@@ -30,12 +30,13 @@ public:
 
 private:
 	void Init();
+	void Restart();
 
 	void OnIntersectedDot(CollisionData cd);
 	void OnIntersectedBigDot(CollisionData cd);
 	void OnAvatarGhostCollision(CollisionData cd);
 	void HasIntersectedCherry();
-	void CheckEndGameCondition();
+	void CheckEndGameCondition(float time);
 
 	void DrawHUD();
 
@@ -43,14 +44,15 @@ private:
 	int myScore;
 	int myFps;
 	int totalPoints;
+	float gameEndCounter;
 	bool isGameOver;
 	const char* gameOverText;
-
-	float gameEndCounter;
 
 	//game entities
 	std::shared_ptr<GameEntity> myAvatar;
 	std::shared_ptr<GameEntity> myGhost;
+	std::vector<std::shared_ptr<GameEntity>> dots;
+	std::vector<std::shared_ptr<GameEntity>> bigDots;
 
 	World myWorld;
 

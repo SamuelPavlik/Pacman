@@ -67,3 +67,11 @@ void EntityCollection::ProcessRemovals()
         collisionSys.ProcessRemovals();
     }
 }
+
+void EntityCollection::Clear()
+{
+    entities.clear();
+    newEntities.clear();
+    collisionSys.Clear();
+    spriteSys.Clear();
+}

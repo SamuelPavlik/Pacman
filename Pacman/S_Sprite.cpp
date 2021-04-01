@@ -42,6 +42,11 @@ void S_Sprite::ProcessRemovals()
     }
 }
 
+void S_Sprite::Clear()
+{
+    drawables.clear();
+}
+
 void S_Sprite::Draw()
 {
     for (auto d : drawables)

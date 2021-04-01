@@ -17,7 +17,9 @@ public:
 	World(void);
 	~World(void);
 
-	void Init(Drawer* drawer, EntityCollection& entityCollection, int& totalPoints);
+	void Init(Drawer* drawer,
+		std::vector<std::shared_ptr<GameEntity>>& dots,
+		std::vector<std::shared_ptr<GameEntity>>& bigDots);
 
 	void Draw(Drawer* drawer);
 	bool TileIsValid(int anX, int anY) const;

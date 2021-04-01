@@ -45,7 +45,7 @@ void Pacman::Init()
 	soundManager.AddResource("coin.wav");
 
 	//set up world
-	myWorld.Init(&myDrawer, entityCollection, totalPoints);
+	myWorld.Init(&myDrawer, dots, bigDots);
 
 	//set up avatar
 	myAvatar = std::make_shared<GameEntity>(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
@@ -84,8 +84,6 @@ void Pacman::Init()
 	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
 	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
 
-	entityCollection.Add(myAvatar);
-
 	//set up ghost
 	myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE, 
 		GHOST_START_TILE_Y * TILE_SIZE));
@@ -109,7 +107,26 @@ void Pacman::Init()
 	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
 	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
 	
+	//add all entities to entity collection
+	Restart();
+}
+
+void Pacman::Restart()
+{
+	myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE,
+		AVATAR_START_TILE_Y * TILE_SIZE));
+	myGhost->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
+		GHOST_START_TILE_Y * TILE_SIZE));
+
+	entityCollection.Clear();
+	entityCollection.Add(myAvatar);
 	entityCollection.Add(myGhost);
+	entityCollection.Add(dots);
+	entityCollection.Add(bigDots);
+
+	totalPoints = dots.size();
+	myLives = 3;
+	myScore = 0;
 }
 
 bool Pacman::Update(float time)
@@ -122,7 +139,7 @@ bool Pacman::Update(float time)
 
 	entityCollection.Update(time);
 
-	CheckEndGameCondition();
+	CheckEndGameCondition(time);
 
 	if (time > 0)
 		myFps = (int) (1 / time);
@@ -136,7 +153,7 @@ void Pacman::OnIntersectedDot(CollisionData cd)
 	{
 		soundManager.Play("coin.wav");
 		myScore += SMALL_DOT_POINTS;
-		cd.other->MarkForDelete();
+		cd.other->SetDelete();
 		totalPoints--;
 	}
 }
@@ -153,7 +170,7 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 			moveComp->MarkClaimable();
 		
 		//delete dot
-		cd.other->MarkForDelete();
+		cd.other->SetDelete();
 	}
 
 }
@@ -170,8 +187,6 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 			if (!moveComp->isClaimableFlag)
 			{
 				myLives--;
-				if (myLives <= 0)
-					soundManager.Play("pacman_death.wav");
 
 				//reset avatar
 				myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
@@ -192,23 +207,40 @@ void Pacman::HasIntersectedCherry()
 {
 }
 
-void Pacman::CheckEndGameCondition()
+void Pacman::CheckEndGameCondition(float time)
 {
 	if (isGameOver)
+	{
+		if (gameEndCounter > 0.f)
+		{
+			gameEndCounter -= time;
+		}
+		else
+		{
+			isGameOver = false;
+			Restart();
+		}
 		return;
-
-	if (totalPoints <= 0)
-	{
-		myGhost->MarkForDelete();
-		gameOverText = "You win!";
-		isGameOver = true;
-		soundManager.Play("pacman_intermission.wav");
 	}
-	else if (myLives <= 0)
+
+	bool isWon = totalPoints <= 0;
+	bool isLost = myLives <= 0;
+	if (isWon || isLost)
 	{
-		gameOverText = "You lose!";
-		myAvatar->MarkForDelete();
 		isGameOver = true;
+		gameEndCounter = 5.f;
+		if (isWon)
+		{
+			myGhost->SetDelete();
+			gameOverText = "You win!";
+			soundManager.Play("pacman_intermission.wav");
+		}
+		else if (isLost)
+		{
+			myAvatar->SetDelete();
+			gameOverText = "You lose!";
+			soundManager.Play("pacman_death.wav");
+		}
 	}
 }
 

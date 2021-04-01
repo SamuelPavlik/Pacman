@@ -25,7 +25,6 @@ otherwise their smart pointers like entities
 - multiple ghosts
 - teleport tunnel in the middle
 - menu
-- collision component with onOverlap functions
 
 ## Clean-ups
 - sort #pragma once and #ifndef

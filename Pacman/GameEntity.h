@@ -67,14 +67,14 @@ public:
 	
     std::shared_ptr<C_Sprite> GetSprite() const;
 
-	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
-	bool IsMarkedForDelete() const { return myIdMarkedForDeleteFlag; }
+	void SetDelete() { isDeletedFlag = true; }
+	bool IsMarkedForDelete() const { return isDeletedFlag; }
 
 
     std::string tag;
 
 protected:
-	bool myIdMarkedForDeleteFlag;
+	bool isDeletedFlag;
 	Vector2f myPosition;
 	std::shared_ptr<C_Sprite> mySprite;
     std::vector<std::shared_ptr<Component>> components;

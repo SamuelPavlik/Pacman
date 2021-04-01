@@ -50,3 +50,8 @@ void S_Collision::Update()
         }
     }
 }
+
+void S_Collision::Clear()
+{
+    collidables.clear();
+}
