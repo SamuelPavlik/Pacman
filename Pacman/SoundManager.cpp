@@ -26,7 +26,7 @@ void SoundManager::Play(const char* name)
 {
 	if (resourceMap.find(name) != resourceMap.end())
 	{
-		Mix_HaltChannel(-1);
+		//Mix_HaltChannel(-1);
 		Mix_PlayChannel(-1, resourceMap[name], 0);
 	}
 }

@@ -9,6 +9,7 @@ void EntityCollection::Update(float deltaTime)
     {
         o->Update(deltaTime);
     }
+    collisionSys.Update();
 }
 
 void EntityCollection::Draw()
@@ -41,6 +42,7 @@ void EntityCollection::ProcessNewEntities()
 
         entities.insert(entities.end(), newEntities.begin(), newEntities.end());
         spriteSys.Add(entities);
+        collisionSys.Add(entities);
         newEntities.clear();
     }
 }
@@ -62,5 +64,6 @@ void EntityCollection::ProcessRemovals()
     if (isRemovedSth)
     {
         spriteSys.ProcessRemovals();
+        collisionSys.ProcessRemovals();
     }
 }

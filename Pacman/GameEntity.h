@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 
 class Drawer;
 class C_Sprite;
@@ -69,8 +70,10 @@ public:
 	void MarkForDelete() { myIdMarkedForDeleteFlag = true; }
 	bool IsMarkedForDelete() const { return myIdMarkedForDeleteFlag; }
 
-protected:
 
+    std::string tag;
+
+protected:
 	bool myIdMarkedForDeleteFlag;
 	Vector2f myPosition;
 	std::shared_ptr<C_Sprite> mySprite;

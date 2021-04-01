@@ -4,6 +4,8 @@
 #include "Drawer.h"
 #include "Constants.h"
 #include "C_Sprite.h"
+#include "C_Collision.h"
+#include "EntityCollection.h"
 
 #include <iostream>
 #include <sstream>
@@ -15,47 +17,42 @@ World::World(void) {}
 
 World::~World(void) {}
 
-void World::Init(Drawer* drawer,
-	std::vector<std::shared_ptr<GameEntity>>& myDots,
-	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
-{
-	InitPathmap(drawer, myDots, myBigDots);
-}
-
-bool World::InitPathmap(Drawer* drawer,
- 
-	std::vector<std::shared_ptr<GameEntity>>& myDots,
- 
-	std::vector<std::shared_ptr<GameEntity>>& myBigDots)
+void World::Init(Drawer* drawer, EntityCollection& entityCollection, int& totalPoints)
 {
 	//load map image
 	drawer->AddResource("playfield.png");
 
 	//init edible game entities and walls
 	std::string line;
-	std::ifstream myfile ("map.txt");
+	std::ifstream myfile("map.txt");
 	if (myfile.is_open())
 	{
 		int lineIndex = 0;
-		while (! myfile.eof() )
+		totalPoints = 0;
+		while (!myfile.eof())
 		{
 			myPathmapTiles.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
-			std::getline (myfile,line);
+			std::getline(myfile, line);
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
 				myPathmapTiles[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
 
 				if (line[i] == '.')
-				{				
+				{
 					auto dot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
 					dot->AddComponent<C_Sprite>(drawer, "Small_Dot_32.png");
-					myDots.push_back(dot);
+					dot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
+					dot->tag = DOT_TAG;
+					totalPoints++;
+					entityCollection.Add(dot);
 				}
 				else if (line[i] == 'o')
 				{
 					auto bigDot = std::make_shared<GameEntity>(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE));
 					bigDot->AddComponent<C_Sprite>(drawer, "Big_Dot_32.png");
-					myBigDots.push_back(bigDot);
+					bigDot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
+					bigDot->tag = BIG_DOT_TAG;
+					entityCollection.Add(bigDot);
 				}
 			}
 
@@ -63,8 +60,6 @@ bool World::InitPathmap(Drawer* drawer,
 		}
 		myfile.close();
 	}
-
-	return true;
 }
 
 void World::Draw(Drawer* drawer)

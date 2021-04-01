@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="C_Animation.cpp" />
+    <ClCompile Include="C_Collision.cpp" />
     <ClCompile Include="C_GhostBehavior.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="S_Collision.cpp" />
     <ClCompile Include="S_Sprite.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
@@ -143,6 +145,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="C_Animation.h" />
+    <ClInclude Include="C_Collision.h" />
     <ClInclude Include="C_GhostBehavior.h" />
     <ClInclude Include="C_KeyboardMovement.h" />
     <ClInclude Include="C_Sprite.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="S_Collision.h" />
     <ClInclude Include="S_Sprite.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="World.h" />

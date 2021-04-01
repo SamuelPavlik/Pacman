@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <string>
+
 inline const size_t TILE_SIZE = 22;
 inline const size_t BIG_DOT_POINTS = 20;
 inline const size_t SMALL_DOT_POINTS = 10;
@@ -18,5 +20,9 @@ inline const int TOTAL_OFFSET_X = 198;
 inline const int TOTAL_OFFSET_Y = 38;
 inline const int MAX_PATH_SEARCH_LENGTH = 10;
 inline const float COLLISION_DELTA = 20.f;
+
+inline const std::string ENEMY_TAG = "Enemy";
+inline const std::string DOT_TAG = "Dot";
+inline const std::string BIG_DOT_TAG = "BigDot";
 
 #endif // CONSTANTS_H

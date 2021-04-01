@@ -1,6 +1,7 @@
 #pragma once
 
 #include "S_Sprite.h"
+#include "S_Collision.h"
 
 #include <memory>
 #include <vector>
@@ -23,6 +24,7 @@ public:
 
 private:
     S_Sprite spriteSys;
+    S_Collision collisionSys;
     std::vector<std::shared_ptr<GameEntity>> entities;
     std::vector<std::shared_ptr<GameEntity>> newEntities;
 

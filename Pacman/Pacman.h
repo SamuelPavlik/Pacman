@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "World.h"
 #include "SoundManager.h"
+#include "C_Collision.h"
 
 #include <memory>
 
@@ -30,17 +31,18 @@ public:
 private:
 	void Init();
 
-	void CheckIntersectedDot();
-	void CheckIntersectedBigDot();
+	void OnIntersectedDot(CollisionData cd);
+	void OnIntersectedBigDot(CollisionData cd);
+	void OnAvatarGhostCollision(CollisionData cd);
 	void HasIntersectedCherry();
 	void CheckEndGameCondition();
-	void CheckAvatarGhostCollision();
 
 	void DrawHUD();
 
 	int myLives;
 	int myScore;
 	int myFps;
+	int totalPoints;
 	bool isGameOver;
 	const char* gameOverText;
 
@@ -49,9 +51,6 @@ private:
 	//game entities
 	std::shared_ptr<GameEntity> myAvatar;
 	std::shared_ptr<GameEntity> myGhost;
-	std::vector<std::shared_ptr<GameEntity>> myDots;
-	std::vector<std::shared_ptr<GameEntity>> myBigDots;
-	std::vector<std::shared_ptr<GameEntity>> myCherries;
 
 	World myWorld;
 
