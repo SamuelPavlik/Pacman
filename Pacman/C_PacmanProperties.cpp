@@ -7,8 +7,7 @@
 C_PacmanProperties::C_PacmanProperties(GameEntity& owner) :
 	Component(owner),
 	invulnerableTimer(),
-	visibilityTimer()
-{}
+	visibilityTimer() {}
 
 void C_PacmanProperties::Awake()
 {

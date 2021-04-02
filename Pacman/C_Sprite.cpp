@@ -15,11 +15,8 @@ C_Sprite::C_Sprite(GameEntity& owner, Drawer* drawer, const char* name,
 
 void C_Sprite::Draw()
 {
-	if (isComponentOn)
-	{
-		drawer->Draw(name, owner.GetPosition().myX + TOTAL_OFFSET_X + offset.myX, 
-			owner.GetPosition().myY + TOTAL_OFFSET_Y + offset.myY);
-	}
+	drawer->Draw(name, owner.GetPosition().myX + TOTAL_OFFSET_X + offset.myX, 
+		owner.GetPosition().myY + TOTAL_OFFSET_Y + offset.myY);
 }
 
 void C_Sprite::SetName(const char* name)

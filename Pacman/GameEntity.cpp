@@ -50,7 +50,7 @@ void GameEntity::Update(float time)
 
 void GameEntity::Draw()
 {
-	if (mySprite)
+	if (mySprite && mySprite->isComponentOn)
 	{
 		mySprite->Draw();
 	}
