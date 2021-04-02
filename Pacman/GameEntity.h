@@ -1,5 +1,4 @@
-#ifndef GAMEENTITY_H
-#define GAMEENTITY_H
+#pragma once
 
 #include "Vector2f.h"
 #include "Constants.h"
@@ -16,7 +15,6 @@ class GameEntity
 {
 public:
 	GameEntity(const Vector2f& aPosition);
-	~GameEntity(void);
 
     template <typename T, typename... Args> 
     std::shared_ptr<T> AddComponent(Args... args)
@@ -57,19 +55,16 @@ public:
     virtual void Awake();
 	virtual void Start();
 	virtual void Update(float time);
-	bool Intersect(GameEntity* aGameEntity);
 
-	Vector2f GetPosition() const { return myPosition; }
+    Vector2f GetPosition() const;
     Vector2f AddPosition(const Vector2f& toAdd);
-	void SetPosition(const Vector2f& aPosition){ myPosition = aPosition; }
+    void SetPosition(const Vector2f& aPosition);
 
-	void Draw();
-	
+	void Draw();	
     std::shared_ptr<C_Sprite> GetSprite() const;
 
-	void SetDelete() { isDeletedFlag = true; }
-	bool IsMarkedForDelete() const { return isDeletedFlag; }
-
+    void SetDelete();
+    bool IsMarkedForDelete() const;
 
     std::string tag;
 
@@ -79,5 +74,3 @@ protected:
 	std::shared_ptr<C_Sprite> mySprite;
     std::vector<std::shared_ptr<Component>> components;
 };
-
-#endif // GAMEENTITY_H

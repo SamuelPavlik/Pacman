@@ -14,7 +14,8 @@ class C_Animation;
 class C_KeyboardMovement : public Component
 {
 public:
-    C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, float moveSpeed = PACMAN_SPEED);
+    C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, 
+        float moveSpeed = PACMAN_SPEED);
 
     void SetMoveSpeed(float moveSpeed);
 

@@ -4,11 +4,8 @@
 #include "Constants.h"
 #include "C_GhostBehavior.h"
 #include "EntityFactory.h"
-#include "SDL.h"
 
-#include <iostream>
 #include <sstream>
-#include <fstream>
 #include <string>
 
 std::shared_ptr<Pacman> Pacman::Create(Drawer& aDrawer)
@@ -29,10 +26,6 @@ Pacman::Pacman(Drawer& aDrawer) :
 	myWorld(),
 	gameEndCounter(0.f),
 	totalPoints() {}
-
-Pacman::~Pacman(void)
-{
-}
 
 void Pacman::Init()
 {
@@ -150,7 +143,6 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 		//delete dot
 		cd.other->SetDelete();
 	}
-
 }
 
 void Pacman::OnAvatarGhostCollision(CollisionData cd)
@@ -249,7 +241,7 @@ void Pacman::DrawHUD()
 
 void Pacman::Draw()
 {
-	myWorld.Draw(&drawer);
+	myWorld.Draw(drawer);
 	if (menuState == MenuState::None)
 	{
 		menu.Draw(drawer);

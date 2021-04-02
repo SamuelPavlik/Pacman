@@ -1,19 +1,14 @@
 #include "World.h"
+#include "Vector2f.h"
 #include "PathmapTile.h"
 #include "GameEntity.h"
 #include "Drawer.h"
 #include "EntityFactory.h"
 #include "Constants.h"
 
-#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
-#include <algorithm>
-
-World::World(void) {}
-
-World::~World(void) {}
 
 void World::Init(Drawer& drawer, EntityFactory& factory,
 	std::vector<std::shared_ptr<GameEntity>>& dots,
@@ -56,9 +51,9 @@ void World::Init(Drawer& drawer, EntityFactory& factory,
 	}
 }
 
-void World::Draw(Drawer* drawer)
+void World::Draw(Drawer& drawer)
 {
-	drawer->Draw("playfield.png");
+	drawer.Draw("playfield.png");
 }
 
 bool World::TileIsValid(int anX, int anY) const

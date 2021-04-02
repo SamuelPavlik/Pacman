@@ -4,11 +4,9 @@
 #include "SDL_ttf.h"
 #include "SDL_render.h"
 
-Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer)
-: myWindow(aWindow)
-, myRenderer(aRenderer)
-{
-}
+Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer) : 
+	myWindow(aWindow), 
+	myRenderer(aRenderer) {}
 
 Drawer::~Drawer()
 {

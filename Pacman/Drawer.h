@@ -1,5 +1,4 @@
-#ifndef DRAWER_H
-#define DRAWER_H
+#pragma once
 
 #include <memory>
 #include <unordered_map>
@@ -29,5 +28,3 @@ private:
 	SDL_Renderer* myRenderer;
 	ResourceMap resourceMap;
 };
-
-#endif // DRAWER_H

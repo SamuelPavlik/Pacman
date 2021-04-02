@@ -1,5 +1,6 @@
 #include "EntityFactory.h"
 #include "Constants.h"
+#include "Animation.h"
 #include "C_Animation.h"
 #include "C_KeyboardMovement.h"
 #include "C_Sprite.h"
@@ -26,20 +27,20 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	auto avatarAnim = myAvatar->AddComponent<C_Animation>();
 	auto goingLeftAnim = std::make_shared<Animation>();
 	const float eatingFrameSeconds = 0.2f;
-	goingLeftAnim->AddFrame(&drawer, "closed_left_32.png", eatingFrameSeconds);
-	goingLeftAnim->AddFrame(&drawer, "open_left_32.png", eatingFrameSeconds);
+	goingLeftAnim->AddFrame(drawer, "closed_left_32.png", eatingFrameSeconds);
+	goingLeftAnim->AddFrame(drawer, "open_left_32.png", eatingFrameSeconds);
 
 	auto goingRightAnim = std::make_shared<Animation>();
-	goingRightAnim->AddFrame(&drawer, "closed_right_32.png", eatingFrameSeconds);
-	goingRightAnim->AddFrame(&drawer, "open_right_32.png", eatingFrameSeconds);
+	goingRightAnim->AddFrame(drawer, "closed_right_32.png", eatingFrameSeconds);
+	goingRightAnim->AddFrame(drawer, "open_right_32.png", eatingFrameSeconds);
 
 	auto goingUpAnim = std::make_shared<Animation>();
-	goingUpAnim->AddFrame(&drawer, "closed_up_32.png", eatingFrameSeconds);
-	goingUpAnim->AddFrame(&drawer, "open_up_32.png", eatingFrameSeconds);
+	goingUpAnim->AddFrame(drawer, "closed_up_32.png", eatingFrameSeconds);
+	goingUpAnim->AddFrame(drawer, "open_up_32.png", eatingFrameSeconds);
 
 	auto goingDownAnim = std::make_shared<Animation>();
-	goingDownAnim->AddFrame(&drawer, "closed_down_32.png", eatingFrameSeconds);
-	goingDownAnim->AddFrame(&drawer, "open_down_32.png", eatingFrameSeconds);
+	goingDownAnim->AddFrame(drawer, "closed_down_32.png", eatingFrameSeconds);
+	goingDownAnim->AddFrame(drawer, "open_down_32.png", eatingFrameSeconds);
 
 	avatarAnim->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
 	avatarAnim->AddAnimation(AnimationState::GoingRight, goingRightAnim);
@@ -64,13 +65,13 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector
 	auto ghostAnim = myGhost->AddComponent<C_Animation>();
 
 	auto normalAnim = std::make_shared<Animation>();
-	normalAnim->AddFrame(&drawer, "ghost_32.png", 0.f);
+	normalAnim->AddFrame(drawer, "ghost_32.png", 0.f);
 
 	auto vulnerableAnim = std::make_shared<Animation>();
-	vulnerableAnim->AddFrame(&drawer, "Ghost_Vulnerable_32.png", 0.f);
+	vulnerableAnim->AddFrame(drawer, "Ghost_Vulnerable_32.png", 0.f);
 
 	auto deadAnim = std::make_shared<Animation>();
-	deadAnim->AddFrame(&drawer, "Ghost_Dead_32.png", 0.f);
+	deadAnim->AddFrame(drawer, "Ghost_Dead_32.png", 0.f);
 
 	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
 	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);

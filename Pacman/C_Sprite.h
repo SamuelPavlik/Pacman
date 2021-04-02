@@ -2,7 +2,6 @@
 
 #include "Component.h"
 #include "Vector2f.h"
-#include "SDL.h"
 
 #include <memory>
 

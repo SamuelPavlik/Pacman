@@ -1,13 +1,12 @@
-#ifndef C_ANIMATION_H
-#define C_ANIMATION_H
+#pragma once
 
 #include "Component.h"
-#include "Animation.h"
 
 #include <unordered_map>
 #include <memory>
 
 class C_Sprite;
+class Animation;
 
 enum class AnimationState {
     None,
@@ -41,4 +40,3 @@ private:
     std::pair<AnimationState,
         std::shared_ptr<Animation>> currentAnimation;
 };
-#endif /* C_ANIMATION_H */

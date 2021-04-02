@@ -1,5 +1,4 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -15,7 +14,7 @@ class Animation {
 public:
     Animation();
 
-    void AddFrame(Drawer* drawer, const char* name, float frameTime);
+    void AddFrame(Drawer& drawer, const char* name, float frameTime);
     const FrameData* GetCurrentFrame() const;
     bool UpdateFrame(float deltaTime);
 
@@ -28,5 +27,3 @@ private:
     int currentFrameIndex;
     float currentFrameTime;
 };
-
-#endif /* ANIMATION_H */

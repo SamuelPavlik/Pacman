@@ -1,5 +1,4 @@
-#ifndef PACMAN_H
-#define PACMAN_H
+#pragma once
 
 #include "Vector2f.h"
 #include "EntityManager.h"
@@ -24,7 +23,6 @@ class Pacman
 public:
 	static std::shared_ptr<Pacman> Create(Drawer& aDrawer);
 	Pacman(Drawer& aDrawer);
-	~Pacman(void);
 
 	bool Update(float aTime);
 	void Draw();
@@ -65,5 +63,3 @@ private:
 	Menu menu;
 	Drawer& drawer;
 };
-
-#endif // PACMAN_H

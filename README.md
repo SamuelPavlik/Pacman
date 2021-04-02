@@ -9,6 +9,7 @@ Simple 2D Pacman
 - C for components, S for systems
 - members which should have just one instance are kept as raw pointers like Input 
 otherwise their smart pointers like entities
+        - cannot be passed by reference due to template Args...
 - MovableGameEntity functionality moved to separate components for better maintainability
 - describe all the components
 - decided not to do testing for time purposes
@@ -18,9 +19,11 @@ otherwise their smart pointers like entities
     - bind functions on overlap 
 - world holds the tile collision logic and loads the tiles
 - factory class to create game entities
+- menu
+- music and sound, SoundManager
+- collision system and component
 
 ## Necessary
-- menu
 
 ## Good to have
 - incorporate cherry somehow
@@ -28,6 +31,6 @@ otherwise their smart pointers like entities
 - teleport tunnel in the middle
 
 ## Clean-ups
-- sort #pragma once and #ifndef
-- all file names to constants
-- check unneccessary includes
+- string instead of char*
+- get rid of my<> pattern
+- filename constants

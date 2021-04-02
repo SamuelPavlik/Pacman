@@ -6,8 +6,8 @@ Animation::Animation() :
     currentFrameIndex(0),
     currentFrameTime(0.f) {}
 
-void Animation::AddFrame(Drawer* drawer, const char* name, float frameTime) {
-    if (!drawer->AddResource(name))
+void Animation::AddFrame(Drawer& drawer, const char* name, float frameTime) {
+    if (!drawer.AddResource(name))
         return;
 
     FrameData data;

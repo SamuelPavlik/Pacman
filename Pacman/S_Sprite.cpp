@@ -32,7 +32,6 @@ void S_Sprite::Add(std::shared_ptr<GameEntity> object)
 
 void S_Sprite::ProcessRemovals()
 {
-    //TODO remove_if
     for (auto i = drawables.begin(), last = drawables.end(); i != last; )
     {
         if ((*i)->IsMarkedForDelete())

@@ -15,6 +15,7 @@ class EntityFactory
 {
 public:
 	EntityFactory(Drawer& drawer, InputManager& inputManager, World& world);
+
 	std::shared_ptr<GameEntity> CreatePacman(Vector2f position, 
 		std::function<void(CollisionData)> onOverlapFunc,
 		const char* spriteName);

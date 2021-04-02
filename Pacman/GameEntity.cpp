@@ -6,10 +6,6 @@ GameEntity::GameEntity(const Vector2f& aPosition)
 :myPosition(aPosition)
 ,isDeletedFlag(false) {}
 
-GameEntity::~GameEntity(void)
-{
-}
-
 void GameEntity::Awake()
 {
 	isDeletedFlag = false;
@@ -27,17 +23,15 @@ void GameEntity::Start()
 	}
 }
 
+Vector2f GameEntity::GetPosition() const { return myPosition; }
+
 Vector2f GameEntity::AddPosition(const Vector2f& toAdd)
 {
 	myPosition += toAdd;
 	return myPosition;
 }
 
-bool GameEntity::Intersect(GameEntity* aGameEntity)
-{
-
-	return false;	
-}
+void GameEntity::SetPosition(const Vector2f& aPosition) { myPosition = aPosition; }
 
 void GameEntity::Update(float time)
 {
@@ -60,3 +54,7 @@ std::shared_ptr<C_Sprite> GameEntity::GetSprite() const
 {
 	return mySprite;
 }
+
+void GameEntity::SetDelete() { isDeletedFlag = true; }
+
+bool GameEntity::IsMarkedForDelete() const { return isDeletedFlag; }

@@ -1,6 +1,7 @@
 #include "C_Animation.h"
 #include "GameEntity.h"
 #include "C_Sprite.h"
+#include "Animation.h"
 
 C_Animation::C_Animation(GameEntity& owner) : Component(owner),
 currentAnimation(AnimationState::None, nullptr) {}
