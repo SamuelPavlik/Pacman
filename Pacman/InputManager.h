@@ -14,13 +14,11 @@ public:
         Right = 2,
         Up = 3,
         Down = 4,
-        Esc = 5
+        Esc = 5,
+        Enter = 6
     };
     InputManager();
     bool IsKeyDown(Key keyName); // Returns true if the key was just pressed.
-    //void Update();
-    //bool IsKeyPressed(std::string keyName); // Returns true if the key is pressed.
-    //bool IsKeyUp(std::string keyName); // Returns true if the key was just released.
 
 private:
     std::unordered_map<Key, SDL_Scancode> keyToCodeMapping;

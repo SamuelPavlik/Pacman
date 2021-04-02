@@ -14,7 +14,7 @@ class C_Animation;
 class C_KeyboardMovement : public Component
 {
 public:
-    C_KeyboardMovement(GameEntity& owner, InputManager* input, const World* world, float moveSpeed = PACMAN_SPEED);
+    C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, float moveSpeed = PACMAN_SPEED);
 
     void SetMoveSpeed(float moveSpeed);
 
@@ -26,7 +26,7 @@ private:
     void Move(float time, Vector2f possibleMove);
 
     float moveSpeed;
-    InputManager* input;
+    InputManager* inputManager;
     const World* world;
     Vector2f nextMovement;
     std::shared_ptr<C_Animation> animation;

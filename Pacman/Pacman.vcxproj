@@ -133,6 +133,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="PathmapTile.h" />
     <ClInclude Include="SoundManager.h" />

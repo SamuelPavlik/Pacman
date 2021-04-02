@@ -27,7 +27,6 @@ public:
 private:
 	SDL_Window* myWindow;
 	SDL_Renderer* myRenderer;
-	SDL_Surface* world;
 	ResourceMap resourceMap;
 };
 

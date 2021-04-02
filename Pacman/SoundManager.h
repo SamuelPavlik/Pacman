@@ -12,6 +12,7 @@ public:
 	~SoundManager();
 	void AddResource(const char* name);
 	void Play(const char* name);
+	void StopAll();
 
 private:
 	std::unordered_map<const char*, Mix_Chunk*> resourceMap;

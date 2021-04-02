@@ -6,8 +6,10 @@
 #include "InputManager.h"
 #include "World.h"
 #include "SoundManager.h"
+#include "Menu.h"
 
 #include <memory>
+#include <string>
 
 struct SDL_Surface;
 class Drawer;
@@ -45,7 +47,8 @@ private:
 	int totalPoints;
 	float gameEndCounter;
 	bool isGameOver;
-	const char* gameOverText;
+	MenuState menuState;
+	std::string gameOverText;
 
 	//game entities
 	std::shared_ptr<GameEntity> myAvatar;
@@ -56,9 +59,10 @@ private:
 	World myWorld;
 
 	//systems
-	EntityManager entityCollection;
-	InputManager input;
+	EntityManager entityManager;
+	InputManager inputManager;
 	SoundManager soundManager;
+	Menu menu;
 	Drawer& drawer;
 };
 

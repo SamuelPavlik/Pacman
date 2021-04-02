@@ -24,6 +24,7 @@ Pacman::Pacman(Drawer& aDrawer) :
 	myFps(0),
 	myLives(3),
 	isGameOver(false),
+	menuState(MenuState::None),
 	gameOverText(""),
 	myWorld(),
 	gameEndCounter(0.f),
@@ -41,13 +42,13 @@ void Pacman::Init()
 	soundManager.AddResource(EAT_GHOST_SOUND);
 	soundManager.AddResource(PAC_DEATH_SOUND);
 	soundManager.AddResource(PAC_WON_SOUND);
+	soundManager.AddResource(MENU_SOUND);
 
 	//set up factory for creating new game entities
-	EntityFactory factory(drawer, input, myWorld);
+	EntityFactory factory(drawer, inputManager, myWorld);
 
 	//set up world
 	myWorld.Init(drawer, factory, dots, bigDots);
-
 
 	//set up avatar
 	std::function<void(CollisionData)> onOverlapFunc = [this](CollisionData cd) {
@@ -78,26 +79,40 @@ void Pacman::Restart()
 	ghosts[1]->SetPosition(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
 		(GHOST_START_TILE_Y + 1) * TILE_SIZE));
 
-	entityCollection.Clear();
-	entityCollection.Add(myAvatar);
-	entityCollection.Add(ghosts);
-	entityCollection.Add(dots);
-	entityCollection.Add(bigDots);
+	entityManager.Clear();
+	entityManager.Add(dots);
+	entityManager.Add(bigDots);
+	entityManager.Add(ghosts);
+	entityManager.Add(myAvatar);
 
 	totalPoints = dots.size();
 	myLives = 3;
 	myScore = 0;
+
+	soundManager.Play(MENU_SOUND);
+	menuState = MenuState::None;
 }
 
 bool Pacman::Update(float time)
 {
-	entityCollection.ProcessRemovals();
-	entityCollection.ProcessNewEntities();
+	if (menuState == MenuState::None)
+	{
+		menuState = menu.Update(inputManager);
+		if (menuState == MenuState::None)
+			return true;
+		else if (menuState == MenuState::Quit)
+			return false;
+		else
+			soundManager.StopAll();
+	}
 
-	if (input.IsKeyDown(InputManager::Key::Esc))
+	entityManager.ProcessRemovals();
+	entityManager.ProcessNewEntities();
+
+	if (inputManager.IsKeyDown(InputManager::Key::Esc))
 		return false;
 
-	entityCollection.Update(time);
+	entityManager.Update(time);
 
 	CheckEndGameCondition(time);
 
@@ -212,32 +227,35 @@ void Pacman::DrawHUD()
 {
 	std::stringstream scoreStream;
 	scoreStream << myScore;
-	drawer.DrawText("Score", HUD_FONT, 20, 50);
-	drawer.DrawText(scoreStream.str().c_str(), HUD_FONT, 100, 50);
+	drawer.DrawText("Score", HUD_FONT, SCORE_X, SCORE_Y);
+	drawer.DrawText(scoreStream.str().c_str(), HUD_FONT, SCORE_NUM_X, SCORE_Y);
 
 	std::stringstream liveStream;
 	liveStream << myLives;
-	drawer.DrawText("Lives", HUD_FONT, 20, 80);
-	drawer.DrawText(liveStream.str().c_str(), HUD_FONT, 100, 80);
+	drawer.DrawText("Lives", HUD_FONT, LIVES_X, LIVES_Y);
+	drawer.DrawText(liveStream.str().c_str(), HUD_FONT, LIVES_NUM_X, LIVES_Y);
 
-	drawer.DrawText("FPS", HUD_FONT, 880, 50);
 	std::stringstream fpsStream;
 	fpsStream << myFps;
-	drawer.DrawText(fpsStream.str().c_str(), HUD_FONT, 930, 50);
+	drawer.DrawText("FPS", HUD_FONT, FPS_X, FPS_Y);
+	drawer.DrawText(fpsStream.str().c_str(), HUD_FONT, FPS_NUM_X, FPS_Y);
 
 	if (isGameOver)
 	{
-		drawer.DrawText(gameOverText, HUD_FONT, 450, 350);
+		drawer.DrawText(gameOverText.c_str(), 
+			HUD_FONT, WINDOW_WIDTH / 2 - (gameOverText.size() / 2) * 15, START_Y);
 	}
 }
 
 void Pacman::Draw()
 {
-	//TODO load world resource
 	myWorld.Draw(&drawer);
+	if (menuState == MenuState::None)
+	{
+		menu.Draw(drawer);
+		return;
+	}
 
-	entityCollection.Draw();
-
+	entityManager.Draw();
 	DrawHUD();
-
 }

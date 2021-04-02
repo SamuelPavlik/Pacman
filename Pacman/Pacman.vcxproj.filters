@@ -82,6 +82,9 @@
     <ClCompile Include="C_PacmanProperties.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="C_PacmanProperties.h">
       <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

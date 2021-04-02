@@ -7,6 +7,7 @@ InputManager::InputManager() : keystate{ SDL_GetKeyboardState(NULL) }
 	keyToCodeMapping[Key::Left] = SDL_SCANCODE_LEFT;
 	keyToCodeMapping[Key::Right] = SDL_SCANCODE_RIGHT;
 	keyToCodeMapping[Key::Esc] = SDL_SCANCODE_ESCAPE;
+	keyToCodeMapping[Key::Enter] = SDL_SCANCODE_RETURN;
 }
 
 bool InputManager::IsKeyDown(Key keyName)

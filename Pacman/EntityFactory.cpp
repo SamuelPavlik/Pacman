@@ -7,9 +7,9 @@
 #include "C_PacmanProperties.h"
 #include "GameEntity.h"
 
-EntityFactory::EntityFactory(Drawer& drawer, InputManager& input, World& world) :
+EntityFactory::EntityFactory(Drawer& drawer, InputManager& inputManager, World& world) :
 	drawer(drawer),
-	input(input),
+	inputManager(inputManager),
 	world(world) {}
 
 std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position, 
@@ -18,7 +18,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 {
 	auto myAvatar = std::make_shared<GameEntity>(position);
 	myAvatar->AddComponent<C_Sprite>(&drawer, spriteName);
-	myAvatar->AddComponent<C_KeyboardMovement>(&input, &world);
+	myAvatar->AddComponent<C_KeyboardMovement>(&inputManager, &world);
 	auto collision = myAvatar->AddComponent<C_Collision>(CollisionLayer::Player);
 	collision->BindOnOverlapFunc(onOverlapFunc);
 

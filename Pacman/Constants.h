@@ -3,6 +3,29 @@
 
 #include <string>
 
+//window size
+inline const int WINDOW_WIDTH = 1024;
+inline const int WINDOW_HEIGHT = 768;
+
+//menu properties
+inline const std::string START_TITLE = "Play";
+inline const std::string QUIT_TITLE = "Quit";
+inline const int START_X = WINDOW_WIDTH / 2 - START_TITLE.size() / 2 - 28;
+inline const int START_Y = WINDOW_HEIGHT / 2 - 40;
+inline const int QUIT_X = WINDOW_WIDTH / 2 - QUIT_TITLE.size() / 2 - 28;
+inline const int QUIT_Y = WINDOW_HEIGHT / 2 + 28;
+
+//HUD properties
+inline const int SCORE_X = 20;
+inline const int SCORE_Y = 50;
+inline const int SCORE_NUM_X = 100;
+inline const int LIVES_X = SCORE_X;
+inline const int LIVES_Y = 80;
+inline const int LIVES_NUM_X = SCORE_NUM_X;
+inline const int FPS_X = WINDOW_WIDTH - 144;
+inline const int FPS_Y = SCORE_Y;
+inline const int FPS_NUM_X = FPS_X + 50;
+
 //general game constants
 inline const size_t TILE_SIZE = 22;
 inline const size_t BIG_DOT_POINTS = 20;
@@ -10,6 +33,7 @@ inline const size_t SMALL_DOT_POINTS = 10;
 
 inline const float GAME_END_TIME = 20;
 inline const char* HUD_FONT = "freefont-ttf\\sfd\\FreeMono.ttf";
+inline const char* BOLD_HUD_FONT = "freefont-ttf\\sfd\\FreeMonoBold.ttf";
 inline const float COLLISION_DELTA = 10.f;
 
 //pacman constants
@@ -40,5 +64,6 @@ inline const char* BIG_DOT_SOUND = "pacman_chomp.wav";
 inline const char* EAT_GHOST_SOUND = "pacman_eatghost.wav";
 inline const char* PAC_DEATH_SOUND = "pacman_death.wav";
 inline const char* PAC_WON_SOUND = "pacman_intermission.wav";
+inline const char* MENU_SOUND = "pacman_beginning.wav";
 
 #endif // CONSTANTS_H
