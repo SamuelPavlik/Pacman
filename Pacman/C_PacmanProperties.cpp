@@ -20,7 +20,8 @@ void C_PacmanProperties::Start()
 {
 	invulnerableTimer = PACMAN_INVULNERABLE_COUNTER;
 	visibilityTimer = PACMAN_VISIBILITY_COUNTER;
-	collision->isCollisionOn = false;
+	collision->isComponentOn = false;
+	this->isComponentOn = true;
 }
 
 void C_PacmanProperties::Update(float time)
@@ -29,7 +30,7 @@ void C_PacmanProperties::Update(float time)
 	{
 		if (visibilityTimer < 0.f)
 		{
-			sprite->isVisible = !sprite->isVisible;
+			sprite->isComponentOn = !sprite->isComponentOn;
 			visibilityTimer = PACMAN_VISIBILITY_COUNTER;
 		}
 		invulnerableTimer -= time;
@@ -37,7 +38,8 @@ void C_PacmanProperties::Update(float time)
 	}
 	else
 	{
-		sprite->isVisible = true;
-		collision->isCollisionOn = true;
+		sprite->isComponentOn = true;
+		collision->isComponentOn = true;
+		this->isComponentOn = false;
 	}
 }

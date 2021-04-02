@@ -5,12 +5,15 @@ class GameEntity;
 class Component
 {
 public:
-	Component(GameEntity& owner) : owner(owner) {}
+	Component(GameEntity& owner) : 
+		owner(owner),
+		isComponentOn(true) {}
 
 	virtual void Awake() {};
 	virtual void Start() {};
 	virtual void Update(float deltaTime) {};
 
 	GameEntity& owner;
+	bool isComponentOn;
 };
 

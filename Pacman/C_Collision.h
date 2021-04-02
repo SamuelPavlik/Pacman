@@ -31,7 +31,6 @@ public:
 
 
     CollisionLayer layer;
-    bool isCollisionOn;
 
 private:
     std::function<void(CollisionData cd)> onOverlapFunc;

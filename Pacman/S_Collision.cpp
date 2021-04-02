@@ -36,7 +36,7 @@ void S_Collision::Update()
 
         for (auto collidableObj : maps.second)
         {
-            if (!collidableObj->isCollisionOn)
+            if (!collidableObj->isComponentOn)
                 continue;
 
             std::vector<std::shared_ptr<C_Collision>> collisions = collidables[CollisionLayer::NonPlayer];
