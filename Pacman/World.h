@@ -2,7 +2,6 @@
 #define WORLD_H
 
 #include "Vector2f.h"
-#include "EntityFactory.h"
 
 #include <memory>
 #include <list>
@@ -11,7 +10,8 @@
 class Drawer;
 class PathmapTile;
 class GameEntity;
-class EntityCollection;
+class EntityManager;
+class EntityFactory;
 
 class World
 {

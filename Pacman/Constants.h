@@ -25,4 +25,10 @@ inline const std::string ENEMY_TAG = "Enemy";
 inline const std::string DOT_TAG = "Dot";
 inline const std::string BIG_DOT_TAG = "BigDot";
 
+inline const char* DOT_SOUND = "coin.wav";
+inline const char* BIG_DOT_SOUND = "pacman_chomp.wav";
+inline const char* EAT_GHOST_SOUND = "pacman_eatghost.wav";
+inline const char* PAC_DEATH_SOUND = "pacman_death.wav";
+inline const char* PAC_WON_SOUND = "pacman_intermission.wav";
+
 #endif // CONSTANTS_H

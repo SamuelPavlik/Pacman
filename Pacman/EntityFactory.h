@@ -7,14 +7,14 @@
 #include <functional>
 
 class GameEntity;
-class Input;
+class InputManager;
 class Drawer;
 class World;
 
 class EntityFactory
 {
 public:
-	EntityFactory(Drawer& drawer, Input& input, World& world);
+	EntityFactory(Drawer& drawer, InputManager& input, World& world);
 	std::shared_ptr<GameEntity> CreatePacman(Vector2f position, 
 		std::function<void(CollisionData)> onOverlapFunc,
 		const char* spriteName);
@@ -25,7 +25,7 @@ public:
 
 private:
 	Drawer& drawer;
-	Input& input;
+	InputManager& input;
 	World& world;
 };
 

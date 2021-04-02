@@ -6,7 +6,7 @@
 #include "C_GhostBehavior.h"
 #include "GameEntity.h"
 
-EntityFactory::EntityFactory(Drawer& drawer, Input& input, World& world) :
+EntityFactory::EntityFactory(Drawer& drawer, InputManager& input, World& world) :
 	drawer(drawer),
 	input(input),
 	world(world) {}
@@ -53,7 +53,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector
 {
 	auto myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE));
-	myGhost->AddComponent<C_Sprite>(&drawer, "ghost_32.png");
+	myGhost->AddComponent<C_Sprite>(&drawer, "ghost_32.png", spriteOffset);
 	myGhost->AddComponent<C_GhostBehavior>(&world, avatar);
 	myGhost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 	myGhost->tag = ENEMY_TAG;

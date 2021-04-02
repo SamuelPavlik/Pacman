@@ -1,10 +1,10 @@
 #include "C_KeyboardMovement.h"
 #include "C_Animation.h"
-#include "Input.h"
+#include "InputManager.h"
 #include "World.h"
 #include "GameEntity.h"
 
-C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, Input* input, const World* world, float moveSpeed) : 
+C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager* input, const World* world, float moveSpeed) : 
     Component(owner), 
     moveSpeed(moveSpeed),
     input( input ),
@@ -28,13 +28,13 @@ void C_KeyboardMovement::Awake()
 void C_KeyboardMovement::Update(float time)
 {
     Vector2f possibleMovement;
-    if (input->IsKeyDown(Input::Key::Up))
+    if (input->IsKeyDown(InputManager::Key::Up))
         possibleMovement = Vector2f(0.f, -1.f);
-    else if (input->IsKeyDown(Input::Key::Down))
+    else if (input->IsKeyDown(InputManager::Key::Down))
         possibleMovement = Vector2f(0.f, 1.f);
-    else if (input->IsKeyDown(Input::Key::Left))
+    else if (input->IsKeyDown(InputManager::Key::Left))
         possibleMovement = Vector2f(-1.f, 0.f);
-    else if (input->IsKeyDown(Input::Key::Right))
+    else if (input->IsKeyDown(InputManager::Key::Right))
         possibleMovement = Vector2f(1.f, 0.f);
 
     if (possibleMovement == Vector2f(0.f, 0.f))

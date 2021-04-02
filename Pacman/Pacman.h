@@ -2,8 +2,8 @@
 #define PACMAN_H
 
 #include "Vector2f.h"
-#include "EntityCollection.h"
-#include "Input.h"
+#include "EntityManager.h"
+#include "InputManager.h"
 #include "World.h"
 #include "SoundManager.h"
 #include "C_Collision.h"
@@ -57,10 +57,10 @@ private:
 	World myWorld;
 
 	//systems
-	EntityCollection entityCollection;
-	Input input;
-	Drawer& drawer;
+	EntityManager entityCollection;
+	InputManager input;
 	SoundManager soundManager;
+	Drawer& drawer;
 };
 
 #endif // PACMAN_H

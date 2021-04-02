@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-class Input
+class InputManager
 {
 public:
     enum class Key
@@ -16,7 +16,7 @@ public:
         Down = 4,
         Esc = 5
     };
-    Input();
+    InputManager();
     bool IsKeyDown(Key keyName); // Returns true if the key was just pressed.
     //void Update();
     //bool IsKeyPressed(std::string keyName); // Returns true if the key is pressed.

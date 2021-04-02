@@ -1,6 +1,6 @@
-#include "Input.h"
+#include "InputManager.h"
 
-Input::Input() : keystate{ SDL_GetKeyboardState(NULL) }
+InputManager::InputManager() : keystate{ SDL_GetKeyboardState(NULL) }
 {
 	keyToCodeMapping[Key::Up] = SDL_SCANCODE_UP;
 	keyToCodeMapping[Key::Down] = SDL_SCANCODE_DOWN;
@@ -9,7 +9,7 @@ Input::Input() : keystate{ SDL_GetKeyboardState(NULL) }
 	keyToCodeMapping[Key::Esc] = SDL_SCANCODE_ESCAPE;
 }
 
-bool Input::IsKeyDown(Key keyName)
+bool InputManager::IsKeyDown(Key keyName)
 {
 	return keystate[keyToCodeMapping[keyName]];
 }

@@ -2,10 +2,8 @@
 #include "PathmapTile.h"
 #include "GameEntity.h"
 #include "Drawer.h"
+#include "EntityFactory.h"
 #include "Constants.h"
-#include "C_Sprite.h"
-#include "C_Collision.h"
-#include "EntityCollection.h"
 
 #include <iostream>
 #include <sstream>

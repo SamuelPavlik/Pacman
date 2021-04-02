@@ -22,7 +22,7 @@ otherwise their smart pointers like entities
 
 ## Good to have
 - incorporate cherry somehow
-- multiple ghosts
+- different ghost AI
 - teleport tunnel in the middle
 - menu
 

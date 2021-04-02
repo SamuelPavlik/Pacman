@@ -46,13 +46,13 @@
     <ClCompile Include="C_Sprite.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="EntityCollection.cpp">
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="S_Sprite.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
     <ClCompile Include="C_KeyboardMovement.cpp">
@@ -76,7 +76,9 @@
     <ClCompile Include="S_Collision.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="EntityFactory.cpp" />
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -103,13 +105,13 @@
     <ClInclude Include="C_Sprite.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EntityCollection.h">
+    <ClInclude Include="EntityManager.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="S_Sprite.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="InputManager.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
@@ -136,6 +138,8 @@
     <ClInclude Include="S_Collision.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="EntityFactory.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

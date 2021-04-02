@@ -2,12 +2,9 @@
 #include "Drawer.h"
 #include "GameEntity.h"
 #include "Constants.h"
-#include "C_Sprite.h"
-#include "C_Animation.h"
 #include "C_GhostBehavior.h"
-#include "C_KeyboardMovement.h"
-#include "SDL.h"
 #include "EntityFactory.h"
+#include "SDL.h"
 
 #include <iostream>
 #include <sstream>
@@ -39,12 +36,13 @@ Pacman::~Pacman(void)
 void Pacman::Init()
 {
 	//add sound resources
-	soundManager.AddResource("pacman_chomp.wav");
-	soundManager.AddResource("pacman_eatghost.wav");
-	soundManager.AddResource("pacman_death.wav");
-	soundManager.AddResource("pacman_intermission.wav");
-	soundManager.AddResource("coin.wav");
+	soundManager.AddResource(DOT_SOUND);
+	soundManager.AddResource(BIG_DOT_SOUND);
+	soundManager.AddResource(EAT_GHOST_SOUND);
+	soundManager.AddResource(PAC_DEATH_SOUND);
+	soundManager.AddResource(PAC_WON_SOUND);
 
+	//set up factory for creating new game entities
 	EntityFactory factory(drawer, input, myWorld);
 
 	//set up world
@@ -65,7 +63,7 @@ void Pacman::Init()
 	ghosts.push_back(factory.CreateGhost(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE), Vector2f(), myAvatar, "ghost_32.png"));
 	ghosts.push_back(factory.CreateGhost(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
-		(GHOST_START_TILE_Y + 1) * TILE_SIZE), Vector2f(2.f, 2.f), myAvatar, "ghost_32.png"));
+		(GHOST_START_TILE_Y + 1) * TILE_SIZE), Vector2f(4.f, 4.f), myAvatar, "ghost_32.png"));
 	
 	//add all entities to entity collection
 	Restart();
@@ -96,7 +94,7 @@ bool Pacman::Update(float time)
 	entityCollection.ProcessRemovals();
 	entityCollection.ProcessNewEntities();
 
-	if (input.IsKeyDown(Input::Key::Esc))
+	if (input.IsKeyDown(InputManager::Key::Esc))
 		return false;
 
 	entityCollection.Update(time);
@@ -113,7 +111,7 @@ void Pacman::OnIntersectedDot(CollisionData cd)
 {
 	if (cd.other->tag == DOT_TAG)
 	{
-		soundManager.Play("coin.wav");
+		soundManager.Play(DOT_SOUND);
 		myScore += SMALL_DOT_POINTS;
 		cd.other->SetDelete();
 		totalPoints--;
@@ -124,7 +122,7 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 {
 	if (cd.other->tag == BIG_DOT_TAG)
 	{
-		soundManager.Play("pacman_chomp.wav");
+		soundManager.Play(BIG_DOT_SOUND);
 
 		//game logic when dot eaten
 		myScore += BIG_DOT_POINTS;
@@ -160,7 +158,7 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 			}
 			else
 			{
-				soundManager.Play("pacman_eatghost.wav");
+				soundManager.Play(EAT_GHOST_SOUND);
 				moveComp->Die();
 				myScore += 50;
 			}
@@ -199,13 +197,13 @@ void Pacman::CheckEndGameCondition(float time)
 			for (auto ghost : ghosts)
 				ghost->SetDelete();
 			gameOverText = "You win!";
-			soundManager.Play("pacman_intermission.wav");
+			soundManager.Play(PAC_WON_SOUND);
 		}
 		else if (isLost)
 		{
 			myAvatar->SetDelete();
 			gameOverText = "You lose!";
-			soundManager.Play("pacman_death.wav");
+			soundManager.Play(PAC_DEATH_SOUND);
 		}
 	}
 }

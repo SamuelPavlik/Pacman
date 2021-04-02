@@ -1,9 +1,9 @@
-#include "EntityCollection.h"
+#include "EntityManager.h"
 #include "GameEntity.h"
 
 #include <algorithm>
 
-void EntityCollection::Update(float deltaTime)
+void EntityManager::Update(float deltaTime)
 {
     for (auto o : entities)
     {
@@ -12,22 +12,22 @@ void EntityCollection::Update(float deltaTime)
     collisionSys.Update();
 }
 
-void EntityCollection::Draw()
+void EntityManager::Draw()
 {
     spriteSys.Draw();
 }
 
-void EntityCollection::Add(std::shared_ptr<GameEntity> entity)
+void EntityManager::Add(std::shared_ptr<GameEntity> entity)
 {
     newEntities.push_back(entity);
 }
 
-void EntityCollection::Add(std::vector<std::shared_ptr<GameEntity>> entities)
+void EntityManager::Add(std::vector<std::shared_ptr<GameEntity>> entities)
 {
     newEntities.insert(newEntities.end(), entities.begin(), entities.end());
 }
 
-void EntityCollection::ProcessNewEntities()
+void EntityManager::ProcessNewEntities()
 {
     if (newEntities.size() > 0)
     {
@@ -47,7 +47,7 @@ void EntityCollection::ProcessNewEntities()
     }
 }
 
-void EntityCollection::ProcessRemovals()
+void EntityManager::ProcessRemovals()
 {
     bool isRemovedSth = false;
     auto newEnd = std::remove_if(entities.begin(), entities.end(),
@@ -68,7 +68,7 @@ void EntityCollection::ProcessRemovals()
     }
 }
 
-void EntityCollection::Clear()
+void EntityManager::Clear()
 {
     entities.clear();
     newEntities.clear();

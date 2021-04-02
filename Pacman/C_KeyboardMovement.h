@@ -7,14 +7,14 @@
 #include <memory>
 
 class GameEntity;
-class Input;
+class InputManager;
 class World;
 class C_Animation;
 
 class C_KeyboardMovement : public Component
 {
 public:
-    C_KeyboardMovement(GameEntity& owner, Input* input, const World* world, float moveSpeed = AVATAR_SPEED);
+    C_KeyboardMovement(GameEntity& owner, InputManager* input, const World* world, float moveSpeed = AVATAR_SPEED);
 
     void SetMoveSpeed(float moveSpeed);
 
@@ -26,7 +26,7 @@ private:
     void Move(float time, Vector2f possibleMove);
 
     float moveSpeed;
-    Input* input;
+    InputManager* input;
     const World* world;
     Vector2f nextMovement;
     std::shared_ptr<C_Animation> animation;

@@ -10,7 +10,7 @@ class Drawer;
 class GameEntity;
 struct SDL_Texture;
 
-class EntityCollection
+class EntityManager
 {
 public:
     void Add(std::shared_ptr<GameEntity> entity);
