@@ -4,20 +4,23 @@
 #include "Constants.h"
 
 C_Sprite::C_Sprite(GameEntity& owner, Drawer* drawer, const char* name, 
-	Vector2f offset) :
+	Vector2f offset, bool isVisible) :
 	Component(owner),
 	drawer(drawer),
 	name(name),
-	offset(offset)
+	offset(offset),
+	isVisible(isVisible)
 {
 	Load(name);
 }
 
 void C_Sprite::Draw()
 {
-	//TODO what are the magic nums?
-	drawer->Draw(name, owner.GetPosition().myX + TOTAL_OFFSET_X + offset.myX, 
-		owner.GetPosition().myY + TOTAL_OFFSET_Y + offset.myY);
+	if (isVisible)
+	{
+		drawer->Draw(name, owner.GetPosition().myX + TOTAL_OFFSET_X + offset.myX, 
+			owner.GetPosition().myY + TOTAL_OFFSET_Y + offset.myY);
+	}
 }
 
 void C_Sprite::SetName(const char* name)

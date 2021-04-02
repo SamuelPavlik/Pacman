@@ -125,6 +125,7 @@
     <ClCompile Include="C_Collision.cpp" />
     <ClCompile Include="C_GhostBehavior.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
+    <ClCompile Include="C_PacmanProperties.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="C_Collision.h" />
     <ClInclude Include="C_GhostBehavior.h" />
     <ClInclude Include="C_KeyboardMovement.h" />
+    <ClInclude Include="C_PacmanProperties.h" />
     <ClInclude Include="C_Sprite.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="EntityFactory.h" />

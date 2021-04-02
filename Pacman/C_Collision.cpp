@@ -4,7 +4,8 @@
 
 C_Collision::C_Collision(GameEntity& owner, CollisionLayer layer) :
 	Component(owner),
-	layer(layer) {}
+	layer(layer),
+	isCollisionOn(true) {}
 
 CollisionData C_Collision::IsColliding(std::shared_ptr<C_Collision> other)
 {

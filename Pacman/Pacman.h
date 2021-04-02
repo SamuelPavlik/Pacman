@@ -6,7 +6,6 @@
 #include "InputManager.h"
 #include "World.h"
 #include "SoundManager.h"
-#include "C_Collision.h"
 
 #include <memory>
 

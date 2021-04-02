@@ -79,6 +79,9 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="C_PacmanProperties.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="EntityFactory.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="C_PacmanProperties.h">
+      <Filter>Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

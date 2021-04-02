@@ -4,6 +4,7 @@
 #include "C_KeyboardMovement.h"
 #include "C_Sprite.h"
 #include "C_GhostBehavior.h"
+#include "C_PacmanProperties.h"
 #include "GameEntity.h"
 
 EntityFactory::EntityFactory(Drawer& drawer, InputManager& input, World& world) :
@@ -44,6 +45,8 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	avatarAnim->AddAnimation(AnimationState::GoingRight, goingRightAnim);
 	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
 	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
+
+	myAvatar->AddComponent<C_PacmanProperties>();
 
 	return myAvatar;
 }

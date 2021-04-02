@@ -14,17 +14,18 @@ otherwise their smart pointers like entities
 - decided not to do testing for time purposes
 - xs around the txt map
 - A* search for ghost pathfinding
-- collision detection in separate class with static methods
+- simplified collision component and collision system
+    - bind functions on overlap 
 - world holds the tile collision logic and loads the tiles
+- factory class to create game entities
 
 ## Necessary
-- make avatar invulnerable after respawn for a while
+- menu
 
 ## Good to have
 - incorporate cherry somehow
 - different ghost AI
 - teleport tunnel in the middle
-- menu
 
 ## Clean-ups
 - sort #pragma once and #ifndef

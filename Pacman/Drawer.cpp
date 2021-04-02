@@ -21,7 +21,11 @@ Drawer::~Drawer()
 
 void Drawer::Draw(const char* name, int aCellX, int aCellY)
 {
-	Resource resource = resourceMap[name];
+	auto resourceIt = resourceMap.find(name);
+	if (resourceIt == resourceMap.end())
+		return;
+
+	Resource resource = resourceIt->second;
 
     SDL_Rect sizeRect;
     sizeRect.x = 0 ;

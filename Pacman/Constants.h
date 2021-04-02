@@ -3,28 +3,38 @@
 
 #include <string>
 
+//general game constants
 inline const size_t TILE_SIZE = 22;
 inline const size_t BIG_DOT_POINTS = 20;
 inline const size_t SMALL_DOT_POINTS = 10;
-inline const float GHOST_COUNTER = 6;
+
 inline const float GAME_END_TIME = 20;
 inline const char* HUD_FONT = "freefont-ttf\\sfd\\FreeMono.ttf";
-inline const float AVATAR_SPEED = 120.f;
-inline const float GHOST_SPEED = 70.f;
-inline const int DEATH_SPEED_MULTIPLIER = 5;
-inline const int AVATAR_START_TILE_X = 14;
-inline const int AVATAR_START_TILE_Y = 23;
+inline const float COLLISION_DELTA = 10.f;
+
+//pacman constants
+inline const float PACMAN_SPEED = 120.f;
+inline const int PACMAN_START_TILE_X = 14;
+inline const int PACMAN_START_TILE_Y = 23;
+inline const float PACMAN_INVULNERABLE_COUNTER = 3.f;
+inline const float PACMAN_VISIBILITY_COUNTER = 0.15f;
+
+//ghost constants
 inline const int GHOST_START_TILE_X = 14;
 inline const int GHOST_START_TILE_Y = 14;
 inline const int TOTAL_OFFSET_X = 198;
 inline const int TOTAL_OFFSET_Y = 38;
 inline const int MAX_PATH_SEARCH_LENGTH = 10;
-inline const float COLLISION_DELTA = 20.f;
+inline const float GHOST_SPEED = 70.f;
+inline const int DEATH_SPEED_MULTIPLIER = 5;
+inline const float GHOST_COUNTER = 6;
 
+//entity tags
 inline const std::string ENEMY_TAG = "Enemy";
 inline const std::string DOT_TAG = "Dot";
 inline const std::string BIG_DOT_TAG = "BigDot";
 
+//paths to sound files
 inline const char* DOT_SOUND = "coin.wav";
 inline const char* BIG_DOT_SOUND = "pacman_chomp.wav";
 inline const char* EAT_GHOST_SOUND = "pacman_eatghost.wav";

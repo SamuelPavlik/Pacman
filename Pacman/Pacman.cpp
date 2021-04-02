@@ -56,7 +56,7 @@ void Pacman::Init()
 		OnAvatarGhostCollision(cd);
 	};
 	myAvatar = factory.CreatePacman(
-		Vector2f(AVATAR_START_TILE_X * TILE_SIZE, AVATAR_START_TILE_Y * TILE_SIZE), 
+		Vector2f(PACMAN_START_TILE_X * TILE_SIZE, PACMAN_START_TILE_Y * TILE_SIZE), 
 		onOverlapFunc, "open_32.png");
 	
 	//set up ghost
@@ -71,8 +71,8 @@ void Pacman::Init()
 
 void Pacman::Restart()
 {
-	myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE,
-		AVATAR_START_TILE_Y * TILE_SIZE));
+	myAvatar->SetPosition(Vector2f(PACMAN_START_TILE_X * TILE_SIZE,
+		PACMAN_START_TILE_Y * TILE_SIZE));
 	ghosts[0]->SetPosition(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE));
 	ghosts[1]->SetPosition(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
@@ -152,8 +152,8 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 				myLives--;
 
 				//reset avatar
-				myAvatar->SetPosition(Vector2f(AVATAR_START_TILE_X * TILE_SIZE, 
-					AVATAR_START_TILE_Y * TILE_SIZE));
+				myAvatar->SetPosition(Vector2f(PACMAN_START_TILE_X * TILE_SIZE, 
+					PACMAN_START_TILE_Y * TILE_SIZE));
 				myAvatar->Start();
 			}
 			else
