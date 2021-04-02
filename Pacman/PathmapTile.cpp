@@ -1,6 +1,6 @@
 #include "PathmapTile.h"
 
-PathmapTile::PathmapTile(int anX, int anY, bool aIsBlockingFlag) : 
-	myX(anX), 
-	myY(anY), 
-	myIsBlockingFlag(aIsBlockingFlag) {}
+PathmapTile::PathmapTile(int x, int y, bool isBlockingFlag) : 
+	x(x), 
+	y(y), 
+	isBlockingFlag(isBlockingFlag) {}

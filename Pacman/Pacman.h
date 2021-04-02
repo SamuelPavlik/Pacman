@@ -21,8 +21,8 @@ using GameIt = GameCollection::iterator;
 class Pacman
 {
 public:
-	static std::shared_ptr<Pacman> Create(Drawer& aDrawer);
-	Pacman(Drawer& aDrawer);
+	static std::shared_ptr<Pacman> Create(Drawer& drawer);
+	Pacman(Drawer& drawer);
 
 	bool Update(float aTime);
 	void Draw();
@@ -39,9 +39,9 @@ private:
 
 	void DrawHUD();
 
-	int myLives;
-	int myScore;
-	int myFps;
+	int lives;
+	int score;
+	int fps;
 	int totalPoints;
 	float gameEndCounter;
 	bool isGameOver;
@@ -49,12 +49,12 @@ private:
 	std::string gameOverText;
 
 	//game entities
-	std::shared_ptr<GameEntity> myAvatar;
+	std::shared_ptr<GameEntity> avatar;
 	std::vector<std::shared_ptr<GameEntity>> ghosts;
 	std::vector<std::shared_ptr<GameEntity>> dots;
 	std::vector<std::shared_ptr<GameEntity>> bigDots;
 
-	World myWorld;
+	World world;
 
 	//systems
 	EntityManager entityManager;

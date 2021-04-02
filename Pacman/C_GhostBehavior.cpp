@@ -16,15 +16,11 @@ C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world,
 	moveSpeed(moveSpeed),
 	world(world),
 	avatar(avatar),
-	desiredMovementX(),
-	desiredMovementY(),
 	currentTileX(),
 	currentTileY(),
 	nextTileX(),
 	nextTileY(),
-	claimableCounter()
-{
-}
+	claimableCounter() {}
 
 void C_GhostBehavior::Awake()
 {
@@ -37,8 +33,6 @@ void C_GhostBehavior::Start()
 	path.clear();
 	isClaimableFlag = false;
 	isDeadFlag = false;
-	desiredMovementX = 0;
-	desiredMovementY = -1;
 	currentTileX = nextTileX = owner.GetPosition().myX / TILE_SIZE;
 	currentTileY = nextTileY = owner.GetPosition().myY / TILE_SIZE;
 	moveSpeed = GHOST_SPEED;
@@ -81,9 +75,6 @@ void C_GhostBehavior::MarkClaimable()
 
 void C_GhostBehavior::Move(float time)
 {
-	int possibleTileX = currentTileX + desiredMovementX;
-	int possibleTileY = currentTileY + desiredMovementY;
-
 	if (currentTileX == nextTileX && currentTileY == nextTileY)
 	{
 		if (!isDeadFlag && !avatar->IsMarkedForDelete())
@@ -100,8 +91,8 @@ void C_GhostBehavior::Move(float time)
 			if (path.empty() && isDeadFlag)
 				Start();
 
-			nextTileX = nextTile->myX;
-			nextTileY = nextTile->myY;
+			nextTileX = nextTile->x;
+			nextTileY = nextTile->y;
 		}
 	}
 
@@ -146,7 +137,7 @@ void C_GhostBehavior::GetPath(int aToX, int aToY)
 PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 	std::shared_ptr<PathmapTile> aToTile)
 {
-	if (aFromTile->myIsBlockingFlag)
+	if (aFromTile->isBlockingFlag)
 		return false;
 
 	const auto map = world->GetMap();
@@ -157,16 +148,16 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 	if (isClaimableFlag)
 	{
 		comp = [aToTile](auto a, auto b) {
-			int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
-			int lb = b->pathLength + abs(b->tile->myX - aToTile->myX) + abs(b->tile->myY - aToTile->myY);
+			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
+			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
 			return la < lb;
 		};
 	}
 	else
 	{
 		comp = [aToTile](auto a, auto b) {
-			int la = a->pathLength + abs(a->tile->myX - aToTile->myX) + abs(a->tile->myY - aToTile->myY);
-			int lb = b->pathLength + abs(b->tile->myX - aToTile->myX) + abs(b->tile->myY - aToTile->myY);
+			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
+			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
 			return la > lb;
 		};
 	}
@@ -184,29 +175,29 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 			return PathNodePtr(prev);
 		}
 
-		auto up = map[prev->tile->myY - 1][prev->tile->myX];
-		if (up && !Contains(visited, up) && !up->myIsBlockingFlag)
+		auto up = map[prev->tile->y - 1][prev->tile->x];
+		if (up && !Contains(visited, up) && !up->isBlockingFlag)
 		{
 			tileQueue.emplace(std::make_shared<PathNode>(up, prev, prev->pathLength + 1));
 			visited.insert(up);
 		}
 
-		auto down = map[prev->tile->myY + 1][prev->tile->myX];
-		if (down && !Contains(visited, down) && !down->myIsBlockingFlag)
+		auto down = map[prev->tile->y + 1][prev->tile->x];
+		if (down && !Contains(visited, down) && !down->isBlockingFlag)
 		{
 			tileQueue.emplace(std::make_shared<PathNode>(down, prev, prev->pathLength + 1));
 			visited.insert(down);
 		}
 
-		auto right = map[prev->tile->myY][prev->tile->myX + 1];
-		if (right && !Contains(visited, right) && !right->myIsBlockingFlag)
+		auto right = map[prev->tile->y][prev->tile->x + 1];
+		if (right && !Contains(visited, right) && !right->isBlockingFlag)
 		{
 			tileQueue.emplace(std::make_shared<PathNode>(right, prev, prev->pathLength + 1));
 			visited.insert(right);
 		}
 
-		auto left = map[prev->tile->myY][prev->tile->myX - 1];
-		if (left && !Contains(visited, left) && !left->myIsBlockingFlag)
+		auto left = map[prev->tile->y][prev->tile->x - 1];
+		if (left && !Contains(visited, left) && !left->isBlockingFlag)
 		{
 			tileQueue.emplace(std::make_shared<PathNode>(left, prev, prev->pathLength + 1));
 			visited.insert(left);

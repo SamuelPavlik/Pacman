@@ -4,15 +4,16 @@
 #include "World.h"
 #include "GameEntity.h"
 
-C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, float moveSpeed) : 
+C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, 
+    const World* world, float moveSpeed) : 
     Component(owner), 
     moveSpeed(moveSpeed),
     inputManager( inputManager ),
     world( world ),
-    myCurrentTileX(),
-    myCurrentTileY(),
-    myNextTileX(),
-    myNextTileY()
+    currentTileX(),
+    currentTileY(),
+    nextTileX(),
+    nextTileY()
 {}
 
 void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
@@ -45,28 +46,28 @@ void C_KeyboardMovement::Update(float time)
 void C_KeyboardMovement::Start()
 {
     nextMovement = Vector2f(-1.f, 0.f);
-    myCurrentTileX = myNextTileX = owner.GetPosition().myX / TILE_SIZE;
-    myCurrentTileY = myNextTileY = owner.GetPosition().myY / TILE_SIZE;
+    currentTileX = nextTileX = owner.GetPosition().myX / TILE_SIZE;
+    currentTileY = nextTileY = owner.GetPosition().myY / TILE_SIZE;
 }
 
 void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 {
-    int nextTileX = myCurrentTileX + possibleMove.myX;
-    int nextTileY = myCurrentTileY + possibleMove.myY;
+    int possibleTileX = currentTileX + possibleMove.myX;
+    int possibleTileY = currentTileY + possibleMove.myY;
 
-    if (myCurrentTileX == myNextTileX && myCurrentTileY == myNextTileY 
+    if (currentTileX == nextTileX && currentTileY == nextTileY 
         || possibleMove != nextMovement)
     {
-        if (world->TileIsValid(nextTileX, nextTileY))
+        if (world->TileIsValid(possibleTileX, possibleTileY))
         {
-            myNextTileX = nextTileX;
-            myNextTileY = nextTileY;
+            nextTileX = possibleTileX;
+            nextTileY = possibleTileY;
             nextMovement = possibleMove;
         }
-        else if (world->TileIsValid(myCurrentTileX + nextMovement.myX, myCurrentTileY + nextMovement.myY))
+        else if (world->TileIsValid(currentTileX + nextMovement.myX, currentTileY + nextMovement.myY))
         {
-            myNextTileX = myCurrentTileX + nextMovement.myX;
-            myNextTileY = myCurrentTileY + nextMovement.myY;
+            nextTileX = currentTileX + nextMovement.myX;
+            nextTileY = currentTileY + nextMovement.myY;
         }
 
         auto state = animation->GetAnimationState();
@@ -92,7 +93,7 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
         }
     }
 
-    Vector2f destination(myNextTileX * TILE_SIZE, myNextTileY * TILE_SIZE);
+    Vector2f destination(nextTileX * TILE_SIZE, nextTileY * TILE_SIZE);
     Vector2f direction = destination - owner.GetPosition();
 
     float distanceToMove = time * moveSpeed;
@@ -100,8 +101,8 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
     if (distanceToMove > direction.Length())
     {
         owner.SetPosition(destination);
-        myCurrentTileX = myNextTileX;
-        myCurrentTileY = myNextTileY;
+        currentTileX = nextTileX;
+        currentTileY = nextTileY;
     }
     else
     {

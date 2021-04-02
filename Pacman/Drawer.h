@@ -16,15 +16,15 @@ using ResourceMap = std::unordered_map<const char*, Resource>;
 class Drawer
 {
 public:
-	Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer);
+	Drawer(SDL_Window* window, SDL_Renderer* renderer);
 	~Drawer();
 
-	void Draw(const char* anImage, int aCellX = 0, int aCellY = 0);
-	void DrawText(const char* aText, const char* aFontFile, int aX, int aY);
+	void Draw(const char* image, int cellX = 0, int cellY = 0);
+	void DrawText(const char* text, const char* fontFile, int x, int y);
 	bool AddResource(const char* name);
 
 private:
-	SDL_Window* myWindow;
-	SDL_Renderer* myRenderer;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 	ResourceMap resourceMap;
 };

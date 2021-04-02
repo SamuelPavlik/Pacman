@@ -4,9 +4,9 @@
 #include "SDL_ttf.h"
 #include "SDL_render.h"
 
-Drawer::Drawer(SDL_Window* aWindow, SDL_Renderer* aRenderer) : 
-	myWindow(aWindow), 
-	myRenderer(aRenderer) {}
+Drawer::Drawer(SDL_Window* window, SDL_Renderer* renderer) : 
+	window(window), 
+	renderer(renderer) {}
 
 Drawer::~Drawer()
 {
@@ -17,7 +17,7 @@ Drawer::~Drawer()
 	}
 }
 
-void Drawer::Draw(const char* name, int aCellX, int aCellY)
+void Drawer::Draw(const char* name, int cellX, int cellY)
 {
 	auto resourceIt = resourceMap.find(name);
 	if (resourceIt == resourceMap.end())
@@ -32,22 +32,22 @@ void Drawer::Draw(const char* name, int aCellX, int aCellY)
     sizeRect.h = std::get<1>(resource)->h;
 
     SDL_Rect posRect ;
-    posRect.x = aCellX;
-    posRect.y = aCellY;
+    posRect.x = cellX;
+    posRect.y = cellY;
 	posRect.w = std::get<1>(resource)->w;
 	posRect.h = std::get<1>(resource)->h;
 
-	SDL_RenderCopy(myRenderer, std::get<0>(resource), &sizeRect, &posRect);
+	SDL_RenderCopy(renderer, std::get<0>(resource), &sizeRect, &posRect);
 }
 
-void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
+void Drawer::DrawText(const char* text, const char* fontFile, int x, int y)
 {
-	TTF_Font* font=TTF_OpenFont(aFontFile, 24);
+	TTF_Font* font=TTF_OpenFont(fontFile, 24);
 
 	SDL_Color fg={255,0,0,255};
-	SDL_Surface* surface = TTF_RenderText_Solid(font, aText, fg);
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text, fg);
 
-	SDL_Texture* optimizedSurface = SDL_CreateTextureFromSurface(myRenderer, surface);
+	SDL_Texture* optimizedSurface = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_Rect sizeRect;
     sizeRect.x = 0 ;
@@ -56,12 +56,12 @@ void Drawer::DrawText(const char* aText, const char* aFontFile, int aX, int aY)
     sizeRect.h = surface->h ;
 
     SDL_Rect posRect ;
-    posRect.x = aX;
-    posRect.y = aY;
+    posRect.x = x;
+    posRect.y = y;
 	posRect.w = sizeRect.w;
 	posRect.h = sizeRect.h;
 
-	SDL_RenderCopy(myRenderer, optimizedSurface, &sizeRect, &posRect);
+	SDL_RenderCopy(renderer, optimizedSurface, &sizeRect, &posRect);
 	SDL_DestroyTexture(optimizedSurface);
 	SDL_FreeSurface(surface);
 	TTF_CloseFont(font);
@@ -75,7 +75,7 @@ bool Drawer::AddResource(const char* name)
 		if (!surface)
 			return false;
 
-		auto texture = SDL_CreateTextureFromSurface(myRenderer, surface);
+		auto texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if (!texture)
 			return false;
 

@@ -14,7 +14,7 @@ class C_Sprite;
 class GameEntity
 {
 public:
-	GameEntity(const Vector2f& aPosition);
+	GameEntity(const Vector2f& position);
 
     template <typename T, typename... Args> 
     std::shared_ptr<T> AddComponent(Args... args)
@@ -32,7 +32,7 @@ public:
 
         if (std::dynamic_pointer_cast<C_Sprite>(newComponent))
         {
-            mySprite = std::dynamic_pointer_cast<C_Sprite>(newComponent);
+            sprite = std::dynamic_pointer_cast<C_Sprite>(newComponent);
         }
 
         return newComponent;
@@ -58,7 +58,7 @@ public:
 
     Vector2f GetPosition() const;
     Vector2f AddPosition(const Vector2f& toAdd);
-    void SetPosition(const Vector2f& aPosition);
+    void SetPosition(Vector2f position);
 
 	void Draw();	
     std::shared_ptr<C_Sprite> GetSprite() const;
@@ -70,7 +70,7 @@ public:
 
 protected:
 	bool isDeletedFlag;
-	Vector2f myPosition;
-	std::shared_ptr<C_Sprite> mySprite;
+	Vector2f position;
+	std::shared_ptr<C_Sprite> sprite;
     std::vector<std::shared_ptr<Component>> components;
 };

@@ -17,9 +17,9 @@ public:
 		std::vector<std::shared_ptr<GameEntity>>& bigDots);
 
 	void Draw(Drawer& drawer);
-	bool TileIsValid(int anX, int anY) const;
+	bool TileIsValid(int x, int y) const;
 	const std::vector<std::vector<std::shared_ptr<PathmapTile>>> GetMap() const;
 	
 private:
-	std::vector<std::vector<std::shared_ptr<PathmapTile>>> myPathmapTiles;
+	std::vector<std::vector<std::shared_ptr<PathmapTile>>> tileMap;
 };

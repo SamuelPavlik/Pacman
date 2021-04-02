@@ -17,7 +17,7 @@ public:
     S_Sprite();
 
     void Add(std::vector<std::shared_ptr<GameEntity>> entities);
-    void Add(std::shared_ptr<GameEntity> object);
+    void Add(std::shared_ptr<GameEntity> entity);
 
     void ProcessRemovals();
     void Clear();

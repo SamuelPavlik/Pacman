@@ -29,7 +29,6 @@ public:
 
     void BindOnOverlapFunc(std::function<void(CollisionData cd)> onOverlapFunc);
 
-
     CollisionLayer layer;
 
 private:

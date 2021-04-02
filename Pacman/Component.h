@@ -11,7 +11,7 @@ public:
 
 	virtual void Awake() {};
 	virtual void Start() {};
-	virtual void Update(float deltaTime) {};
+	virtual void Update(float time) {};
 
 	GameEntity& owner;
 	bool isComponentOn;

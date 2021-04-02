@@ -32,9 +32,9 @@ private:
     Vector2f nextMovement;
     std::shared_ptr<C_Animation> animation;
 
-    int myCurrentTileX;
-    int myCurrentTileY;
-    int myNextTileX;
-    int myNextTileY;
+    int currentTileX;
+    int currentTileY;
+    int nextTileX;
+    int nextTileY;
 };
 

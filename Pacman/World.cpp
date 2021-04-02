@@ -25,11 +25,11 @@ void World::Init(Drawer& drawer, EntityFactory& factory,
 		int lineIndex = 0;
 		while (!myfile.eof())
 		{
-			myPathmapTiles.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
+			tileMap.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
 			std::getline(myfile, line);
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
-				myPathmapTiles[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
+				tileMap[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
 
 				if (line[i] == '.')
 				{
@@ -56,16 +56,16 @@ void World::Draw(Drawer& drawer)
 	drawer.Draw("playfield.png");
 }
 
-bool World::TileIsValid(int anX, int anY) const
+bool World::TileIsValid(int x, int y) const
 {
-	if (anX < 0) return false;
-	if (anX >= myPathmapTiles[0].size()) return false;
-	if (anY < 0) return false;
-	if (anY >= myPathmapTiles.size()) return false;
-	return !myPathmapTiles[anY][anX]->myIsBlockingFlag;
+	if (x < 0) return false;
+	if (x >= tileMap[0].size()) return false;
+	if (y < 0) return false;
+	if (y >= tileMap.size()) return false;
+	return !tileMap[y][x]->isBlockingFlag;
 }
 
 const std::vector<std::vector<std::shared_ptr<PathmapTile>>> World::GetMap() const
 {
-	return myPathmapTiles;
+	return tileMap;
 }

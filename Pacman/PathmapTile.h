@@ -3,9 +3,9 @@
 class PathmapTile
 {
 public:
-	PathmapTile(int anX, int anY, bool aIsBlockingFlag);
+	PathmapTile(int x, int y, bool isBlockingFlag);
 
-	int myX;
-	int myY;
-	bool myIsBlockingFlag;
+	int x;
+	int y;
+	bool isBlockingFlag;
 };

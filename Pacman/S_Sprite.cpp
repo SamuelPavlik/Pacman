@@ -22,11 +22,11 @@ void S_Sprite::Add(std::vector<std::shared_ptr<GameEntity>> objects)
     }
 }
 
-void S_Sprite::Add(std::shared_ptr<GameEntity> object)
+void S_Sprite::Add(std::shared_ptr<GameEntity> entity)
 {
-    if (object->GetSprite())
+    if (entity->GetSprite())
     {
-        drawables.insert(object);
+        drawables.insert(entity);
     }
 }
 

@@ -7,9 +7,7 @@
 Menu::Menu() :
 	playFont(BOLD_HUD_FONT),
 	quitFont(HUD_FONT),
-	released(true)
-{
-}
+	released(true) {}
 
 MenuState Menu::Update(InputManager& inputManager)
 {

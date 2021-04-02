@@ -2,9 +2,9 @@
 #include "Drawer.h"
 #include "C_Sprite.h"
 
-GameEntity::GameEntity(const Vector2f& aPosition)
-:myPosition(aPosition)
-,isDeletedFlag(false) {}
+GameEntity::GameEntity(const Vector2f& position) :
+	position(position),
+	isDeletedFlag(false) {}
 
 void GameEntity::Awake()
 {
@@ -23,15 +23,18 @@ void GameEntity::Start()
 	}
 }
 
-Vector2f GameEntity::GetPosition() const { return myPosition; }
+Vector2f GameEntity::GetPosition() const { return position; }
 
 Vector2f GameEntity::AddPosition(const Vector2f& toAdd)
 {
-	myPosition += toAdd;
-	return myPosition;
+	position += toAdd;
+	return position;
 }
 
-void GameEntity::SetPosition(const Vector2f& aPosition) { myPosition = aPosition; }
+void GameEntity::SetPosition(Vector2f position) 
+{ 
+	this->position = position; 
+}
 
 void GameEntity::Update(float time)
 {
@@ -44,15 +47,15 @@ void GameEntity::Update(float time)
 
 void GameEntity::Draw()
 {
-	if (mySprite && mySprite->isComponentOn)
+	if (sprite && sprite->isComponentOn)
 	{
-		mySprite->Draw();
+		sprite->Draw();
 	}
 }
 
 std::shared_ptr<C_Sprite> GameEntity::GetSprite() const
 {
-	return mySprite;
+	return sprite;
 }
 
 void GameEntity::SetDelete() { isDeletedFlag = true; }

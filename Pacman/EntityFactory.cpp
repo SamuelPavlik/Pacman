@@ -17,14 +17,14 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	std::function<void(CollisionData)> onOverlapFunc,
 	const char* spriteName)
 {
-	auto myAvatar = std::make_shared<GameEntity>(position);
-	myAvatar->AddComponent<C_Sprite>(&drawer, spriteName);
-	myAvatar->AddComponent<C_KeyboardMovement>(&inputManager, &world);
-	auto collision = myAvatar->AddComponent<C_Collision>(CollisionLayer::Player);
+	auto avatar = std::make_shared<GameEntity>(position);
+	avatar->AddComponent<C_Sprite>(&drawer, spriteName);
+	avatar->AddComponent<C_KeyboardMovement>(&inputManager, &world);
+	auto collision = avatar->AddComponent<C_Collision>(CollisionLayer::Player);
 	collision->BindOnOverlapFunc(onOverlapFunc);
 
 	//set up avatar animation
-	auto avatarAnim = myAvatar->AddComponent<C_Animation>();
+	auto avatarAnim = avatar->AddComponent<C_Animation>();
 	auto goingLeftAnim = std::make_shared<Animation>();
 	const float eatingFrameSeconds = 0.2f;
 	goingLeftAnim->AddFrame(drawer, "closed_left_32.png", eatingFrameSeconds);
@@ -47,22 +47,22 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
 	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
 
-	myAvatar->AddComponent<C_PacmanProperties>();
+	avatar->AddComponent<C_PacmanProperties>();
 
-	return myAvatar;
+	return avatar;
 }
 
 std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector2f spriteOffset, 
 	std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto myGhost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
+	auto ghost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE));
-	myGhost->AddComponent<C_Sprite>(&drawer, "ghost_32.png", spriteOffset);
-	myGhost->AddComponent<C_GhostBehavior>(&world, avatar);
-	myGhost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
-	myGhost->tag = ENEMY_TAG;
+	ghost->AddComponent<C_Sprite>(&drawer, "ghost_32.png", spriteOffset);
+	ghost->AddComponent<C_GhostBehavior>(&world, avatar);
+	ghost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
+	ghost->tag = ENEMY_TAG;
 
-	auto ghostAnim = myGhost->AddComponent<C_Animation>();
+	auto ghostAnim = ghost->AddComponent<C_Animation>();
 
 	auto normalAnim = std::make_shared<Animation>();
 	normalAnim->AddFrame(drawer, "ghost_32.png", 0.f);
@@ -77,7 +77,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector
 	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
 	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
 
-	return myGhost;
+	return ghost;
 }
 
 std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const char* name)

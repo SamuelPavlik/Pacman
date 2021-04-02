@@ -51,7 +51,6 @@ private:
         return std::find(collection.begin(), collection.end(), aFromTile) != collection.end();
     }
 
-
 public:
     bool isClaimableFlag;
     bool isDeadFlag;
@@ -63,8 +62,6 @@ private:
     std::shared_ptr<GameEntity> avatar;
 
     std::list<std::shared_ptr<PathmapTile>> path;
-    int desiredMovementX;
-    int desiredMovementY;
     int currentTileX;
     int currentTileY;
     int nextTileX;
