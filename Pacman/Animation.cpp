@@ -25,24 +25,26 @@ const FrameData* Animation::GetCurrentFrame() const {
 }
 
 bool Animation::UpdateFrame(float deltaTime) {
-    if (frames.size() > 0) {
-        //in case it is a one frame animation
-        if (frames.size() == 1)
-        {
-            if (currentFrameTime == 0)
-                return true;
-            currentFrameTime += deltaTime;
-            return false;
-        }
-        currentFrameTime += deltaTime;
+    if (frames.empty()) {
+        return false;
+    }
 
-        if (currentFrameTime >=
-            frames[currentFrameIndex].displayTimeSeconds) 
-        {
-            currentFrameTime = 0.f;
-            IncrementFrame();
+    //in case it is a one frame animation
+    if (frames.size() == 1)
+    {
+        if (currentFrameTime == 0)
             return true;
-        }
+        currentFrameTime += deltaTime;
+        return false;
+    }
+    currentFrameTime += deltaTime;
+
+    if (currentFrameTime >=
+        frames[currentFrameIndex].displayTimeSeconds) 
+    {
+        currentFrameTime = 0.f;
+        IncrementFrame();
+        return true;
     }
 
     return false;
