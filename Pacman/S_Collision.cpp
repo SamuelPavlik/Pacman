@@ -27,14 +27,14 @@ void S_Collision::ProcessRemovals()
 
 void S_Collision::Update()
 {
-	for (auto maps : collidables)
+	for (auto& maps : collidables)
 	{
 		if (maps.first == CollisionLayer::NonPlayer)
 		{
 			continue;
 		}
 
-		for (auto collidableObj : maps.second)
+		for (auto& collidableObj : maps.second)
 		{
 			if (!collidableObj->isComponentOn)
 			{
@@ -43,7 +43,7 @@ void S_Collision::Update()
 
 			std::vector<std::shared_ptr<C_Collision>> collisions = collidables[CollisionLayer::NonPlayer];
 
-			for (auto collisionObj : collisions)
+			for (auto& collisionObj : collisions)
 			{
 				CollisionData cd = collidableObj->IsColliding(collisionObj);
 

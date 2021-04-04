@@ -148,4 +148,7 @@
       <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Doc.md" />
+  </ItemGroup>
 </Project>

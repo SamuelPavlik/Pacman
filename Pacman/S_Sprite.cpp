@@ -16,7 +16,7 @@ S_Sprite::S_Sprite()
 
 void S_Sprite::Add(std::vector<std::shared_ptr<GameEntity>> objects)
 {
-	for (auto o : objects)
+	for (auto& o : objects)
 	{
 		Add(o);
 	}
@@ -52,7 +52,7 @@ void S_Sprite::Clear()
 
 void S_Sprite::Draw()
 {
-	for (auto d : drawables)
+	for (auto& d : drawables)
 	{
 		d->Draw();
 	}
