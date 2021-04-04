@@ -5,25 +5,27 @@
 
 class Drawer;
 
-struct FrameData {
-    const char* name;
-    float displayTimeSeconds;
+struct FrameData 
+{
+	const char* name;
+	float displayTimeSeconds;
 };
 
-class Animation {
+class Animation 
+{
 public:
-    Animation();
+	Animation();
 
-    void AddFrame(Drawer& drawer, const char* name, float frameTime);
-    const FrameData* GetCurrentFrame() const;
-    bool UpdateFrame(float deltaTime);
+	void AddFrame(Drawer& drawer, const char* name, float frameTime);
+	const FrameData* GetCurrentFrame() const;
+	bool UpdateFrame(float deltaTime);
 
-    void Reset();
+	void Reset();
 
 private:
-    void IncrementFrame();
+	void IncrementFrame();
 
-    std::vector<FrameData> frames;
-    int currentFrameIndex;
-    float currentFrameTime;
+	std::vector<FrameData> frames;
+	int currentFrameIndex;
+	float currentFrameTime;
 };

@@ -11,12 +11,12 @@ class GameEntity;
 class S_Collision
 {
 public:
-    void Add(std::vector<std::shared_ptr<GameEntity>>& entities);
-    void ProcessRemovals();
-    void Update();
-    void Clear();
+	void Add(std::vector<std::shared_ptr<GameEntity>>& entities);
+	void ProcessRemovals();
+	void Update();
+	void Clear();
 
 private:
-    std::map<CollisionLayer, std::vector<std::shared_ptr<C_Collision>>> collidables;
+	std::map<CollisionLayer, std::vector<std::shared_ptr<C_Collision>>> collidables;
 };
 

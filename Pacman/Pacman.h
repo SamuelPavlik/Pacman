@@ -34,7 +34,6 @@ private:
 	void OnIntersectedDot(CollisionData cd);
 	void OnIntersectedBigDot(CollisionData cd);
 	void OnAvatarGhostCollision(CollisionData cd);
-	void HasIntersectedCherry();
 	void CheckEndGameCondition(float time);
 
 	void DrawHUD();

@@ -25,15 +25,15 @@ void Drawer::Draw(const char* name, int cellX, int cellY)
 
 	Resource resource = resourceIt->second;
 
-    SDL_Rect sizeRect;
-    sizeRect.x = 0 ;
-    sizeRect.y = 0 ;
-    sizeRect.w = std::get<1>(resource)->w;
-    sizeRect.h = std::get<1>(resource)->h;
+	SDL_Rect sizeRect;
+	sizeRect.x = 0 ;
+	sizeRect.y = 0 ;
+	sizeRect.w = std::get<1>(resource)->w;
+	sizeRect.h = std::get<1>(resource)->h;
 
-    SDL_Rect posRect ;
-    posRect.x = cellX;
-    posRect.y = cellY;
+	SDL_Rect posRect ;
+	posRect.x = cellX;
+	posRect.y = cellY;
 	posRect.w = std::get<1>(resource)->w;
 	posRect.h = std::get<1>(resource)->h;
 
@@ -49,15 +49,15 @@ void Drawer::DrawText(const char* text, const char* fontFile, int x, int y)
 
 	SDL_Texture* optimizedSurface = SDL_CreateTextureFromSurface(renderer, surface);
 
-    SDL_Rect sizeRect;
-    sizeRect.x = 0 ;
-    sizeRect.y = 0 ;
-    sizeRect.w = surface->w ;
-    sizeRect.h = surface->h ;
+	SDL_Rect sizeRect;
+	sizeRect.x = 0 ;
+	sizeRect.y = 0 ;
+	sizeRect.w = surface->w ;
+	sizeRect.h = surface->h ;
 
-    SDL_Rect posRect ;
-    posRect.x = x;
-    posRect.y = y;
+	SDL_Rect posRect ;
+	posRect.x = x;
+	posRect.y = y;
 	posRect.w = sizeRect.w;
 	posRect.h = sizeRect.h;
 
@@ -73,11 +73,15 @@ bool Drawer::AddResource(const char* name)
 	{
 		SDL_Surface* surface = IMG_Load(name);
 		if (!surface)
+		{
 			return false;
+		}
 
 		auto texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if (!texture)
+		{
 			return false;
+		}
 
 		resourceMap[name] = Resource(texture, surface);
 	}

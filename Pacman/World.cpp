@@ -57,10 +57,14 @@ void World::Draw(Drawer& drawer)
 
 bool World::TileIsValid(int x, int y) const
 {
-	if (x < 0) return false;
-	if (x >= tileMap[0].size()) return false;
-	if (y < 0) return false;
-	if (y >= tileMap.size()) return false;
+	if (x < 0
+		|| x >= tileMap[0].size()
+		|| y < 0
+		|| y >= tileMap.size())
+	{
+		return false;
+	}
+
 	return !tileMap[y][x]->isBlockingFlag;
 }
 

@@ -92,25 +92,35 @@ bool Pacman::Update(float time)
 	{
 		menuState = menu.Update(inputManager);
 		if (menuState == MenuState::None)
+		{
 			return true;
+		}
 		else if (menuState == MenuState::Quit)
+		{
 			return false;
+		}
 		else
+		{
 			soundManager.StopAll();
+		}
 	}
 
 	entityManager.ProcessRemovals();
 	entityManager.ProcessNewEntities();
 
 	if (inputManager.IsKeyPressed(InputManager::Key::Esc))
+	{
 		return false;
+	}
 
 	entityManager.Update(time);
 
 	CheckEndGameCondition(time);
 
 	if (time > 0)
+	{
 		fps = (int) (1 / time);
+	}
 
 	return true;
 }
@@ -118,7 +128,9 @@ bool Pacman::Update(float time)
 void Pacman::OnIntersectedDot(CollisionData cd)
 {
 	if (cd.other->tag != DOT_TAG)
+	{
 		return;
+	}
 
 	soundManager.Play(DOT_SOUND);
 	score += SMALL_DOT_POINTS;
@@ -129,7 +141,9 @@ void Pacman::OnIntersectedDot(CollisionData cd)
 void Pacman::OnIntersectedBigDot(CollisionData cd)
 {
 	if (cd.other->tag != BIG_DOT_TAG)
+	{
 		return;
+	}
 
 	soundManager.Play(BIG_DOT_SOUND);
 
@@ -138,7 +152,9 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 	for (auto ghost : ghosts)
 	{
 		if (auto moveComp = ghost->GetComponent<C_GhostBehavior>())
+		{
 			moveComp->MarkClaimable();
+		}
 	}
 		
 	//delete dot
@@ -149,10 +165,14 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 {
 	std::shared_ptr<C_GhostBehavior> moveComp;
 	if (cd.other->tag != ENEMY_TAG || !(moveComp = cd.other->GetComponent<C_GhostBehavior>()))
+	{
 		return;
+	}
 
 	if (moveComp->isDeadFlag)
+	{
 		return;
+	}
 
 	if (!moveComp->isClaimableFlag)
 	{
@@ -168,10 +188,6 @@ void Pacman::OnAvatarGhostCollision(CollisionData cd)
 		moveComp->Die();
 		score += 50;
 	}
-}
-
-void Pacman::HasIntersectedCherry()
-{
 }
 
 void Pacman::CheckEndGameCondition(float time)

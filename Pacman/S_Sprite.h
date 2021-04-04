@@ -14,17 +14,17 @@ std::function<bool(std::shared_ptr<GameEntity>, std::shared_ptr<GameEntity>)>;
 class S_Sprite
 {
 public:
-    S_Sprite();
+	S_Sprite();
 
-    void Add(std::vector<std::shared_ptr<GameEntity>> entities);
-    void Add(std::shared_ptr<GameEntity> entity);
+	void Add(std::vector<std::shared_ptr<GameEntity>> entities);
+	void Add(std::shared_ptr<GameEntity> entity);
 
-    void ProcessRemovals();
-    void Clear();
+	void ProcessRemovals();
+	void Clear();
 
-    void Draw();
+	void Draw();
 
 private:
-    std::multiset<std::shared_ptr<GameEntity>, CompareFuncType> drawables;
+	std::multiset<std::shared_ptr<GameEntity>, CompareFuncType> drawables;
 };
 

@@ -30,17 +30,11 @@
     <ClCompile Include="GameEntity.cpp">
       <Filter>Game\Game entities</Filter>
     </ClCompile>
-    <ClCompile Include="PathmapTile.cpp">
-      <Filter>Game\World</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Game\World</Filter>
     </ClCompile>
     <ClCompile Include="Drawer.cpp">
       <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2f.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="C_Sprite.cpp">

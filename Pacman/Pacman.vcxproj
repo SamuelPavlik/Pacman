@@ -135,11 +135,9 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Pacman.cpp" />
-    <ClCompile Include="PathmapTile.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="S_Collision.cpp" />
     <ClCompile Include="S_Sprite.cpp" />
-    <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@ Vector2f GameEntity::AddPosition(const Vector2f& toAdd)
 }
 
 void GameEntity::SetPosition(Vector2f position) 
-{ 
+{
 	this->position = position; 
 }
 

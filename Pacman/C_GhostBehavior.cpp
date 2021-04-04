@@ -138,7 +138,9 @@ PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromT
 	const std::shared_ptr<PathmapTile>& aToTile)
 {
 	if (aFromTile->isBlockingFlag)
+	{
 		return false;
+	}
 
 	const auto map = world->GetMap();
 	std::set<std::shared_ptr<PathmapTile>> visited;

@@ -10,6 +10,7 @@ class SoundManager
 public:
 	SoundManager();
 	~SoundManager();
+
 	void AddResource(const char* name);
 	void Play(const char* name);
 	void StopAll();

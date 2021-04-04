@@ -26,8 +26,8 @@ void C_Sprite::SetName(const char* name)
 
 void C_Sprite::Load(const char* name)
 {
-    if (drawer)
-    {
+	if (drawer)
+	{
 		drawer->AddResource(name);
-    }
+	}
 }

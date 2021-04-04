@@ -14,27 +14,27 @@ class C_Animation;
 class C_KeyboardMovement : public Component
 {
 public:
-    C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, 
-        float moveSpeed = PACMAN_SPEED);
+	C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, const World* world, 
+		float moveSpeed = PACMAN_SPEED);
 
-    void SetMoveSpeed(float moveSpeed);
+	void SetMoveSpeed(float moveSpeed);
 
-    void Awake() override;
-    void Start() override;
-    void Update(float time) override;
+	void Awake() override;
+	void Start() override;
+	void Update(float time) override;
 
 private:
-    void Move(float time, Vector2f possibleMove);
+	void Move(float time, Vector2f possibleMove);
 
-    float moveSpeed;
-    InputManager* inputManager;
-    const World* world;
-    Vector2f nextMovement;
-    std::shared_ptr<C_Animation> animation;
+	float moveSpeed;
+	InputManager* inputManager;
+	const World* world;
+	Vector2f nextMovement;
+	std::shared_ptr<C_Animation> animation;
 
-    int currentTileX;
-    int currentTileY;
-    int nextTileX;
-    int nextTileY;
+	int currentTileX;
+	int currentTileY;
+	int nextTileX;
+	int nextTileY;
 };
 

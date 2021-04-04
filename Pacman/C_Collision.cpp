@@ -20,7 +20,9 @@ CollisionData C_Collision::IsColliding(const std::shared_ptr<C_Collision>& other
 void C_Collision::Resolve(CollisionData cd)
 {
 	if (onOverlapFunc)
+	{
 		onOverlapFunc(cd);
+	}
 }
 
 void C_Collision::BindOnOverlapFunc(std::function<void(CollisionData cd)> onOverlapFunc)

@@ -35,7 +35,9 @@ int main(int argc, char **argv)
 	}
 
 	if (!window)
+	{
 		return -1;
+	}
 	auto drawer = Drawer(window, renderer);
 	auto pacman = Pacman::Create(drawer);
 
@@ -47,7 +49,9 @@ int main(int argc, char **argv)
 		float elapsedTime = currentFrame - lastFrame;
 
 		if (!pacman->Update(elapsedTime))
+		{
 			break;
+		}
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);

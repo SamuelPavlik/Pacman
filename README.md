@@ -26,6 +26,7 @@ otherwise their smart pointers like entities
 ## Necessary
 - high score system
 - && in AddComp
+- if with braces
 
 ## Good to have
 - incorporate cherry somehow
