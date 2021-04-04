@@ -11,14 +11,14 @@ GameEntity::GameEntity(const Vector2f& position) :
 void GameEntity::Awake()
 {
 	isDeletedFlag = false;
-	std::for_each(components.rbegin(), components.rend(), [](auto comp) {
+	std::for_each(components.rbegin(), components.rend(), [](auto& comp) {
 		comp->Awake();
 		});
 }
 
 void GameEntity::Start()
 {
-	std::for_each(components.rbegin(), components.rend(), [](auto comp) {
+	std::for_each(components.rbegin(), components.rend(), [](auto& comp) {
 		comp->Start();
 		});
 }
@@ -38,7 +38,7 @@ void GameEntity::SetPosition(Vector2f position)
 
 void GameEntity::Update(float time)
 {
-	std::for_each(components.rbegin(), components.rend(), [time](auto comp) {
+	std::for_each(components.rbegin(), components.rend(), [time](auto& comp) {
 		if (comp->isComponentOn)
 			comp->Update(time);
 		});

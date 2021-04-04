@@ -6,7 +6,7 @@ C_Collision::C_Collision(GameEntity& owner, CollisionLayer layer) :
 	Component(owner),
 	layer(layer) {}
 
-CollisionData C_Collision::IsColliding(std::shared_ptr<C_Collision> other)
+CollisionData C_Collision::IsColliding(const std::shared_ptr<C_Collision>& other)
 {
 	CollisionData cd;
 	if ((owner.GetPosition() - other->owner.GetPosition()).Length() < COLLISION_DELTA)

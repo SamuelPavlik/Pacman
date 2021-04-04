@@ -18,20 +18,20 @@ public:
 		myY = anY;
 	}
 
-	const Vector2f Vector2f::operator-(const Vector2f &other) const 
+	Vector2f Vector2f::operator-(const Vector2f &other) const 
 	{
 		Vector2f v(myX - other.myX, myY - other.myY);
 		return v;
 	}
 
-	const Vector2f Vector2f::operator+(const Vector2f &other) const 
+	Vector2f Vector2f::operator+(const Vector2f &other) const 
 	{
 		Vector2f v(myX + other.myX, myY + other.myY);
 		return v;
 	}
 
 	
-	const Vector2f Vector2f::operator*(const Vector2f& other) const 
+	Vector2f Vector2f::operator*(const Vector2f& other) const 
 	{
 		Vector2f v(myX*other.myX, myY*other.myY);
 		return v;
@@ -71,7 +71,7 @@ public:
 		return *this;
 	}
 
-	const Vector2f Vector2f::operator*(const float aValue) const 
+	Vector2f Vector2f::operator*(const float aValue) const 
 	{
 		Vector2f v(myX * aValue, myY * aValue);
 		return v;

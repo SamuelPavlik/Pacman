@@ -29,13 +29,13 @@ void C_KeyboardMovement::Awake()
 void C_KeyboardMovement::Update(float time)
 {
     Vector2f possibleMovement;
-    if (inputManager->IsKeyDown(InputManager::Key::Up))
+    if (inputManager->IsKeyPressed(InputManager::Key::Up))
         possibleMovement = Vector2f(0.f, -1.f);
-    else if (inputManager->IsKeyDown(InputManager::Key::Down))
+    else if (inputManager->IsKeyPressed(InputManager::Key::Down))
         possibleMovement = Vector2f(0.f, 1.f);
-    else if (inputManager->IsKeyDown(InputManager::Key::Left))
+    else if (inputManager->IsKeyPressed(InputManager::Key::Left))
         possibleMovement = Vector2f(-1.f, 0.f);
-    else if (inputManager->IsKeyDown(InputManager::Key::Right))
+    else if (inputManager->IsKeyPressed(InputManager::Key::Right))
         possibleMovement = Vector2f(1.f, 0.f);
 
     if (possibleMovement == Vector2f(0.f, 0.f))

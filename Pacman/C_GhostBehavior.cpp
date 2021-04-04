@@ -9,7 +9,7 @@
 #include <functional>
 
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world,
-	std::shared_ptr<GameEntity> avatar, float moveSpeed) :
+	const std::shared_ptr<GameEntity> avatar, float moveSpeed) :
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
@@ -134,8 +134,8 @@ void C_GhostBehavior::GetPath(int aToX, int aToY)
 	nextTileY = currentTileY;
 }
 
-PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
-	std::shared_ptr<PathmapTile> aToTile)
+PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
+	const std::shared_ptr<PathmapTile>& aToTile)
 {
 	if (aFromTile->isBlockingFlag)
 		return false;

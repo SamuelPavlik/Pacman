@@ -30,7 +30,7 @@ class C_GhostBehavior : public Component
 {
 public:
     C_GhostBehavior(GameEntity& owner, const World* world, 
-        std::shared_ptr<GameEntity> avatar, float moveSpeed = GHOST_SPEED);
+        const std::shared_ptr<GameEntity> avatar, float moveSpeed = GHOST_SPEED);
 
 	void Awake() override;
 	void Start() override;
@@ -42,11 +42,11 @@ public:
 private:
     void Move(float time);
     void GetPath(int aToX, int aToY);
-    PathNodePtr Pathfind(std::shared_ptr<PathmapTile> aFromTile,
-        std::shared_ptr<PathmapTile> aToTile);
+    PathNodePtr Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
+        const std::shared_ptr<PathmapTile>& aToTile);
 
     template<typename T>
-    bool Contains(T collection, std::shared_ptr<PathmapTile> aFromTile)
+    bool Contains(T collection, std::shared_ptr<PathmapTile>& aFromTile)
     {
         return std::find(collection.begin(), collection.end(), aFromTile) != collection.end();
     }
@@ -59,7 +59,7 @@ private:
     float moveSpeed;
     const World* world;
     std::shared_ptr<C_Animation> animation;
-    std::shared_ptr<GameEntity> avatar;
+    const std::shared_ptr<GameEntity> avatar;
 
     std::list<std::shared_ptr<PathmapTile>> path;
     int currentTileX;

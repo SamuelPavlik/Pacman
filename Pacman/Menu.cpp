@@ -11,7 +11,7 @@ Menu::Menu() :
 
 MenuState Menu::Update(InputManager& inputManager)
 {
-	if (inputManager.IsKeyDown(InputManager::Key::Down) || inputManager.IsKeyDown(InputManager::Key::Up))
+	if (inputManager.IsKeyPressed(InputManager::Key::Down) || inputManager.IsKeyPressed(InputManager::Key::Up))
 	{
 		if (released)
 		{
@@ -26,7 +26,7 @@ MenuState Menu::Update(InputManager& inputManager)
 		released = true;
 	}
 
-	if (inputManager.IsKeyDown(InputManager::Key::Enter))
+	if (inputManager.IsKeyPressed(InputManager::Key::Enter))
 	{
 		if (playFont == BOLD_HUD_FONT)
 			return MenuState::Play;

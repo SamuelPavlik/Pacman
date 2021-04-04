@@ -27,7 +27,7 @@ public:
     void Update(float deltaTime) override;
 
     void AddAnimation(AnimationState state,
-        std::shared_ptr<Animation> animation);
+        std::shared_ptr<Animation>& animation);
 
     void SetAnimationState(AnimationState state);
 

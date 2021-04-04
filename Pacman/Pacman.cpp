@@ -102,7 +102,7 @@ bool Pacman::Update(float time)
 	entityManager.ProcessRemovals();
 	entityManager.ProcessNewEntities();
 
-	if (inputManager.IsKeyDown(InputManager::Key::Esc))
+	if (inputManager.IsKeyPressed(InputManager::Key::Esc))
 		return false;
 
 	entityManager.Update(time);
@@ -117,59 +117,56 @@ bool Pacman::Update(float time)
 
 void Pacman::OnIntersectedDot(CollisionData cd)
 {
-	if (cd.other->tag == DOT_TAG)
-	{
-		soundManager.Play(DOT_SOUND);
-		score += SMALL_DOT_POINTS;
-		cd.other->SetDelete();
-		totalPoints--;
-	}
+	if (cd.other->tag != DOT_TAG)
+		return;
+
+	soundManager.Play(DOT_SOUND);
+	score += SMALL_DOT_POINTS;
+	cd.other->SetDelete();
+	totalPoints--;
 }
 
 void Pacman::OnIntersectedBigDot(CollisionData cd)
 {
-	if (cd.other->tag == BIG_DOT_TAG)
-	{
-		soundManager.Play(BIG_DOT_SOUND);
+	if (cd.other->tag != BIG_DOT_TAG)
+		return;
 
-		//game logic when dot eaten
-		score += BIG_DOT_POINTS;
-		for (auto ghost : ghosts)
-		{
-			if (auto moveComp = ghost->GetComponent<C_GhostBehavior>())
-				moveComp->MarkClaimable();
-		}
-		
-		//delete dot
-		cd.other->SetDelete();
+	soundManager.Play(BIG_DOT_SOUND);
+
+	//game logic when dot eaten
+	score += BIG_DOT_POINTS;
+	for (auto ghost : ghosts)
+	{
+		if (auto moveComp = ghost->GetComponent<C_GhostBehavior>())
+			moveComp->MarkClaimable();
 	}
+		
+	//delete dot
+	cd.other->SetDelete();
 }
 
 void Pacman::OnAvatarGhostCollision(CollisionData cd)
 {
-	if (cd.other->tag == ENEMY_TAG)
-	{
-		if (auto moveComp = cd.other->GetComponent<C_GhostBehavior>())
-		{
-			if (moveComp->isDeadFlag)
-				return;
-			
-			if (!moveComp->isClaimableFlag)
-			{
-				lives--;
+	std::shared_ptr<C_GhostBehavior> moveComp;
+	if (cd.other->tag != ENEMY_TAG || !(moveComp = cd.other->GetComponent<C_GhostBehavior>()))
+		return;
 
-				//reset avatar
-				avatar->SetPosition(Vector2f(PACMAN_START_TILE_X * TILE_SIZE, 
-					PACMAN_START_TILE_Y * TILE_SIZE));
-				avatar->Start();
-			}
-			else
-			{
-				soundManager.Play(EAT_GHOST_SOUND);
-				moveComp->Die();
-				score += 50;
-			}
-		}
+	if (moveComp->isDeadFlag)
+		return;
+
+	if (!moveComp->isClaimableFlag)
+	{
+		lives--;
+		//reset avatar
+		avatar->SetPosition(Vector2f(PACMAN_START_TILE_X * TILE_SIZE,
+			PACMAN_START_TILE_Y * TILE_SIZE));
+		avatar->Start();
+	}
+	else
+	{
+		soundManager.Play(EAT_GHOST_SOUND);
+		moveComp->Die();
+		score += 50;
 	}
 }
 

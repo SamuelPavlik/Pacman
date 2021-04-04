@@ -18,7 +18,7 @@ public:
         Enter = 6
     };
     InputManager();
-    bool IsKeyDown(Key keyName); // Returns true if the key was just pressed.
+    bool IsKeyPressed(Key keyName);
 
 private:
     std::unordered_map<Key, SDL_Scancode> keyToCodeMapping;

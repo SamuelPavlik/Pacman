@@ -22,7 +22,7 @@ void C_Animation::Update(float deltaTime) {
     }
 }
 
-void C_Animation::AddAnimation(AnimationState state, std::shared_ptr<Animation> animation) {
+void C_Animation::AddAnimation(AnimationState state, std::shared_ptr<Animation>& animation) {
     animations.insert(std::make_pair(state, animation));
 
     if (currentAnimation.first == AnimationState::None) {

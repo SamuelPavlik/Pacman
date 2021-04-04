@@ -23,10 +23,9 @@ void World::Init(Drawer& drawer, EntityFactory& factory,
 	if (myfile.is_open())
 	{
 		int lineIndex = 0;
-		while (!myfile.eof())
+		while (std::getline(myfile, line))
 		{
 			tileMap.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
-			std::getline(myfile, line);
 			for (unsigned int i = 0; i < line.length(); i++)
 			{
 				tileMap[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));

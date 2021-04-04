@@ -10,7 +10,7 @@ InputManager::InputManager() : keystate{ SDL_GetKeyboardState(nullptr) }
 	keyToCodeMapping[Key::Enter] = SDL_SCANCODE_RETURN;
 }
 
-bool InputManager::IsKeyDown(Key keyName)
+bool InputManager::IsKeyPressed(Key keyName)
 {
 	return keystate[keyToCodeMapping[keyName]];
 }
