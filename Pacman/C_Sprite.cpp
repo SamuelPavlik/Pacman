@@ -3,7 +3,7 @@
 #include "GameEntity.h"
 #include "Constants.h"
 
-C_Sprite::C_Sprite(GameEntity& owner, Drawer* drawer, const char* name, 
+C_Sprite::C_Sprite(GameEntity& owner, Drawer& drawer, const char* name, 
 	Vector2f offset) :
 	Component(owner),
 	drawer(drawer),
@@ -15,8 +15,8 @@ C_Sprite::C_Sprite(GameEntity& owner, Drawer* drawer, const char* name,
 
 void C_Sprite::Draw()
 {
-	drawer->Draw(name, owner.GetPosition().myX + TOTAL_OFFSET_X + offset.myX, 
-		owner.GetPosition().myY + TOTAL_OFFSET_Y + offset.myY);
+	drawer.Draw(name, owner.GetPosition().x + TOTAL_OFFSET_X + offset.x, 
+		owner.GetPosition().y + TOTAL_OFFSET_Y + offset.y);
 }
 
 void C_Sprite::SetName(const char* name)
@@ -26,8 +26,5 @@ void C_Sprite::SetName(const char* name)
 
 void C_Sprite::Load(const char* name)
 {
-	if (drawer)
-	{
-		drawer->AddResource(name);
-	}
+	drawer.AddResource(name);
 }

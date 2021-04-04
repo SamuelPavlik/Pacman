@@ -8,14 +8,14 @@
 #include <queue>
 #include <functional>
 
-C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World* world,
-	const std::shared_ptr<GameEntity> avatar, float moveSpeed) :
+C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
+	const std::shared_ptr<GameEntity>& avatar, float moveSpeed) :
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
 	moveSpeed(moveSpeed),
 	world(world),
-	avatar(avatar),
+	avatar{avatar},
 	currentTileX(),
 	currentTileY(),
 	nextTileX(),
@@ -33,8 +33,8 @@ void C_GhostBehavior::Start()
 	path.clear();
 	isClaimableFlag = false;
 	isDeadFlag = false;
-	currentTileX = nextTileX = owner.GetPosition().myX / TILE_SIZE;
-	currentTileY = nextTileY = owner.GetPosition().myY / TILE_SIZE;
+	currentTileX = nextTileX = owner.GetPosition().x / TILE_SIZE;
+	currentTileY = nextTileY = owner.GetPosition().y / TILE_SIZE;
 	moveSpeed = GHOST_SPEED;
 	claimableCounter = GHOST_COUNTER;
 }
@@ -46,17 +46,27 @@ void C_GhostBehavior::Update(float time)
 
 	//animation logic
 	if (isDeadFlag)
+	{
 		animation->SetAnimationState(AnimationState::Dead);
+	}
 	else if (isClaimableFlag)
+	{
 		animation->SetAnimationState(AnimationState::Vulnerable);
+	}
 	else
+	{
 		animation->SetAnimationState(AnimationState::GoingUp);
+	}
 
 	//claimable logic
 	if (claimableCounter > 0.f)
+	{
 		claimableCounter -= time;
+	}
 	else
+	{
 		isClaimableFlag = false;
+	}
 }
 
 void C_GhostBehavior::Die()
@@ -80,7 +90,7 @@ void C_GhostBehavior::Move(float time)
 		if (!isDeadFlag && !avatar->IsMarkedForDelete())
 		{
 			auto pos = avatar->GetPosition();
-			GetPath(pos.myX / TILE_SIZE, pos.myY / TILE_SIZE);
+			GetPath(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
 		}
 
 		if (!path.empty())
@@ -117,7 +127,7 @@ void C_GhostBehavior::Move(float time)
 void C_GhostBehavior::GetPath(int aToX, int aToY)
 {
 	path.clear();
-	const auto map = world->GetMap();
+	const auto map = world.GetMap();
 	auto fromTile = map[currentTileY][currentTileX];
 	auto toTile = map[aToY][aToX];
 
@@ -142,7 +152,7 @@ PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromT
 		return false;
 	}
 
-	const auto map = world->GetMap();
+	const auto map = world.GetMap();
 	std::set<std::shared_ptr<PathmapTile>> visited;
 
 	//compare function for priority queue

@@ -18,8 +18,8 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	const char* spriteName)
 {
 	auto avatar = std::make_shared<GameEntity>(position);
-	avatar->AddComponent<C_Sprite>(&drawer, spriteName);
-	avatar->AddComponent<C_KeyboardMovement>(&inputManager, &world);
+	avatar->AddComponent<C_Sprite>(drawer, spriteName);
+	avatar->AddComponent<C_KeyboardMovement>(inputManager, world);
 	auto collision = avatar->AddComponent<C_Collision>(CollisionLayer::Player);
 	collision->BindOnOverlapFunc(onOverlapFunc);
 
@@ -57,8 +57,8 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector
 {
 	auto ghost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE));
-	ghost->AddComponent<C_Sprite>(&drawer, "ghost_32.png", spriteOffset);
-	ghost->AddComponent<C_GhostBehavior>(&world, avatar);
+	ghost->AddComponent<C_Sprite>(drawer, "ghost_32.png", spriteOffset);
+	ghost->AddComponent<C_GhostBehavior>(world, avatar);
 	ghost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 	ghost->tag = ENEMY_TAG;
 
@@ -83,7 +83,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector
 std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const char* name)
 {
 	auto dot = std::make_shared<GameEntity>(position);
-	dot->AddComponent<C_Sprite>(&drawer, name);
+	dot->AddComponent<C_Sprite>(drawer, name);
 	dot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 	dot->tag = DOT_TAG;
 
@@ -93,7 +93,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const ch
 std::shared_ptr<GameEntity> EntityFactory::CreateBigDot(Vector2f position, const char* name)
 {
 	auto bigDot = std::make_shared<GameEntity>(position);
-	bigDot->AddComponent<C_Sprite>(&drawer, name);
+	bigDot->AddComponent<C_Sprite>(drawer, name);
 	bigDot->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
 	bigDot->tag = BIG_DOT_TAG;
 

@@ -29,8 +29,8 @@ using PathNodePtr = std::shared_ptr<PathNode>;
 class C_GhostBehavior : public Component
 {
 public:
-    C_GhostBehavior(GameEntity& owner, const World* world, 
-        const std::shared_ptr<GameEntity> avatar, float moveSpeed = GHOST_SPEED);
+    C_GhostBehavior(GameEntity& owner, const World& world, 
+        const std::shared_ptr<GameEntity>& avatar, float moveSpeed = GHOST_SPEED);
 
 	void Awake() override;
 	void Start() override;
@@ -57,7 +57,7 @@ public:
 
 private:
     float moveSpeed;
-    const World* world;
+    const World& world;
     std::shared_ptr<C_Animation> animation;
     const std::shared_ptr<GameEntity> avatar;
 

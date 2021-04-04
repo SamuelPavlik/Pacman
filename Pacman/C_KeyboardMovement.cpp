@@ -4,8 +4,8 @@
 #include "World.h"
 #include "GameEntity.h"
 
-C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager* inputManager, 
-	const World* world, float moveSpeed) : 
+C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager& inputManager, 
+	const World& world, float moveSpeed) : 
 	Component(owner), 
 	moveSpeed(moveSpeed),
 	inputManager( inputManager ),
@@ -29,19 +29,19 @@ void C_KeyboardMovement::Awake()
 void C_KeyboardMovement::Update(float time)
 {
 	Vector2f possibleMovement;
-	if (inputManager->IsKeyPressed(InputManager::Key::Up))
+	if (inputManager.IsKeyPressed(InputManager::Key::Up))
 	{
 		possibleMovement = Vector2f(0.f, -1.f);
 	}
-	else if (inputManager->IsKeyPressed(InputManager::Key::Down))
+	else if (inputManager.IsKeyPressed(InputManager::Key::Down))
 	{
 		possibleMovement = Vector2f(0.f, 1.f);
 	}
-	else if (inputManager->IsKeyPressed(InputManager::Key::Left))
+	else if (inputManager.IsKeyPressed(InputManager::Key::Left))
 	{
 		possibleMovement = Vector2f(-1.f, 0.f);
 	}
-	else if (inputManager->IsKeyPressed(InputManager::Key::Right))
+	else if (inputManager.IsKeyPressed(InputManager::Key::Right))
 	{
 		possibleMovement = Vector2f(1.f, 0.f);
 	}
@@ -56,47 +56,47 @@ void C_KeyboardMovement::Update(float time)
 void C_KeyboardMovement::Start()
 {
 	nextMovement = Vector2f(-1.f, 0.f);
-	currentTileX = nextTileX = owner.GetPosition().myX / TILE_SIZE;
-	currentTileY = nextTileY = owner.GetPosition().myY / TILE_SIZE;
+	currentTileX = nextTileX = owner.GetPosition().x / TILE_SIZE;
+	currentTileY = nextTileY = owner.GetPosition().y / TILE_SIZE;
 }
 
 void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 {
-	int possibleTileX = currentTileX + possibleMove.myX;
-	int possibleTileY = currentTileY + possibleMove.myY;
+	int possibleTileX = currentTileX + possibleMove.x;
+	int possibleTileY = currentTileY + possibleMove.y;
 
 	if (currentTileX == nextTileX && currentTileY == nextTileY 
 		|| possibleMove != nextMovement)
 	{
-		if (world->TileIsValid(possibleTileX, possibleTileY))
+		if (world.TileIsValid(possibleTileX, possibleTileY))
 		{
 			nextTileX = possibleTileX;
 			nextTileY = possibleTileY;
 			nextMovement = possibleMove;
 		}
-		else if (world->TileIsValid(currentTileX + nextMovement.myX, currentTileY + nextMovement.myY))
+		else if (world.TileIsValid(currentTileX + nextMovement.x, currentTileY + nextMovement.y))
 		{
-			nextTileX = currentTileX + nextMovement.myX;
-			nextTileY = currentTileY + nextMovement.myY;
+			nextTileX = currentTileX + nextMovement.x;
+			nextTileY = currentTileY + nextMovement.y;
 		}
 
 		auto state = animation->GetAnimationState();
-		if (nextMovement.myX == 1)
+		if (nextMovement.x == 1)
 		{
 			if (animation && state != AnimationState::GoingRight)
 				animation->SetAnimationState(AnimationState::GoingRight);
 		}
-		else if (nextMovement.myX == -1)
+		else if (nextMovement.x == -1)
 		{
 			if (animation && state != AnimationState::GoingLeft)
 				animation->SetAnimationState(AnimationState::GoingLeft);
 		}
-		else if (nextMovement.myY == 1)
+		else if (nextMovement.y == 1)
 		{
 			if (animation && state != AnimationState::GoingDown)
 				animation->SetAnimationState(AnimationState::GoingDown);
 		}
-		else if (nextMovement.myY == -1)
+		else if (nextMovement.y == -1)
 		{
 			if (animation && state != AnimationState::GoingUp)
 				animation->SetAnimationState(AnimationState::GoingUp);

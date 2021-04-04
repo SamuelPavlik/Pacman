@@ -18,7 +18,7 @@ public:
 	GameEntity(const Vector2f& position);
 
 	template <typename T, typename... Args> 
-	std::shared_ptr<T> AddComponent(Args... args)
+	std::shared_ptr<T> AddComponent(Args&&... args)
 	{
 		auto it = std::find_if(components.begin(), components.end(), [](auto comp) {
 			return std::dynamic_pointer_cast<T>(comp);
