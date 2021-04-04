@@ -24,6 +24,8 @@ otherwise their smart pointers like entities
 - collision system and component
 
 ## Necessary
+- high score system
+- && in AddComp
 
 ## Good to have
 - incorporate cherry somehow
@@ -32,5 +34,4 @@ otherwise their smart pointers like entities
 
 ## Clean-ups
 - string instead of char*
-- get rid of my<> pattern
 - filename constants

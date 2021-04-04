@@ -163,7 +163,7 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 	}
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
-	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, NULL, 0.f)));
+	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, nullptr, 0.f)));
 	visited.insert(aFromTile);
 	while (!tileQueue.empty())
 	{
@@ -204,5 +204,5 @@ PathNodePtr C_GhostBehavior::Pathfind(std::shared_ptr<PathmapTile> aFromTile,
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }

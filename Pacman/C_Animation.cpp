@@ -11,13 +11,14 @@ void C_Animation::Awake() {
 }
 
 void C_Animation::Update(float deltaTime) {
-    if (currentAnimation.first != AnimationState::None) {
-        bool newFrame = currentAnimation.second->UpdateFrame(deltaTime);
+    if (currentAnimation.first == AnimationState::None)
+        return;
 
-        if (newFrame) {
-            const FrameData data = *currentAnimation.second->GetCurrentFrame();
-            sprite->SetName(data.name);
-        }
+    bool newFrame = currentAnimation.second->UpdateFrame(deltaTime);
+
+    if (newFrame) {
+        const FrameData data = *currentAnimation.second->GetCurrentFrame();
+        sprite->SetName(data.name);
     }
 }
 

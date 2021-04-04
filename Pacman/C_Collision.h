@@ -16,7 +16,7 @@ enum class CollisionLayer
 struct CollisionData
 {
     bool colliding = false;
-    GameEntity* other = NULL;
+    GameEntity* other = nullptr;
 };
 
 class C_Collision : public Component
