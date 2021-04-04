@@ -2,6 +2,8 @@
 #include "Drawer.h"
 #include "C_Sprite.h"
 
+#include <algorithm>
+
 GameEntity::GameEntity(const Vector2f& position) :
 	position(position),
 	isDeletedFlag(false) {}
@@ -9,18 +11,16 @@ GameEntity::GameEntity(const Vector2f& position) :
 void GameEntity::Awake()
 {
 	isDeletedFlag = false;
-	for (int i = components.size() - 1; i >= 0; i--)
-	{
-		components[i]->Awake();
-	}
+	std::for_each(components.rbegin(), components.rend(), [](auto comp) {
+		comp->Awake();
+		});
 }
 
 void GameEntity::Start()
 {
-	for (int i = components.size() - 1; i >= 0; i--)
-	{
-		components[i]->Start();
-	}
+	std::for_each(components.rbegin(), components.rend(), [](auto comp) {
+		comp->Start();
+		});
 }
 
 Vector2f GameEntity::GetPosition() const { return position; }
@@ -38,11 +38,10 @@ void GameEntity::SetPosition(Vector2f position)
 
 void GameEntity::Update(float time)
 {
-	for (int i = components.size() - 1; i >= 0; i--)
-	{
-		if (components[i]->isComponentOn)
-			components[i]->Update(time);
-	}
+	std::for_each(components.rbegin(), components.rend(), [time](auto comp) {
+		if (comp->isComponentOn)
+			comp->Update(time);
+		});
 }
 
 void GameEntity::Draw()
