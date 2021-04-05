@@ -21,8 +21,6 @@ Simple 2D Pacman
 - collision system and component
 
 ## Necessary
-- high score system
-- && in AddComp
 
 ## Good to have
 - incorporate cherry somehow
