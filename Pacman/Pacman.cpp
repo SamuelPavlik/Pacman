@@ -18,6 +18,7 @@ std::shared_ptr<Pacman> Pacman::Create(Drawer& drawer)
 Pacman::Pacman(Drawer& drawer) :
 	drawer(drawer),
 	score(0),
+	bestScore(0),
 	fps(0),
 	lives(3),
 	isGameOver(false),
@@ -80,6 +81,7 @@ void Pacman::Restart()
 
 	totalPoints = dots.size();
 	lives = 3;
+	bestScore = std::max(score, bestScore);
 	score = 0;
 
 	soundManager.Play(MENU_SOUND);
@@ -239,6 +241,11 @@ void Pacman::DrawHUD()
 	liveStream << lives;
 	drawer.DrawText("Lives", HUD_FONT, LIVES_X, LIVES_Y);
 	drawer.DrawText(liveStream.str().c_str(), HUD_FONT, LIVES_NUM_X, LIVES_Y);
+
+	std::stringstream bestStream;
+	bestStream << bestScore;
+	drawer.DrawText("Best", HUD_FONT, BEST_SCORE_X, BEST_SCORE_Y);
+	drawer.DrawText(bestStream.str().c_str(), HUD_FONT, BEST_SCORE_NUM_X, BEST_SCORE_Y);
 
 	std::stringstream fpsStream;
 	fpsStream << fps;

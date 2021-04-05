@@ -22,9 +22,12 @@ inline const int SCORE_NUM_X = 100;
 inline const int LIVES_X = SCORE_X;
 inline const int LIVES_Y = 80;
 inline const int LIVES_NUM_X = SCORE_NUM_X;
-inline const int FPS_X = WINDOW_WIDTH - 144;
-inline const int FPS_Y = SCORE_Y;
-inline const int FPS_NUM_X = FPS_X + 50;
+inline const int BEST_SCORE_X = WINDOW_WIDTH - 144;
+inline const int BEST_SCORE_Y = SCORE_Y;
+inline const int BEST_SCORE_NUM_X = BEST_SCORE_X + 70;
+inline const int FPS_X = WINDOW_WIDTH - 132;
+inline const int FPS_Y = LIVES_Y;
+inline const int FPS_NUM_X = BEST_SCORE_NUM_X;
 
 //general game constants
 inline const size_t TILE_SIZE = 22;

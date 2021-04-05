@@ -40,6 +40,7 @@ private:
 
 	int lives;
 	int score;
+	int bestScore;
 	int fps;
 	int totalPoints;
 	float gameEndCounter;
