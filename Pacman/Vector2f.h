@@ -77,6 +77,12 @@ public:
 		return v;
 	}
 
+	Vector2f Vector2f::operator/(const float aValue) const 
+	{
+		Vector2f v(x / aValue, y / aValue);
+		return v;
+	}
+
 	float Vector2f::Length() const
 	{
 		return sqrt(x*x + y*y);

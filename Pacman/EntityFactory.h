@@ -19,12 +19,17 @@ public:
 	std::shared_ptr<GameEntity> CreatePacman(Vector2f position, 
 		std::function<void(CollisionData)> onOverlapFunc,
 		const char* spriteName);
-	std::shared_ptr<GameEntity> CreateGhost(Vector2f position, Vector2f spriteOffset, 
+	std::shared_ptr<GameEntity> CreateDirectGhost(Vector2f position, Vector2f spriteOffset,
+		std::shared_ptr<GameEntity> avatar, const char* spriteName);
+	std::shared_ptr<GameEntity> CreateAmbushGhost(Vector2f position, Vector2f spriteOffset,
 		std::shared_ptr<GameEntity> avatar, const char* spriteName);
 	std::shared_ptr<GameEntity> CreateDot(Vector2f position, const char* name);
 	std::shared_ptr<GameEntity> CreateBigDot(Vector2f position, const char* name);
 
 private:
+	std::shared_ptr<GameEntity> CreateGhost(std::shared_ptr<GameEntity>& ghost, const char* spriteName);
+
+
 	Drawer& drawer;
 	InputManager& inputManager;
 	World& world;

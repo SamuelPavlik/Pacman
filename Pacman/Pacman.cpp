@@ -54,11 +54,12 @@ void Pacman::Init()
 		Vector2f(PACMAN_START_TILE_X * TILE_SIZE, PACMAN_START_TILE_Y * TILE_SIZE), 
 		onOverlapFunc, "open_32.png");
 	
-	//set up ghost
-	ghosts.push_back(factory.CreateGhost(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
+	//set up ghosts
+	ghosts.push_back(factory.CreateDirectGhost(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
 		GHOST_START_TILE_Y * TILE_SIZE), Vector2f(), avatar, "ghost_32.png"));
-	ghosts.push_back(factory.CreateGhost(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
-		(GHOST_START_TILE_Y + 1) * TILE_SIZE), Vector2f(4.f, 4.f), avatar, "ghost_32.png"));
+
+	ghosts.push_back(factory.CreateAmbushGhost(Vector2f((GHOST_START_TILE_X + 1) * TILE_SIZE,
+		(GHOST_START_TILE_Y + 1) * TILE_SIZE), Vector2f(4.f, 4.f), avatar, "ghost_32_orange.png"));
 	
 	//add all entities to entity collection
 	Restart();

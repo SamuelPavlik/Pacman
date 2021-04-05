@@ -18,6 +18,7 @@ public:
 		float moveSpeed = PACMAN_SPEED);
 
 	void SetMoveSpeed(float moveSpeed);
+	const Vector2f GetDirection() const;
 
 	void Awake() override;
 	void Start() override;

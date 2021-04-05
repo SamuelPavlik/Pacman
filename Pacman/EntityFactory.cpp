@@ -7,6 +7,7 @@
 #include "C_GhostBehavior.h"
 #include "C_PacmanProperties.h"
 #include "GameEntity.h"
+#include "World.h"
 
 EntityFactory::EntityFactory(Drawer& drawer, InputManager& inputManager, World& world) :
 	drawer(drawer),
@@ -52,32 +53,52 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	return avatar;
 }
 
-std::shared_ptr<GameEntity> EntityFactory::CreateGhost(Vector2f position, Vector2f spriteOffset, 
-	std::shared_ptr<GameEntity> avatar, const char* spriteName)
+
+std::shared_ptr<GameEntity> EntityFactory::CreateDirectGhost(Vector2f position, 
+	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto ghost = std::make_shared<GameEntity>(Vector2f(GHOST_START_TILE_X * TILE_SIZE,
-		GHOST_START_TILE_Y * TILE_SIZE));
-	ghost->AddComponent<C_Sprite>(drawer, "ghost_32.png", spriteOffset);
-	ghost->AddComponent<C_GhostBehavior>(world, avatar);
-	ghost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
-	ghost->tag = ENEMY_TAG;
+	auto nextTileFunc = [avatar](bool isClaimableFlag) {
+		return avatar->GetPosition() / TILE_SIZE;
+	};
 
-	auto ghostAnim = ghost->AddComponent<C_Animation>();
+	auto ghost = std::make_shared<GameEntity>(position);
+	ghost->AddComponent<C_Sprite>(drawer, spriteName, spriteOffset);
+	ghost->AddComponent<C_GhostBehavior>(world, avatar, nextTileFunc);
 
-	auto normalAnim = std::make_shared<Animation>();
-	normalAnim->AddFrame(drawer, "ghost_32.png", 0.f);
+	return CreateGhost(ghost, spriteName);
+}
 
-	auto vulnerableAnim = std::make_shared<Animation>();
-	vulnerableAnim->AddFrame(drawer, "Ghost_Vulnerable_32.png", 0.f);
+std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position, 
+	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
+{
+	auto moveComp = avatar->GetComponent<C_KeyboardMovement>();
+	auto& worldVar = world;
 
-	auto deadAnim = std::make_shared<Animation>();
-	deadAnim->AddFrame(drawer, "Ghost_Dead_32.png", 0.f);
+	// algorithm to find a tile at most 4 steps in front of the player
+	auto nextTileFunc = [avatar, moveComp, worldVar](bool isClaimableFlag) {
+		auto avatarPos = avatar->GetPosition() / TILE_SIZE;
+		if (!moveComp || isClaimableFlag)
+		{
+			return avatarPos;
+		}
 
-	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
-	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
-	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
+		int ahead = 0;
+		Vector2f unitDir = moveComp->GetDirection();
+		auto nextPos = avatarPos;
+		while (ahead < 4 && worldVar.TileIsValid(nextPos.x + unitDir.x, nextPos.y + unitDir.y))
+		{
+			ahead++;
+			nextPos += unitDir;
+		}
 
-	return ghost;
+		return nextPos;
+	};
+
+	auto ghost = std::make_shared<GameEntity>(position);
+	ghost->AddComponent<C_Sprite>(drawer, spriteName, spriteOffset);
+	ghost->AddComponent<C_GhostBehavior>(world, avatar, nextTileFunc);
+
+	return CreateGhost(ghost, spriteName);
 }
 
 std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const char* name)
@@ -98,4 +119,27 @@ std::shared_ptr<GameEntity> EntityFactory::CreateBigDot(Vector2f position, const
 	bigDot->tag = BIG_DOT_TAG;
 
 	return bigDot;
+}
+
+std::shared_ptr<GameEntity> EntityFactory::CreateGhost(std::shared_ptr<GameEntity>& ghost, const char* spriteName)
+{
+	ghost->AddComponent<C_Collision>(CollisionLayer::NonPlayer);
+	ghost->tag = ENEMY_TAG;
+
+	auto ghostAnim = ghost->AddComponent<C_Animation>();
+
+	auto normalAnim = std::make_shared<Animation>();
+	normalAnim->AddFrame(drawer, spriteName, 0.f);
+
+	auto vulnerableAnim = std::make_shared<Animation>();
+	vulnerableAnim->AddFrame(drawer, "Ghost_Vulnerable_32.png", 0.f);
+
+	auto deadAnim = std::make_shared<Animation>();
+	deadAnim->AddFrame(drawer, "Ghost_Dead_32.png", 0.f);
+
+	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
+	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
+	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
+
+	return ghost;
 }

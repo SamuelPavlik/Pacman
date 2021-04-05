@@ -21,6 +21,11 @@ void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
 	this->moveSpeed = moveSpeed;
 }
 
+const Vector2f C_KeyboardMovement::GetDirection() const
+{
+	return nextMovement;
+}
+
 void C_KeyboardMovement::Awake()
 {
 	animation = owner.GetComponent<C_Animation>();
