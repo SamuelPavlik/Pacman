@@ -84,13 +84,20 @@ std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position,
 
 		int ahead = 0;
 		Vector2f unitDir = moveComp->GetDirection();
+		float len = (avatarPos - position).Length();
 		auto nextPos = avatarPos;
+		nextPos.x = std::floor(nextPos.x);
+		nextPos.y = std::floor(nextPos.y);
 		while (ahead < 4 
 			&& worldVar.TileIsValid(nextPos.x + unitDir.x, nextPos.y + unitDir.y)
 			&& nextPos != position)
 		{
 			ahead++;
 			nextPos += unitDir;
+		}
+		if (nextPos == position)
+		{
+			return avatarPos;
 		}
 
 		return nextPos;

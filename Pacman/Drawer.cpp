@@ -21,7 +21,9 @@ void Drawer::Draw(const char* name, int cellX, int cellY)
 {
 	auto resourceIt = resourceMap.find(name);
 	if (resourceIt == resourceMap.end())
+	{
 		return;
+	}
 
 	Resource resource = resourceIt->second;
 

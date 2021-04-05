@@ -55,7 +55,7 @@ inline const int MAX_PATH_SEARCH_LENGTH = 10;
 inline const float GHOST_SPEED = 70.f;
 inline const int DEATH_SPEED_MULTIPLIER = 5;
 inline const float GHOST_COUNTER = 6.f;
-inline const float RELEASTE_COUNTER = 5.f;;
+inline const float RELEASE_COUNTER = 5.f;;
 
 //entity tags
 inline const std::string ENEMY_TAG = "Enemy";

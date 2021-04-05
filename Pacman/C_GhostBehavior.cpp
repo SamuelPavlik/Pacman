@@ -13,10 +13,10 @@ C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
-	moveSpeed(moveSpeed),
 	world(world),
 	avatar(avatar),
 	nextTileFunc(nextTileFunc),
+	moveSpeed(moveSpeed),
 	currentTileX(),
 	currentTileY(),
 	nextTileX(),
@@ -39,7 +39,7 @@ void C_GhostBehavior::Start()
 	currentTileY = nextTileY = owner.GetPosition().y / TILE_SIZE;
 	moveSpeed = GHOST_SPEED;
 	claimableCounter = GHOST_COUNTER;
-	releaseCounter = RELEASTE_COUNTER;
+	releaseCounter = RELEASE_COUNTER;
 }
 
 

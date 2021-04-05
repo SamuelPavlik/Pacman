@@ -20,34 +20,36 @@ void World::Init(Drawer& drawer, EntityFactory& factory,
 	//init edible game entities and walls
 	std::string line;
 	std::ifstream myfile("map.txt");
-	if (myfile.is_open())
+	if (!myfile.is_open())
 	{
-		int lineIndex = 0;
-		while (std::getline(myfile, line))
-		{
-			tileMap.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
-			for (unsigned int i = 0; i < line.length(); i++)
-			{
-				tileMap[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
-
-				if (line[i] == '.')
-				{
-					auto dot = factory.CreateDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
-						"Small_Dot_32.png");
-					dots.push_back(dot);
-				}
-				else if (line[i] == 'o')
-				{
-					auto bigDot = factory.CreateBigDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
-						"Big_Dot_32.png");
-					bigDots.push_back(bigDot);
-				}
-			}
-
-			lineIndex++;
-		}
-		myfile.close();
+		return;
 	}
+
+	int lineIndex = 0;
+	while (std::getline(myfile, line))
+	{
+		tileMap.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
+		for (unsigned int i = 0; i < line.length(); i++)
+		{
+			tileMap[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
+
+			if (line[i] == '.')
+			{
+				auto dot = factory.CreateDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
+					"Small_Dot_32.png");
+				dots.push_back(dot);
+			}
+			else if (line[i] == 'o')
+			{
+				auto bigDot = factory.CreateBigDot(Vector2f(i * TILE_SIZE, lineIndex * TILE_SIZE),
+					"Big_Dot_32.png");
+				bigDots.push_back(bigDot);
+			}
+		}
+
+		lineIndex++;
+	}
+	myfile.close();
 }
 
 void World::Draw(Drawer& drawer)
