@@ -33,7 +33,7 @@ class C_GhostBehavior : public Component
 public:
     C_GhostBehavior(GameEntity& owner, const World& world, 
         const std::shared_ptr<GameEntity>& avatar,
-        std::function<Vector2f(bool)> nextTileFunc,
+        std::function<Vector2f(Vector2f, bool)> nextTileFunc,
         float moveSpeed = GHOST_SPEED);
 
 	void Awake() override;
@@ -48,7 +48,6 @@ private:
     void GetPath(int aToX, int aToY);
     PathNodePtr Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
         const std::shared_ptr<PathmapTile>& aToTile);
-
 
     template<typename T>
     bool Contains(T collection, std::shared_ptr<PathmapTile>& aFromTile)
@@ -65,7 +64,7 @@ private:
     const World& world;
     std::shared_ptr<C_Animation> animation;
     const std::shared_ptr<GameEntity> avatar;
-    std::function<Vector2f(bool)> nextTileFunc;
+    std::function<Vector2f(Vector2f, bool)> nextTileFunc;
 
     std::list<std::shared_ptr<PathmapTile>> path;
     int currentTileX;

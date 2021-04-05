@@ -57,7 +57,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 std::shared_ptr<GameEntity> EntityFactory::CreateDirectGhost(Vector2f position, 
 	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto nextTileFunc = [avatar](bool isClaimableFlag) {
+	auto nextTileFunc = [avatar](Vector2f position, bool isClaimableFlag) {
 		return avatar->GetPosition() / TILE_SIZE;
 	};
 
@@ -75,7 +75,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position,
 	auto& worldVar = world;
 
 	// algorithm to find a tile at most 4 steps in front of the player
-	auto nextTileFunc = [avatar, moveComp, worldVar](bool isClaimableFlag) {
+	auto nextTileFunc = [avatar, moveComp, worldVar](Vector2f position, bool isClaimableFlag) {
 		auto avatarPos = avatar->GetPosition() / TILE_SIZE;
 		if (!moveComp || isClaimableFlag)
 		{
@@ -85,7 +85,9 @@ std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position,
 		int ahead = 0;
 		Vector2f unitDir = moveComp->GetDirection();
 		auto nextPos = avatarPos;
-		while (ahead < 4 && worldVar.TileIsValid(nextPos.x + unitDir.x, nextPos.y + unitDir.y))
+		while (ahead < 4 
+			&& worldVar.TileIsValid(nextPos.x + unitDir.x, nextPos.y + unitDir.y)
+			&& nextPos != position)
 		{
 			ahead++;
 			nextPos += unitDir;

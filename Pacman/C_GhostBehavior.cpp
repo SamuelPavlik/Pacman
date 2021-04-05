@@ -9,7 +9,7 @@
 
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
 	const std::shared_ptr<GameEntity>& avatar, 
-	std::function<Vector2f(bool)> nextTileFunc, float moveSpeed) :
+	std::function<Vector2f(Vector2f, bool)> nextTileFunc, float moveSpeed) :
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
@@ -100,7 +100,7 @@ void C_GhostBehavior::Move(float time)
 	{
 		if (!isDeadFlag && !avatar->IsMarkedForDelete())
 		{
-			auto pos = nextTileFunc(isClaimableFlag);
+			auto pos = nextTileFunc(Vector2f(currentTileX, currentTileY), isClaimableFlag);
 			GetPath(pos.x, pos.y);
 		}
 
