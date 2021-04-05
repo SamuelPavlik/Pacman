@@ -20,7 +20,8 @@ C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
 	currentTileY(),
 	nextTileX(),
 	nextTileY(),
-	claimableCounter() {}
+	claimableCounter(),
+	releaseCounter() {}
 
 void C_GhostBehavior::Awake()
 {
@@ -37,12 +38,21 @@ void C_GhostBehavior::Start()
 	currentTileY = nextTileY = owner.GetPosition().y / TILE_SIZE;
 	moveSpeed = GHOST_SPEED;
 	claimableCounter = GHOST_COUNTER;
+	releaseCounter = RELEASTE_COUNTER;
 }
 
 
 void C_GhostBehavior::Update(float time)
 {
-	Move(time);
+	//movement logic
+	if (releaseCounter < 0.f)
+	{
+		Move(time);
+	}
+	else
+	{
+		releaseCounter -= time;
+	}
 
 	//animation logic
 	if (isDeadFlag)

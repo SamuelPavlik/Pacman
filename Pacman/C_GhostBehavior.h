@@ -67,5 +67,6 @@ private:
     int nextTileX;
     int nextTileY;
     float claimableCounter;
+    float releaseCounter;
 };
 
