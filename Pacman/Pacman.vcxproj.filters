@@ -149,6 +149,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Doc.md" />
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
