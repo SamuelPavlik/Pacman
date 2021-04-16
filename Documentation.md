@@ -22,7 +22,7 @@ Unlike the original version, the pathfinding is implemented iteratively rather t
 The last 2 components are `C_PacmanProperties` and `C_Animation`. The former implements a behavior that makes the avatar invulnerable for a couple of seconds from spawn so that the player doesn't die immediatelly after respawn. The latter accepts `Animation` objects which are mapped to `AnimationState` enums and then operated on from other components such as `C_KeyboardMovement` and `C_GhostBehavior` when a change of animation is required.
 
 ## Other Systems
-The game also utilizes the `SDL_mixer` library for sound and the class that communicates with the library is called `SoundManager`. Similarly to other classes mentioned, the resources are loaded into a hashmap and are then invoked when needed, for example through functions binded to overlap events.
+The game also utilizes the `SDL_mixer` library for sound and the class that communicates with the library is called `SoundManager`. Similarly to other classes mentioned, the resources are loaded into a hashmap and are then invoked when needed, for example through functions binded to overlap events. Since this library has not been a part of the original version, I've created two versions of the project. One with the sound and one with all the resources commented out and the library files not included in the project.
 
 The `World` class represents simplification of collision with static walls of the world as each wall being a game entity with the `C_Collision` component would be unnecessarily complicated solution. In addition to this, the `World` class also serves as a parser for the map text file. Unlike the original version, there are now xs added around the whole map in the text file as this resolves a lot of out-of-bounds errors when detecting if a tile to step on is valid.
 
@@ -37,3 +37,4 @@ Most of the magic numbers from the original version where turned into inline con
 
 I decided not to do unit testing due to the time constraints.
 
+Given more time I'd implement the other ghost behaviors, the teleport tunnel in the middle, multiple levels and polished the code more.

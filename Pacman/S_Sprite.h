@@ -9,7 +9,7 @@ class GameEntity;
 class Drawer;
 
 using CompareFuncType = 
-std::function<bool(std::shared_ptr<GameEntity>, std::shared_ptr<GameEntity>)>;
+std::function<bool(const std::shared_ptr<GameEntity>&, const std::shared_ptr<GameEntity>&)>;
 
 class S_Sprite
 {

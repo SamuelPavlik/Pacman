@@ -5,13 +5,13 @@
 
 S_Sprite::S_Sprite()
 {
-	auto cmp = [](auto a, auto b) {
+	auto cmp = [](const auto& a, const auto& b) {
 		return a->GetSprite()->sortOrder
 			< b->GetSprite()->sortOrder; 
 		};
 	drawables =
 		std::multiset<std::shared_ptr<GameEntity>,
-		std::function<bool(std::shared_ptr<GameEntity>, std::shared_ptr<GameEntity>)>>(cmp);
+		CompareFuncType>(cmp);
 }
 
 void S_Sprite::Add(std::vector<std::shared_ptr<GameEntity>> objects)

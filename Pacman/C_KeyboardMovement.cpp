@@ -67,8 +67,8 @@ void C_KeyboardMovement::Start()
 
 void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 {
-	int possibleTileX = currentTileX + possibleMove.x;
-	int possibleTileY = currentTileY + possibleMove.y;
+	auto possibleTileX = currentTileX + possibleMove.x;
+	auto possibleTileY = currentTileY + possibleMove.y;
 
 	if (currentTileX == nextTileX && currentTileY == nextTileY 
 		|| possibleMove != nextMovement)
@@ -109,9 +109,9 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 	}
 
 	Vector2f destination(nextTileX * TILE_SIZE, nextTileY * TILE_SIZE);
-	Vector2f direction = destination - owner.GetPosition();
+	auto direction = destination - owner.GetPosition();
 
-	float distanceToMove = time * moveSpeed;
+	auto distanceToMove = time * moveSpeed;
 
 	if (distanceToMove > direction.Length())
 	{

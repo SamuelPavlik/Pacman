@@ -19,13 +19,13 @@ Drawer::~Drawer()
 
 void Drawer::Draw(const char* name, int cellX, int cellY)
 {
-	auto resourceIt = resourceMap.find(name);
+	auto& resourceIt = resourceMap.find(name);
 	if (resourceIt == resourceMap.end())
 	{
 		return;
 	}
 
-	Resource resource = resourceIt->second;
+	auto& resource = resourceIt->second;
 
 	SDL_Rect sizeRect;
 	sizeRect.x = 0 ;
@@ -44,10 +44,10 @@ void Drawer::Draw(const char* name, int cellX, int cellY)
 
 void Drawer::DrawText(const char* text, const char* fontFile, int x, int y)
 {
-	TTF_Font* font=TTF_OpenFont(fontFile, 24);
+	auto* font=TTF_OpenFont(fontFile, 24);
 
 	SDL_Color fg={255,0,0,255};
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, fg);
+	auto* surface = TTF_RenderText_Solid(font, text, fg);
 
 	SDL_Texture* optimizedSurface = SDL_CreateTextureFromSurface(renderer, surface);
 
@@ -73,7 +73,7 @@ bool Drawer::AddResource(const char* name)
 {
 	if (resourceMap.find(name) == resourceMap.end())
 	{
-		SDL_Surface* surface = IMG_Load(name);
+		auto* surface = IMG_Load(name);
 		if (!surface)
 		{
 			return false;

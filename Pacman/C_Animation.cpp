@@ -22,7 +22,7 @@ void C_Animation::Update(float deltaTime)
 
 	if (newFrame) 
 	{
-		const FrameData data = *currentAnimation.second->GetCurrentFrame();
+		const auto data = *currentAnimation.second->GetCurrentFrame();
 		sprite->SetName(data.name);
 	}
 }

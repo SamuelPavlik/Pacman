@@ -10,7 +10,7 @@
 
 std::shared_ptr<Pacman> Pacman::Create(Drawer& drawer)
 {
-	std::shared_ptr<Pacman> pacman = std::make_shared<Pacman>(drawer);
+	auto pacman = std::make_shared<Pacman>(drawer);
 	pacman->Init();
 	return pacman;
 }
@@ -45,7 +45,7 @@ void Pacman::Init()
 	world.Init(drawer, factory, dots, bigDots);
 
 	//set up avatar
-	std::function<void(CollisionData)> onOverlapFunc = [this](CollisionData cd) {
+	auto onOverlapFunc = [this](CollisionData cd) {
 		OnIntersectedDot(cd);
 		OnIntersectedBigDot(cd);
 		OnAvatarGhostCollision(cd);

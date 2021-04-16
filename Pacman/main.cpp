@@ -17,8 +17,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 	
-	SDL_Window* window = SDL_CreateWindow("Pacman", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	auto* window = SDL_CreateWindow("Pacman", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+	auto* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	if(!window)
 	{
@@ -41,12 +41,12 @@ int main(int argc, char **argv)
 	auto drawer = Drawer(window, renderer);
 	auto pacman = Pacman::Create(drawer);
 
-	float lastFrame = (float) SDL_GetTicks() * 0.001f;
+	auto lastFrame = (float) SDL_GetTicks() * 0.001f;
 	SDL_Event event;
 	while (SDL_PollEvent(&event) >= 0)
 	{
-		float currentFrame = (float) SDL_GetTicks() * 0.001f;
-		float elapsedTime = currentFrame - lastFrame;
+		auto currentFrame = (float) SDL_GetTicks() * 0.001f;
+		auto elapsedTime = currentFrame - lastFrame;
 
 		if (!pacman->Update(elapsedTime))
 		{

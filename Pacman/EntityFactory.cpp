@@ -71,7 +71,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateDirectGhost(Vector2f position,
 std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position, 
 	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto moveComp = avatar->GetComponent<C_KeyboardMovement>();
+	auto& moveComp = avatar->GetComponent<C_KeyboardMovement>();
 	auto& worldVar = world;
 
 	// algorithm to find a tile at most 4 steps in front of the player
@@ -82,9 +82,9 @@ std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position,
 			return avatarPos;
 		}
 
-		int ahead = 0;
-		Vector2f unitDir = moveComp->GetDirection();
-		float len = (avatarPos - position).Length();
+		auto ahead = 0;
+		auto unitDir = moveComp->GetDirection();
+		auto len = (avatarPos - position).Length();
 		auto nextPos = avatarPos;
 		nextPos.x = std::floor(nextPos.x);
 		nextPos.y = std::floor(nextPos.y);
