@@ -5,7 +5,7 @@
 
 void EntityManager::Update(float deltaTime)
 {
-	for (auto o : entities)
+	for (auto& o : entities)
 	{
 		o->Update(deltaTime);
 	}
@@ -51,7 +51,7 @@ void EntityManager::ProcessRemovals()
 {
 	bool isRemovedSth = false;
 	auto newEnd = std::remove_if(entities.begin(), entities.end(),
-		[&isRemovedSth](std::shared_ptr<GameEntity> obj) {
+		[&isRemovedSth](auto& obj) {
 			if (obj->IsMarkedForDelete())
 			{
 				isRemovedSth = true;

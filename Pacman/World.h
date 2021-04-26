@@ -9,6 +9,8 @@ class GameEntity;
 class EntityManager;
 class EntityFactory;
 
+using PathmapTiles = std::vector<std::vector<std::shared_ptr<const PathmapTile>>>;
+
 class World
 {
 public:
@@ -18,8 +20,8 @@ public:
 
 	void Draw(Drawer& drawer);
 	bool TileIsValid(int x, int y) const;
-	const std::vector<std::vector<std::shared_ptr<PathmapTile>>> GetMap() const;
+	const PathmapTiles GetMap() const;
 	
 private:
-	std::vector<std::vector<std::shared_ptr<PathmapTile>>> tileMap;
+	PathmapTiles tileMap;
 };

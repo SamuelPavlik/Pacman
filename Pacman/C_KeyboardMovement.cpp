@@ -8,8 +8,8 @@ C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager& inputMan
 	const World& world, float moveSpeed) : 
 	Component(owner), 
 	moveSpeed(moveSpeed),
-	inputManager( inputManager ),
-	world( world ),
+	inputManager(inputManager),
+	world(world),
 	currentTileX(),
 	currentTileY(),
 	nextTileX(),
@@ -70,7 +70,8 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 	auto possibleTileX = currentTileX + possibleMove.x;
 	auto possibleTileY = currentTileY + possibleMove.y;
 
-	if (currentTileX == nextTileX && currentTileY == nextTileY 
+	//calculate next tile when goal tile reached
+	if (currentTileX == nextTileX && currentTileY == nextTileY
 		|| possibleMove != nextMovement)
 	{
 		if (world.TileIsValid(possibleTileX, possibleTileY))
@@ -85,6 +86,7 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 			nextTileY = currentTileY + nextMovement.y;
 		}
 
+		//set animation based on direction
 		auto state = animation->GetAnimationState();
 		if (nextMovement.x == 1)
 		{
@@ -108,9 +110,9 @@ void C_KeyboardMovement::Move(float time, Vector2f possibleMove)
 		}
 	}
 
+	//set position based on goal tile
 	Vector2f destination(nextTileX * TILE_SIZE, nextTileY * TILE_SIZE);
 	auto direction = destination - owner.GetPosition();
-
 	auto distanceToMove = time * moveSpeed;
 
 	if (distanceToMove > direction.Length())

@@ -15,9 +15,6 @@ class Drawer;
 class Avatar;
 class Ghost;
 
-using GameCollection = std::vector<std::shared_ptr<GameEntity>>;
-using GameIt = GameCollection::iterator;
-
 class Pacman
 {
 public:
@@ -31,9 +28,9 @@ private:
 	void Init();
 	void Restart();
 
-	void OnIntersectedDot(CollisionData cd);
-	void OnIntersectedBigDot(CollisionData cd);
-	void OnAvatarGhostCollision(CollisionData cd);
+	void OnIntersectedDot(CollisionData& cd);
+	void OnIntersectedBigDot(CollisionData& cd);
+	void OnAvatarGhostCollision(CollisionData& cd);
 	void CheckEndGameCondition(float time);
 
 	void DrawHUD();

@@ -16,15 +16,15 @@ class EntityFactory
 public:
 	EntityFactory(Drawer& drawer, InputManager& inputManager, World& world);
 
-	std::shared_ptr<GameEntity> CreatePacman(Vector2f position, 
-		std::function<void(CollisionData)> onOverlapFunc,
+	std::shared_ptr<GameEntity> CreatePacman(const Vector2f& position, 
+		std::function<void(CollisionData&)> onOverlapFunc,
 		const char* spriteName);
-	std::shared_ptr<GameEntity> CreateDirectGhost(Vector2f position, Vector2f spriteOffset,
+	std::shared_ptr<GameEntity> CreateDirectGhost(const Vector2f& position, const Vector2f& spriteOffset,
 		std::shared_ptr<GameEntity> avatar, const char* spriteName);
-	std::shared_ptr<GameEntity> CreateAmbushGhost(Vector2f position, Vector2f spriteOffset,
+	std::shared_ptr<GameEntity> CreateAmbushGhost(const Vector2f& position, const Vector2f& spriteOffset,
 		std::shared_ptr<GameEntity> avatar, const char* spriteName);
-	std::shared_ptr<GameEntity> CreateDot(Vector2f position, const char* name);
-	std::shared_ptr<GameEntity> CreateBigDot(Vector2f position, const char* name);
+	std::shared_ptr<GameEntity> CreateDot(const Vector2f& position, const char* name);
+	std::shared_ptr<GameEntity> CreateBigDot(const Vector2f& position, const char* name);
 
 private:
 	std::shared_ptr<GameEntity> CreateGhost(std::shared_ptr<GameEntity>& ghost, const char* spriteName);

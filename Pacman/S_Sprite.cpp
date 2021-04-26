@@ -3,18 +3,17 @@
 #include "C_Sprite.h"
 #include "Drawer.h"
 
+#include <algorithm>
+
 S_Sprite::S_Sprite()
 {
 	auto cmp = [](const auto& a, const auto& b) {
-		return a->GetSprite()->sortOrder
-			< b->GetSprite()->sortOrder; 
+		return a->GetSprite()->sortOrder < b->GetSprite()->sortOrder; 
 		};
-	drawables =
-		std::multiset<std::shared_ptr<GameEntity>,
-		CompareFuncType>(cmp);
+	drawables = std::multiset<std::shared_ptr<GameEntity>, CompareFuncType>(cmp);
 }
 
-void S_Sprite::Add(std::vector<std::shared_ptr<GameEntity>> objects)
+void S_Sprite::Add(const std::vector<std::shared_ptr<GameEntity>>& objects)
 {
 	for (auto& o : objects)
 	{
@@ -22,7 +21,7 @@ void S_Sprite::Add(std::vector<std::shared_ptr<GameEntity>> objects)
 	}
 }
 
-void S_Sprite::Add(std::shared_ptr<GameEntity> entity)
+void S_Sprite::Add(const std::shared_ptr<GameEntity>& entity)
 {
 	if (entity->GetSprite())
 	{

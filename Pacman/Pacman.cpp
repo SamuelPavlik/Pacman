@@ -45,7 +45,7 @@ void Pacman::Init()
 	world.Init(drawer, factory, dots, bigDots);
 
 	//set up avatar
-	auto onOverlapFunc = [this](CollisionData cd) {
+	auto onOverlapFunc = [this](CollisionData& cd) {
 		OnIntersectedDot(cd);
 		OnIntersectedBigDot(cd);
 		OnAvatarGhostCollision(cd);
@@ -128,7 +128,7 @@ bool Pacman::Update(float time)
 	return true;
 }
 
-void Pacman::OnIntersectedDot(CollisionData cd)
+void Pacman::OnIntersectedDot(CollisionData& cd)
 {
 	if (cd.other->tag != DOT_TAG)
 	{
@@ -141,7 +141,7 @@ void Pacman::OnIntersectedDot(CollisionData cd)
 	totalPoints--;
 }
 
-void Pacman::OnIntersectedBigDot(CollisionData cd)
+void Pacman::OnIntersectedBigDot(CollisionData& cd)
 {
 	if (cd.other->tag != BIG_DOT_TAG)
 	{
@@ -152,7 +152,7 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 
 	//game logic when dot eaten
 	score += BIG_DOT_POINTS;
-	for (auto ghost : ghosts)
+	for (auto& ghost : ghosts)
 	{
 		if (auto moveComp = ghost->GetComponent<C_GhostBehavior>())
 		{
@@ -164,7 +164,7 @@ void Pacman::OnIntersectedBigDot(CollisionData cd)
 	cd.other->SetDelete();
 }
 
-void Pacman::OnAvatarGhostCollision(CollisionData cd)
+void Pacman::OnAvatarGhostCollision(CollisionData& cd)
 {
 	std::shared_ptr<C_GhostBehavior> moveComp;
 	if (cd.other->tag != ENEMY_TAG || !(moveComp = cd.other->GetComponent<C_GhostBehavior>()))

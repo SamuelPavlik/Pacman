@@ -9,7 +9,7 @@ Menu::Menu() :
 	quitFont(HUD_FONT),
 	released(true) {}
 
-MenuState Menu::Update(InputManager& inputManager)
+MenuState Menu::Update(const InputManager& inputManager)
 {
 	if (inputManager.IsKeyPressed(InputManager::Key::Down) 
 		|| inputManager.IsKeyPressed(InputManager::Key::Up))

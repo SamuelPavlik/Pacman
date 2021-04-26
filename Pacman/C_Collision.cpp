@@ -6,7 +6,7 @@ C_Collision::C_Collision(GameEntity& owner, CollisionLayer layer) :
 	Component(owner),
 	layer(layer) {}
 
-CollisionData C_Collision::IsColliding(const std::shared_ptr<C_Collision>& other)
+CollisionData C_Collision::IsColliding(const std::shared_ptr<const C_Collision>& other) const
 {
 	CollisionData cd;
 	if ((owner.GetPosition() - other->owner.GetPosition()).Length() < COLLISION_DELTA)
@@ -17,7 +17,7 @@ CollisionData C_Collision::IsColliding(const std::shared_ptr<C_Collision>& other
 	return cd;
 }
 
-void C_Collision::Resolve(CollisionData cd)
+void C_Collision::Resolve(CollisionData& cd)
 {
 	if (onOverlapFunc)
 	{
@@ -25,7 +25,7 @@ void C_Collision::Resolve(CollisionData cd)
 	}
 }
 
-void C_Collision::BindOnOverlapFunc(std::function<void(CollisionData cd)> onOverlapFunc)
+void C_Collision::BindOnOverlapFunc(std::function<void(CollisionData& cd)> onOverlapFunc)
 {
 	this->onOverlapFunc = onOverlapFunc;
 }

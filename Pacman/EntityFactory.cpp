@@ -4,8 +4,9 @@
 #include "C_Animation.h"
 #include "C_KeyboardMovement.h"
 #include "C_Sprite.h"
-#include "C_GhostBehavior.h"
 #include "C_PacmanProperties.h"
+#include "C_AmbushGhostBehavior.h"
+#include "C_DirectGhostBehavior.h"
 #include "GameEntity.h"
 #include "World.h"
 
@@ -14,8 +15,8 @@ EntityFactory::EntityFactory(Drawer& drawer, InputManager& inputManager, World& 
 	inputManager(inputManager),
 	world(world) {}
 
-std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position, 
-	std::function<void(CollisionData)> onOverlapFunc,
+std::shared_ptr<GameEntity> EntityFactory::CreatePacman(const Vector2f& position, 
+	std::function<void(CollisionData&)> onOverlapFunc,
 	const char* spriteName)
 {
 	auto avatar = std::make_shared<GameEntity>(position);
@@ -53,64 +54,27 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(Vector2f position,
 	return avatar;
 }
 
-
-std::shared_ptr<GameEntity> EntityFactory::CreateDirectGhost(Vector2f position, 
-	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
+std::shared_ptr<GameEntity> EntityFactory::CreateDirectGhost(const Vector2f& position, 
+	const Vector2f& spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto nextTileFunc = [avatar](Vector2f position, bool isClaimableFlag) {
-		return avatar->GetPosition() / TILE_SIZE;
-	};
-
 	auto ghost = std::make_shared<GameEntity>(position);
 	ghost->AddComponent<C_Sprite>(drawer, spriteName, spriteOffset);
-	ghost->AddComponent<C_GhostBehavior>(world, avatar, nextTileFunc);
+	ghost->AddComponent<C_DirectGhostBehavior>(world, avatar);
 
 	return CreateGhost(ghost, spriteName);
 }
 
-std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(Vector2f position, 
-	Vector2f spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
+std::shared_ptr<GameEntity> EntityFactory::CreateAmbushGhost(const Vector2f& position, 
+	const Vector2f& spriteOffset, std::shared_ptr<GameEntity> avatar, const char* spriteName)
 {
-	auto& moveComp = avatar->GetComponent<C_KeyboardMovement>();
-	auto& worldVar = world;
-
-	// algorithm to find a tile at most 4 steps in front of the player
-	auto nextTileFunc = [avatar, moveComp, worldVar](Vector2f position, bool isClaimableFlag) {
-		auto avatarPos = avatar->GetPosition() / TILE_SIZE;
-		if (!moveComp || isClaimableFlag)
-		{
-			return avatarPos;
-		}
-
-		auto ahead = 0;
-		auto unitDir = moveComp->GetDirection();
-		auto len = (avatarPos - position).Length();
-		auto nextPos = avatarPos;
-		nextPos.x = std::floor(nextPos.x);
-		nextPos.y = std::floor(nextPos.y);
-		while (ahead < 4 
-			&& worldVar.TileIsValid(nextPos.x + unitDir.x, nextPos.y + unitDir.y)
-			&& nextPos != position)
-		{
-			ahead++;
-			nextPos += unitDir;
-		}
-		if (nextPos == position)
-		{
-			return avatarPos;
-		}
-
-		return nextPos;
-	};
-
 	auto ghost = std::make_shared<GameEntity>(position);
 	ghost->AddComponent<C_Sprite>(drawer, spriteName, spriteOffset);
-	ghost->AddComponent<C_GhostBehavior>(world, avatar, nextTileFunc);
+	ghost->AddComponent<C_AmbushGhostBehavior>(world, avatar);
 
 	return CreateGhost(ghost, spriteName);
 }
 
-std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const char* name)
+std::shared_ptr<GameEntity> EntityFactory::CreateDot(const Vector2f& position, const char* name)
 {
 	auto dot = std::make_shared<GameEntity>(position);
 	dot->AddComponent<C_Sprite>(drawer, name);
@@ -120,7 +84,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreateDot(Vector2f position, const ch
 	return dot;
 }
 
-std::shared_ptr<GameEntity> EntityFactory::CreateBigDot(Vector2f position, const char* name)
+std::shared_ptr<GameEntity> EntityFactory::CreateBigDot(const Vector2f& position, const char* name)
 {
 	auto bigDot = std::make_shared<GameEntity>(position);
 	bigDot->AddComponent<C_Sprite>(drawer, name);

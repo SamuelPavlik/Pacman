@@ -19,7 +19,8 @@ public:
 	};
 
 	InputManager();
-	bool IsKeyPressed(Key keyName);
+
+	bool IsKeyPressed(Key keyName) const;
 
 private:
 	std::unordered_map<Key, SDL_Scancode> keyToCodeMapping;

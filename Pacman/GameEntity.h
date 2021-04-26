@@ -20,7 +20,7 @@ public:
 	template <typename T, typename... Args> 
 	std::shared_ptr<T> AddComponent(Args&&... args)
 	{
-		auto it = std::find_if(components.begin(), components.end(), [](auto comp) {
+		auto it = std::find_if(components.begin(), components.end(), [](const auto& comp) {
 			return std::dynamic_pointer_cast<T>(comp);
 			});
 		if (it != components.end())
@@ -28,7 +28,7 @@ public:
 			return std::dynamic_pointer_cast<T>(*it);
 		}
 
-		std::shared_ptr<T> newComponent = std::make_shared<T>(*this, args...);
+		auto newComponent = std::make_shared<T>(*this, args...);
 		components.push_back(newComponent);
 
 		if (std::dynamic_pointer_cast<C_Sprite>(newComponent))
@@ -40,9 +40,9 @@ public:
 	};
 
 	template <typename T> 
-	std::shared_ptr<T> GetComponent()
+	std::shared_ptr<T> GetComponent() const
 	{
-		auto it = std::find_if(components.begin(), components.end(), [](auto comp) {
+		auto it = std::find_if(components.begin(), components.end(), [](const auto& comp) {
 			return std::dynamic_pointer_cast<T>(comp);
 			});
 		if (it != components.end())

@@ -10,7 +10,12 @@ InputManager::InputManager() : keystate{ SDL_GetKeyboardState(nullptr) }
 	keyToCodeMapping[Key::Enter] = SDL_SCANCODE_RETURN;
 }
 
-bool InputManager::IsKeyPressed(Key keyName)
+bool InputManager::IsKeyPressed(Key keyName) const
 {
-	return keystate[keyToCodeMapping[keyName]];
+	auto it = keyToCodeMapping.find(keyName);
+	if (it != keyToCodeMapping.end()) 
+	{
+		return keystate[it->second];
+	}
+	return false;
 }

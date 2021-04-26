@@ -17,7 +17,7 @@ class Menu
 public:
 	Menu();
 
-	MenuState Update(InputManager& inputManager);
+	MenuState Update(const InputManager& inputManager);
 	void Draw(Drawer& drawer);
 
 private:

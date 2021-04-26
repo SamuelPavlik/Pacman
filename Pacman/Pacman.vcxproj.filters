@@ -79,6 +79,12 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="C_AmbushGhostBehavior.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="C_DirectGhostBehavior.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -146,6 +152,12 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="C_AmbushGhostBehavior.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_DirectGhostBehavior.h">
+      <Filter>Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

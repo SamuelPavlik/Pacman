@@ -7,7 +7,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-	for (auto res : resourceMap)
+	for (auto& res : resourceMap)
 	{
 		Mix_FreeChunk(res.second);
 	}

@@ -8,14 +8,12 @@
 #include <queue>
 
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
-	const std::shared_ptr<GameEntity>& avatar, 
-	std::function<Vector2f(Vector2f, bool)> nextTileFunc, float moveSpeed) :
+	const std::shared_ptr<const GameEntity>& avatar, float moveSpeed) :
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
 	world(world),
 	avatar(avatar),
-	nextTileFunc(nextTileFunc),
 	moveSpeed(moveSpeed),
 	currentTileX(),
 	currentTileY(),
@@ -96,11 +94,12 @@ void C_GhostBehavior::MarkClaimable()
 
 void C_GhostBehavior::Move(float time)
 {
+	//calculate next tile when goal tile reached
 	if (currentTileX == nextTileX && currentTileY == nextTileY)
 	{
 		if (!isDeadFlag && !avatar->IsMarkedForDelete())
 		{
-			auto pos = nextTileFunc(Vector2f(currentTileX, currentTileY), isClaimableFlag);
+			auto pos = GetNextTile(Vector2f(currentTileX, currentTileY), isClaimableFlag);
 			GetPath(pos.x, pos.y);
 		}
 
@@ -109,17 +108,19 @@ void C_GhostBehavior::Move(float time)
 			auto nextTile = path.front();
 			path.pop_front();
 
-			if (path.empty() && isDeadFlag)
+			if (path.empty() && isDeadFlag) 
+			{
 				Start();
+			}
 
 			nextTileX = nextTile->x;
 			nextTileY = nextTile->y;
 		}
 	}
 
+	//set position based on goal tile
 	Vector2f destination(nextTileX * TILE_SIZE, nextTileY * TILE_SIZE);
 	Vector2f direction = destination - owner.GetPosition();
-
 	float distanceToMove = time * moveSpeed;
 
 	if (distanceToMove > direction.Length())
@@ -135,19 +136,17 @@ void C_GhostBehavior::Move(float time)
 	}
 }
 
-void C_GhostBehavior::GetPath(int aToX, int aToY)
+void C_GhostBehavior::GetPath(int toX, int toY)
 {
 	path.clear();
-	const auto map = world.GetMap();
+	const auto& map = world.GetMap();
 	auto fromTile = map[currentTileY][currentTileX];
-	auto toTile = map[aToY][aToX];
-
+	auto toTile = map[toY][toX];
 	auto foundPath = Pathfind(fromTile, toTile);
 
 	while (foundPath && foundPath->prev) 
 	{
-		auto nodeTile = foundPath->tile;
-		path.push_front(nodeTile);
+		path.push_front(foundPath->tile);
 		foundPath = foundPath->prev;
 	}
 
@@ -155,19 +154,21 @@ void C_GhostBehavior::GetPath(int aToX, int aToY)
 	nextTileY = currentTileY;
 }
 
-auto GetCompareFunction(bool isClaimableFlag, const std::shared_ptr<PathmapTile>& aToTile) {
+auto GetCompareFunction(bool isClaimableFlag, const std::shared_ptr<const PathmapTile>& toTile) {
 	std::function<bool(PathNodePtr, PathNodePtr)> comp;
-	if (isClaimableFlag) 	{
-		comp = [aToTile](const auto& a, const auto& b) {
-			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
-			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
+	if (isClaimableFlag) 
+	{
+		comp = [&toTile](const auto& a, const auto& b) {
+			int la = a->pathLength + abs(a->tile->x - toTile->x) + abs(a->tile->y - toTile->y);
+			int lb = b->pathLength + abs(b->tile->x - toTile->x) + abs(b->tile->y - toTile->y);
 			return la < lb;
 		};
 	}
-	else 	{
-		comp = [aToTile](const auto& a, const auto& b) {
-			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
-			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
+	else 
+	{
+		comp = [&toTile](const auto& a, const auto& b) {
+			int la = a->pathLength + abs(a->tile->x - toTile->x) + abs(a->tile->y - toTile->y);
+			int lb = b->pathLength + abs(b->tile->x - toTile->x) + abs(b->tile->y - toTile->y);
 			return la > lb;
 		};
 	}
@@ -175,29 +176,29 @@ auto GetCompareFunction(bool isClaimableFlag, const std::shared_ptr<PathmapTile>
 	return comp;
 }
 
-PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
-	const std::shared_ptr<PathmapTile>& aToTile)
+PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<const PathmapTile>& fromTile,
+	const std::shared_ptr<const PathmapTile>& toTile) const
 {
-	if (aFromTile->isBlockingFlag)
+	if (fromTile->isBlockingFlag)
 	{
 		return false;
 	}
 
-	const auto map = world.GetMap();
-	std::set<std::shared_ptr<PathmapTile>> visited;
+	const auto& map = world.GetMap();
+	std::set<std::shared_ptr<const PathmapTile>> visited;
 
 	//compare function for priority queue
-	auto comp = GetCompareFunction(isClaimableFlag, aToTile);
+	auto comp = GetCompareFunction(isClaimableFlag, toTile);
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
-	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, nullptr, 0.f)));
-	visited.insert(aFromTile);
+	tileQueue.emplace(std::make_shared<PathNode>(fromTile, nullptr, 0.f));
+	visited.insert(fromTile);
 	while (!tileQueue.empty())
 	{
 		auto prev = tileQueue.top(); tileQueue.pop();
 
 		//search with limited depth when looking for player
-		if (prev->tile == aToTile || (!isDeadFlag && prev->pathLength >= MAX_PATH_SEARCH_LENGTH))
+		if (prev->tile == toTile || (!isDeadFlag && prev->pathLength >= MAX_PATH_SEARCH_LENGTH))
 		{
 			return PathNodePtr(prev);
 		}

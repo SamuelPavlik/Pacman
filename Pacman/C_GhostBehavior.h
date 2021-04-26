@@ -16,24 +16,23 @@ class GameEntity;
 
 struct PathNode
 {
-    PathNode(std::shared_ptr<PathmapTile> tile, std::shared_ptr<PathNode> prev, int pathLength) :
+    PathNode(const std::shared_ptr<const PathmapTile>& tile, std::shared_ptr<const PathNode> prev, int pathLength) :
         tile(tile),
         prev(prev),
         pathLength(pathLength) {}
 
-    std::shared_ptr<PathmapTile> tile;
-    std::shared_ptr<PathNode> prev;
+    const std::shared_ptr<const PathmapTile> tile;
+    std::shared_ptr<const PathNode> prev;
     int pathLength = 0;
 };
 
-using PathNodePtr = std::shared_ptr<PathNode>;
+using PathNodePtr = std::shared_ptr<const PathNode>;
 
 class C_GhostBehavior : public Component
 {
 public:
     C_GhostBehavior(GameEntity& owner, const World& world, 
-        const std::shared_ptr<GameEntity>& avatar,
-        std::function<Vector2f(Vector2f, bool)> nextTileFunc,
+        const std::shared_ptr<const GameEntity>& avatar,
         float moveSpeed = GHOST_SPEED);
 
 	void Awake() override;
@@ -43,30 +42,35 @@ public:
     void Die();
     void MarkClaimable();
 
+protected:
+    virtual Vector2f GetNextTile(const Vector2f& curr, bool isClaimableFlag) const = 0;
+
 private:
     void Move(float time);
-    void GetPath(int aToX, int aToY);
-    PathNodePtr Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
-        const std::shared_ptr<PathmapTile>& aToTile);
+    void GetPath(int toX, int toY);
+    
+    PathNodePtr Pathfind(const std::shared_ptr<const PathmapTile>& fromTile,
+        const std::shared_ptr<const PathmapTile>& toTile) const;
 
     template<typename T>
-    bool Contains(T collection, std::shared_ptr<PathmapTile>& aFromTile)
+    bool Contains(T collection, const std::shared_ptr<const PathmapTile>& fromTile) const
     {
-        return std::find(collection.begin(), collection.end(), aFromTile) != collection.end();
+        return std::find(collection.begin(), collection.end(), fromTile) != collection.end();
     }
 
 public:
     bool isClaimableFlag;
     bool isDeadFlag;
 
+protected:
+    const std::shared_ptr<const GameEntity> avatar;
+    const World& world;
+
 private:
     float moveSpeed;
-    const World& world;
     std::shared_ptr<C_Animation> animation;
-    const std::shared_ptr<GameEntity> avatar;
-    std::function<Vector2f(Vector2f, bool)> nextTileFunc;
 
-    std::list<std::shared_ptr<PathmapTile>> path;
+    std::list<std::shared_ptr<const PathmapTile>> path;
     int currentTileX;
     int currentTileY;
     int nextTileX;

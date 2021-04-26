@@ -33,7 +33,7 @@ public:
 
 	void SetAnimationState(AnimationState state);
 
-	const AnimationState& GetAnimationState() const;
+	const AnimationState GetAnimationState() const;
 
 private:
 	std::shared_ptr<C_Sprite> sprite;

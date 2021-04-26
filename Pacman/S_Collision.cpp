@@ -4,7 +4,7 @@
 
 void S_Collision::Add(std::vector<std::shared_ptr<GameEntity>>& entities)
 {
-	for (auto entity : entities)
+	for (const auto& entity : entities)
 	{
 		auto collider = entity->GetComponent<C_Collision>();
 		if (collider)
@@ -18,7 +18,7 @@ void S_Collision::ProcessRemovals()
 {
 	for (auto& layer : collidables)
 	{
-		auto newEnd = std::remove_if(layer.second.begin(), layer.second.end(), [](auto coll) {
+		auto newEnd = std::remove_if(layer.second.begin(), layer.second.end(), [](auto& coll) {
 			return coll->owner.IsMarkedForDelete();
 			});
 		layer.second.erase(newEnd, layer.second.end());

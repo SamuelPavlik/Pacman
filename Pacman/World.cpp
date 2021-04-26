@@ -28,10 +28,10 @@ void World::Init(Drawer& drawer, EntityFactory& factory,
 	auto lineIndex = 0;
 	while (std::getline(myfile, line))
 	{
-		tileMap.push_back(std::vector<std::shared_ptr<PathmapTile>>{});
+		tileMap.push_back(std::vector<std::shared_ptr<const PathmapTile>>{});
 		for (auto i = 0; i < line.length(); i++)
 		{
-			tileMap[lineIndex].push_back(std::make_shared<PathmapTile>(i, lineIndex, (line[i] == 'x')));
+			tileMap[lineIndex].push_back(std::make_shared<const PathmapTile>(i, lineIndex, (line[i] == 'x')));
 
 			if (line[i] == '.')
 			{
@@ -70,7 +70,7 @@ bool World::TileIsValid(int x, int y) const
 	return !tileMap[y][x]->isBlockingFlag;
 }
 
-const std::vector<std::vector<std::shared_ptr<PathmapTile>>> World::GetMap() const
+const PathmapTiles World::GetMap() const
 {
 	return tileMap;
 }

@@ -121,8 +121,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="C_AmbushGhostBehavior.cpp" />
     <ClCompile Include="C_Animation.cpp" />
     <ClCompile Include="C_Collision.cpp" />
+    <ClCompile Include="C_DirectGhostBehavior.cpp" />
     <ClCompile Include="C_GhostBehavior.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_PacmanProperties.cpp" />
@@ -144,8 +146,10 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="C_AmbushGhostBehavior.h" />
     <ClInclude Include="C_Animation.h" />
     <ClInclude Include="C_Collision.h" />
+    <ClInclude Include="C_DirectGhostBehavior.h" />
     <ClInclude Include="C_GhostBehavior.h" />
     <ClInclude Include="C_KeyboardMovement.h" />
     <ClInclude Include="C_PacmanProperties.h" />

@@ -50,12 +50,14 @@ void C_Animation::SetAnimationState(AnimationState state)
 		currentAnimation.first = animation->first;
 		currentAnimation.second = animation->second;
 		currentAnimation.second->Reset();
-		if (sprite)
+
+		if (sprite) {
 			sprite->SetName(animation->second->GetCurrentFrame()->name);
+		}
 	}
 }
 
-const AnimationState& C_Animation::GetAnimationState() const 
+const AnimationState C_Animation::GetAnimationState() const 
 {
 	return currentAnimation.first;
 }
