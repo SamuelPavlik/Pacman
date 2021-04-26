@@ -10,7 +10,7 @@ Drawer::Drawer(SDL_Window* window, SDL_Renderer* renderer) :
 
 Drawer::~Drawer()
 {
-	for (auto elem : resourceMap)
+	for (auto& elem : resourceMap)
 	{
 		SDL_DestroyTexture(std::get<0>(elem.second));
 		SDL_FreeSurface(std::get<1>(elem.second));
