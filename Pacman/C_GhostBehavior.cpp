@@ -155,6 +155,26 @@ void C_GhostBehavior::GetPath(int aToX, int aToY)
 	nextTileY = currentTileY;
 }
 
+auto GetCompareFunction(bool isClaimableFlag, const std::shared_ptr<PathmapTile>& aToTile) {
+	std::function<bool(PathNodePtr, PathNodePtr)> comp;
+	if (isClaimableFlag) 	{
+		comp = [aToTile](const auto& a, const auto& b) {
+			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
+			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
+			return la < lb;
+		};
+	}
+	else 	{
+		comp = [aToTile](const auto& a, const auto& b) {
+			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
+			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
+			return la > lb;
+		};
+	}
+
+	return comp;
+}
+
 PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromTile,
 	const std::shared_ptr<PathmapTile>& aToTile)
 {
@@ -167,23 +187,7 @@ PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<PathmapTile>& aFromT
 	std::set<std::shared_ptr<PathmapTile>> visited;
 
 	//compare function for priority queue
-	std::function<bool(PathNodePtr, PathNodePtr)> comp;
-	if (isClaimableFlag)
-	{
-		comp = [aToTile](auto a, auto b) {
-			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
-			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
-			return la < lb;
-		};
-	}
-	else
-	{
-		comp = [aToTile](auto a, auto b) {
-			int la = a->pathLength + abs(a->tile->x - aToTile->x) + abs(a->tile->y - aToTile->y);
-			int lb = b->pathLength + abs(b->tile->x - aToTile->x) + abs(b->tile->y - aToTile->y);
-			return la > lb;
-		};
-	}
+	auto comp = GetCompareFunction(isClaimableFlag, aToTile);
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
 	tileQueue.emplace(std::make_shared<PathNode>(PathNode(aFromTile, nullptr, 0.f)));
