@@ -13,8 +13,8 @@ struct SDL_Texture;
 class EntityManager
 {
 public:
-	void Add(std::shared_ptr<GameEntity> entity);
-	void Add(std::vector<std::shared_ptr<GameEntity>> entities);
+	void Add(std::shared_ptr<GameEntity>& entity);
+	void Add(std::vector<std::shared_ptr<GameEntity>>& entities);
 
 	void Update(float deltaTime);
 	void Draw();

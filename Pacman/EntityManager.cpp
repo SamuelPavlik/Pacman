@@ -17,12 +17,12 @@ void EntityManager::Draw()
 	spriteSys.Draw();
 }
 
-void EntityManager::Add(std::shared_ptr<GameEntity> entity)
+void EntityManager::Add(std::shared_ptr<GameEntity>& entity)
 {
 	newEntities.push_back(entity);
 }
 
-void EntityManager::Add(std::vector<std::shared_ptr<GameEntity>> entities)
+void EntityManager::Add(std::vector<std::shared_ptr<GameEntity>>& entities)
 {
 	newEntities.insert(newEntities.end(), entities.begin(), entities.end());
 }

@@ -28,7 +28,7 @@ public:
 			return std::dynamic_pointer_cast<T>(*it);
 		}
 
-		auto newComponent = std::make_shared<T>(*this, args...);
+		auto newComponent = std::make_shared<T>(*this, std::forward<Args>(args)...);
 		components.push_back(newComponent);
 
 		if (std::dynamic_pointer_cast<C_Sprite>(newComponent))

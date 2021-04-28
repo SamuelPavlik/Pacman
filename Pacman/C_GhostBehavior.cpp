@@ -188,9 +188,11 @@ PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<const PathmapTile>& 
 	std::set<std::shared_ptr<const PathmapTile>> visited;
 
 	//compare function for priority queue
+	//changes when ghost is claimable
 	auto comp = GetCompareFunction(isClaimableFlag, toTile);
 	std::priority_queue<PathNodePtr, std::vector<PathNodePtr>, decltype(comp)> tileQueue (comp);
 
+	//A* search to find player up to limited depth of the tree
 	tileQueue.emplace(std::make_shared<PathNode>(fromTile, nullptr, 0.f));
 	visited.insert(fromTile);
 	while (!tileQueue.empty())
