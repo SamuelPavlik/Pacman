@@ -8,9 +8,9 @@
 S_Sprite::S_Sprite()
 {
 	auto cmp = [](const auto& a, const auto& b) {
-		return a->GetSprite()->sortOrder < b->GetSprite()->sortOrder; 
+		return a->sortOrder < b->sortOrder; 
 		};
-	drawables = std::multiset<std::shared_ptr<GameEntity>, CompareFuncType>(cmp);
+	drawables = std::multiset<std::shared_ptr<C_Sprite>, CompareFuncType>(cmp);
 }
 
 void S_Sprite::Add(const std::vector<std::shared_ptr<GameEntity>>& objects)
@@ -23,9 +23,9 @@ void S_Sprite::Add(const std::vector<std::shared_ptr<GameEntity>>& objects)
 
 void S_Sprite::Add(const std::shared_ptr<GameEntity>& entity)
 {
-	if (entity->GetSprite())
+	if (auto elem = entity->GetSprite())
 	{
-		drawables.insert(entity);
+		drawables.insert(std::move(elem));
 	}
 }
 
@@ -33,7 +33,7 @@ void S_Sprite::ProcessRemovals()
 {
 	for (auto i = drawables.begin(), last = drawables.end(); i != last; )
 	{
-		if ((*i)->IsMarkedForDelete())
+		if ((*i)->owner.IsMarkedForDelete())
 		{
 			i = drawables.erase(i);
 		}
@@ -53,6 +53,9 @@ void S_Sprite::Draw()
 {
 	for (auto& d : drawables)
 	{
-		d->Draw();
+		if (d && d->isComponentOn) 
+		{
+			d->Draw();
+		}
 	}
 }

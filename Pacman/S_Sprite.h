@@ -7,9 +7,10 @@
 
 class GameEntity;
 class Drawer;
+class C_Sprite;
 
 using CompareFuncType = 
-std::function<bool(const std::shared_ptr<GameEntity>&, const std::shared_ptr<GameEntity>&)>;
+std::function<bool(const std::shared_ptr<C_Sprite>&, const std::shared_ptr<C_Sprite>&)>;
 
 class S_Sprite
 {
@@ -25,6 +26,6 @@ public:
 	void Draw();
 
 private:
-	std::multiset<std::shared_ptr<GameEntity>, CompareFuncType> drawables;
+	std::multiset<std::shared_ptr<C_Sprite>, CompareFuncType> drawables;
 };
 

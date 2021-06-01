@@ -20,7 +20,7 @@ public:
 
 	void Draw(Drawer& drawer);
 	bool TileIsValid(int x, int y) const;
-	const PathmapTiles GetMap() const;
+	const PathmapTiles GetMap() const noexcept;
 	
 private:
 	PathmapTiles tileMap;

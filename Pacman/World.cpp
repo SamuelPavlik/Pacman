@@ -70,7 +70,7 @@ bool World::TileIsValid(int x, int y) const
 	return !tileMap[y][x]->isBlockingFlag;
 }
 
-const PathmapTiles World::GetMap() const
+const PathmapTiles World::GetMap() const noexcept
 {
 	return tileMap;
 }
