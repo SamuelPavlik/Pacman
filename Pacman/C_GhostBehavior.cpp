@@ -4,11 +4,10 @@
 #include "World.h"
 #include "PathmapTile.h"
 
-#include <set>
 #include <queue>
 
 C_GhostBehavior::C_GhostBehavior(GameEntity& owner, const World& world,
-	const std::shared_ptr<const GameEntity>& avatar, float moveSpeed) :
+	const std::shared_ptr<const GameEntity>& avatar, float moveSpeed) noexcept :
 	Component(owner),
 	isClaimableFlag(false),
 	isDeadFlag(false),
@@ -86,7 +85,7 @@ void C_GhostBehavior::Die()
 	GetPath(GHOST_START_TILE_X, GHOST_START_TILE_Y);
 }
 
-void C_GhostBehavior::MarkClaimable()
+void C_GhostBehavior::MarkClaimable() noexcept
 {
 	isClaimableFlag = true;
 	claimableCounter = GHOST_COUNTER;
@@ -235,4 +234,9 @@ PathNodePtr C_GhostBehavior::Pathfind(const std::shared_ptr<const PathmapTile>& 
 	}
 
 	return nullptr;
+}
+
+bool C_GhostBehavior::Contains(std::set<std::shared_ptr<const PathmapTile>>& collection, 
+	const std::shared_ptr<const PathmapTile>& fromTile) const     {
+	return std::find(collection.begin(), collection.end(), fromTile) != collection.end();
 }

@@ -4,7 +4,7 @@
 #include "World.h"
 
 C_AmbushGhostBehavior::C_AmbushGhostBehavior(GameEntity& owner, const World& world, 
-	const std::shared_ptr<const GameEntity>& avatar, float moveSpeed) : 
+	const std::shared_ptr<const GameEntity>& avatar, float moveSpeed) noexcept : 
 	C_GhostBehavior(owner, world, avatar, moveSpeed) {
 	moveComp = avatar->GetComponent<C_KeyboardMovement>();
 }

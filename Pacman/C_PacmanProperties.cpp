@@ -4,7 +4,7 @@
 #include "C_Collision.h"
 #include "Constants.h"
 
-C_PacmanProperties::C_PacmanProperties(GameEntity& owner) :
+C_PacmanProperties::C_PacmanProperties(GameEntity& owner) noexcept:
 	Component(owner),
 	invulnerableTimer(),
 	visibilityTimer() {}

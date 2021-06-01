@@ -3,8 +3,6 @@
 #include "Component.h"
 #include "Vector2f.h"
 
-#include <memory>
-
 class Drawer;
 class GameEntity;
 
@@ -16,7 +14,7 @@ public:
 	
 	void Draw();
 	void Load(const char* name);
-	void SetName(const char* name);
+	void SetName(const char* name) noexcept;
 
 	int sortOrder;
 

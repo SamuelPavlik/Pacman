@@ -19,7 +19,7 @@ void C_Sprite::Draw()
 		owner.GetPosition().y + TOTAL_OFFSET_Y + offset.y);
 }
 
-void C_Sprite::SetName(const char* name)
+void C_Sprite::SetName(const char* name) noexcept
 {
 	this->name = name;
 }

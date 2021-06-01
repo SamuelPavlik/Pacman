@@ -24,9 +24,10 @@ class C_Collision : public Component
 public:
     C_Collision(GameEntity& owner, CollisionLayer layer);
 
-    CollisionData C_Collision::IsColliding(const std::shared_ptr<const C_Collision>& other) const;
+    CollisionData C_Collision::IsColliding(const std::shared_ptr<const C_Collision>& other) const noexcept;
     void Resolve(CollisionData& cd);
-    void BindOnOverlapFunc(std::function<void(CollisionData& cd)> onOverlapFunc);
+    void BindOnOverlapFunc(std::function<void(CollisionData& cd)>& onOverlapFunc) noexcept;
+    void BindOnOverlapFunc(std::function<void(CollisionData& cd)>&& onOverlapFunc) noexcept;
 
     CollisionLayer layer;
 

@@ -23,7 +23,7 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(const Vector2f& position
 	avatar->AddComponent<C_Sprite>(drawer, spriteName);
 	avatar->AddComponent<C_KeyboardMovement>(inputManager, world);
 	auto collision = avatar->AddComponent<C_Collision>(CollisionLayer::Player);
-	collision->BindOnOverlapFunc(onOverlapFunc);
+	collision->BindOnOverlapFunc(std::move(onOverlapFunc));
 
 	//set up avatar animation
 	auto avatarAnim = avatar->AddComponent<C_Animation>();

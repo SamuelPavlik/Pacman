@@ -10,7 +10,7 @@ class C_Collision;
 class C_PacmanProperties : public Component
 {
 public:
-	C_PacmanProperties(GameEntity& owner);
+	C_PacmanProperties(GameEntity& owner) noexcept;
 
 	void Awake() override;
 	void Start() override;

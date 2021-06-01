@@ -15,10 +15,10 @@ class C_KeyboardMovement : public Component
 {
 public:
 	C_KeyboardMovement(GameEntity& owner, InputManager& inputManager, const World& world, 
-		float moveSpeed = PACMAN_SPEED);
+		float moveSpeed = PACMAN_SPEED) noexcept;
 
-	void SetMoveSpeed(float moveSpeed);
-	const Vector2f GetDirection() const;
+	void SetMoveSpeed(float moveSpeed) noexcept;
+	const Vector2f GetDirection() const noexcept;
 
 	void Awake() override;
 	void Start() override;

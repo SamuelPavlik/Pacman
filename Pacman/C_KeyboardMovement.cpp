@@ -5,7 +5,7 @@
 #include "GameEntity.h"
 
 C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager& inputManager, 
-	const World& world, float moveSpeed) : 
+	const World& world, float moveSpeed) noexcept : 
 	Component(owner), 
 	moveSpeed(moveSpeed),
 	inputManager(inputManager),
@@ -16,12 +16,12 @@ C_KeyboardMovement::C_KeyboardMovement(GameEntity& owner, InputManager& inputMan
 	nextTileY()
 {}
 
-void C_KeyboardMovement::SetMoveSpeed(float moveSpeed)
+void C_KeyboardMovement::SetMoveSpeed(float moveSpeed) noexcept
 {
 	this->moveSpeed = moveSpeed;
 }
 
-const Vector2f C_KeyboardMovement::GetDirection() const
+const Vector2f C_KeyboardMovement::GetDirection() const noexcept
 {
 	return nextMovement;
 }

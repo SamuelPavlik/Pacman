@@ -5,7 +5,7 @@ class GameEntity;
 class Component
 {
 public:
-	Component(GameEntity& owner) : 
+	Component(GameEntity& owner) :
 		owner(owner),
 		isComponentOn(true) {}
 
