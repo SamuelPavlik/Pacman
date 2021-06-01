@@ -6,56 +6,56 @@
 class Vector2f
 {
 public:
-	Vector2f()
+	Vector2f() noexcept
 	{
 		x = 0.f;
 		y = 0.f;
 	}
 
-	Vector2f(float anX, float anY)
+	Vector2f(float anX, float anY) noexcept
 	{
 		x = anX;
 		y = anY;
 	}
 
-	Vector2f Vector2f::operator-(const Vector2f &other) const 
+	Vector2f Vector2f::operator-(const Vector2f &other) const noexcept
 	{
 		Vector2f v(x - other.x, y - other.y);
 		return v;
 	}
 
-	Vector2f Vector2f::operator+(const Vector2f &other) const 
+	Vector2f Vector2f::operator+(const Vector2f &other) const noexcept
 	{
 		Vector2f v(x + other.x, y + other.y);
 		return v;
 	}
 
 	
-	Vector2f Vector2f::operator*(const Vector2f& other) const 
+	Vector2f Vector2f::operator*(const Vector2f& other) const noexcept
 	{
 		Vector2f v(x*other.x, y*other.y);
 		return v;
 	}
 
-	Vector2f& Vector2f::operator+=(const Vector2f &other) 
+	Vector2f& Vector2f::operator+=(const Vector2f &other) noexcept
 	{
-		x = x + other.x;
-		y = y + other.y;
+		x += other.x;
+		y += other.y;
 
 		return *this;
 	}
 
-	bool Vector2f::operator==(const Vector2f& other)
+	bool Vector2f::operator==(const Vector2f& other) const noexcept
 	{
 		return x == other.x && y == other.y;
 	}
 
-	bool Vector2f::operator!=(const Vector2f& other)
+	bool Vector2f::operator!=(const Vector2f& other) const noexcept
 	{
 		return !(*this == other);
 	}
 
-	Vector2f& Vector2f::operator*=(const float aFloat) 
+	Vector2f& Vector2f::operator*=(const float aFloat) noexcept
 	{
 		x *= aFloat;
 		y *= aFloat;
@@ -63,7 +63,7 @@ public:
 		return *this;
 	}
 
-	Vector2f& Vector2f::operator/=(const float aFloat) 
+	Vector2f& Vector2f::operator/=(const float aFloat) noexcept
 	{
 		x /= aFloat;
 		y /= aFloat;
@@ -71,24 +71,24 @@ public:
 		return *this;
 	}
 
-	Vector2f Vector2f::operator*(const float aValue) const 
+	Vector2f Vector2f::operator*(const float aValue) const noexcept
 	{
 		Vector2f v(x * aValue, y * aValue);
 		return v;
 	}
 
-	Vector2f Vector2f::operator/(const float aValue) const 
+	Vector2f Vector2f::operator/(const float aValue) const noexcept
 	{
 		Vector2f v(x / aValue, y / aValue);
 		return v;
 	}
 
-	float Vector2f::Length() const
+	float Vector2f::Length() const noexcept
 	{
-		return sqrt(x*x + y*y);
+		return sqrt(x * x + y * y);
 	}
 
-	void Vector2f::Normalize()
+	void Vector2f::Normalize() noexcept
 	{
 		float length = Length();
 

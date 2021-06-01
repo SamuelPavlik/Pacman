@@ -44,10 +44,10 @@ std::shared_ptr<GameEntity> EntityFactory::CreatePacman(const Vector2f& position
 	goingDownAnim->AddFrame(drawer, "closed_down_32.png", eatingFrameSeconds);
 	goingDownAnim->AddFrame(drawer, "open_down_32.png", eatingFrameSeconds);
 
-	avatarAnim->AddAnimation(AnimationState::GoingLeft, goingLeftAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingRight, goingRightAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingUp, goingUpAnim);
-	avatarAnim->AddAnimation(AnimationState::GoingDown, goingDownAnim);
+	avatarAnim->AddAnimation(AnimationState::GoingLeft, std::move(goingLeftAnim));
+	avatarAnim->AddAnimation(AnimationState::GoingRight, std::move(goingRightAnim));
+	avatarAnim->AddAnimation(AnimationState::GoingUp, std::move(goingUpAnim));
+	avatarAnim->AddAnimation(AnimationState::GoingDown, std::move(goingDownAnim));
 
 	avatar->AddComponent<C_PacmanProperties>();
 
@@ -110,9 +110,9 @@ std::shared_ptr<GameEntity> EntityFactory::CreateGhost(std::shared_ptr<GameEntit
 	auto deadAnim = std::make_shared<Animation>();
 	deadAnim->AddFrame(drawer, "Ghost_Dead_32.png", 0.f);
 
-	ghostAnim->AddAnimation(AnimationState::GoingUp, normalAnim);
-	ghostAnim->AddAnimation(AnimationState::Vulnerable, vulnerableAnim);
-	ghostAnim->AddAnimation(AnimationState::Dead, deadAnim);
+	ghostAnim->AddAnimation(AnimationState::GoingUp, std::move(normalAnim));
+	ghostAnim->AddAnimation(AnimationState::Vulnerable, std::move(vulnerableAnim));
+	ghostAnim->AddAnimation(AnimationState::Dead, std::move(deadAnim));
 
 	return ghost;
 }

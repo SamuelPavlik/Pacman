@@ -1,7 +1,7 @@
 #include "Animation.h"
 #include "Drawer.h"
 
-Animation::Animation() : 
+Animation::Animation() noexcept : 
 	frames(0), 
 	currentFrameIndex(0),
 	currentFrameTime(0.f) {}
@@ -19,7 +19,7 @@ void Animation::AddFrame(Drawer& drawer, const char* name, float frameTime)
 	frames.push_back(data);
 }
 
-const FrameData* Animation::GetCurrentFrame() const 
+const FrameData* Animation::GetCurrentFrame() const noexcept
 {
 	if (frames.size() > 0) 
 	{
@@ -29,7 +29,7 @@ const FrameData* Animation::GetCurrentFrame() const
 	return nullptr;
 }
 
-bool Animation::UpdateFrame(float deltaTime) 
+bool Animation::UpdateFrame(float deltaTime) noexcept
 {
 	if (frames.empty()) 
 	{
@@ -59,13 +59,13 @@ bool Animation::UpdateFrame(float deltaTime)
 	return false;
 }
 
-void Animation::Reset() 
+void Animation::Reset() noexcept
 {
 	currentFrameIndex = 0;
 	currentFrameTime = 0.f;
 }
 
-void Animation::IncrementFrame() 
+void Animation::IncrementFrame() noexcept 
 {
 	currentFrameIndex = (currentFrameIndex + 1) % frames.size();
 }

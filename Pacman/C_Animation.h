@@ -22,18 +22,22 @@ enum class AnimationState
 class C_Animation : public Component 
 {
 public:
-	C_Animation(GameEntity& owner);
+	C_Animation(GameEntity& owner) noexcept;
 
 	void Awake() override;
-
 	void Update(float deltaTime) override;
 
-	void AddAnimation(AnimationState state,
-		std::shared_ptr<Animation>& animation);
+	template<typename T>
+	void AddAnimation(AnimationState state,	T&& animation)
+	{
+		animations.insert(std::make_pair(state, std::forward<T>(animation)));
 
+		if (currentAnimation.first == AnimationState::None)	{
+			SetAnimationState(state);
+		}
+	}
 	void SetAnimationState(AnimationState state);
-
-	const AnimationState GetAnimationState() const;
+	const AnimationState GetAnimationState() const noexcept;
 
 private:
 	std::shared_ptr<C_Sprite> sprite;

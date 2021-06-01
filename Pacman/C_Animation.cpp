@@ -3,7 +3,7 @@
 #include "C_Sprite.h"
 #include "Animation.h"
 
-C_Animation::C_Animation(GameEntity& owner) : Component(owner),
+C_Animation::C_Animation(GameEntity& owner) noexcept : Component(owner),
 currentAnimation(AnimationState::None, nullptr) {}
 
 void C_Animation::Awake() 
@@ -27,16 +27,6 @@ void C_Animation::Update(float deltaTime)
 	}
 }
 
-void C_Animation::AddAnimation(AnimationState state, std::shared_ptr<Animation>& animation) 
-{
-	animations.insert(std::make_pair(state, animation));
-
-	if (currentAnimation.first == AnimationState::None) 
-	{
-		SetAnimationState(state);
-	}
-}
-
 void C_Animation::SetAnimationState(AnimationState state) 
 {
 	if (currentAnimation.first == state) 
@@ -57,7 +47,7 @@ void C_Animation::SetAnimationState(AnimationState state)
 	}
 }
 
-const AnimationState C_Animation::GetAnimationState() const 
+const AnimationState C_Animation::GetAnimationState() const noexcept
 {
 	return currentAnimation.first;
 }

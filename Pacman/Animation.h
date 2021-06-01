@@ -14,16 +14,16 @@ struct FrameData
 class Animation 
 {
 public:
-	Animation();
+	Animation() noexcept;
 
 	void AddFrame(Drawer& drawer, const char* name, float frameTime);
-	const FrameData* GetCurrentFrame() const;
-	bool UpdateFrame(float deltaTime);
+	const FrameData* GetCurrentFrame() const noexcept;
+	bool UpdateFrame(float deltaTime) noexcept;
 
-	void Reset();
+	void Reset() noexcept;
 
 private:
-	void IncrementFrame();
+	void IncrementFrame() noexcept;
 
 	std::vector<FrameData> frames;
 	int currentFrameIndex;

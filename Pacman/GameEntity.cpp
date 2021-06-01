@@ -23,15 +23,15 @@ void GameEntity::Start()
 		});
 }
 
-Vector2f GameEntity::GetPosition() const { return position; }
+Vector2f GameEntity::GetPosition() const noexcept { return position; }
 
-Vector2f GameEntity::AddPosition(const Vector2f& toAdd)
+Vector2f GameEntity::AddPosition(const Vector2f& toAdd) noexcept
 {
 	position += toAdd;
 	return position;
 }
 
-void GameEntity::SetPosition(Vector2f position) 
+void GameEntity::SetPosition(const Vector2f& position) noexcept 
 {
 	this->position = position; 
 }
@@ -52,11 +52,11 @@ void GameEntity::Draw()
 	}
 }
 
-std::shared_ptr<C_Sprite> GameEntity::GetSprite() const
+std::shared_ptr<C_Sprite> GameEntity::GetSprite() const noexcept
 {
 	return sprite;
 }
 
-void GameEntity::SetDelete() { isDeletedFlag = true; }
+void GameEntity::SetDelete() noexcept { isDeletedFlag = true; }
 
-bool GameEntity::IsMarkedForDelete() const { return isDeletedFlag; }
+bool GameEntity::IsMarkedForDelete() const noexcept { return isDeletedFlag; }

@@ -57,15 +57,15 @@ public:
 	virtual void Start();
 	virtual void Update(float time);
 
-	Vector2f GetPosition() const;
-	Vector2f AddPosition(const Vector2f& toAdd);
-	void SetPosition(Vector2f position);
+	Vector2f GetPosition() const noexcept;
+	Vector2f AddPosition(const Vector2f& toAdd) noexcept;
+	void SetPosition(const Vector2f& position) noexcept;
 
 	void Draw();	
-	std::shared_ptr<C_Sprite> GetSprite() const;
+	std::shared_ptr<C_Sprite> GetSprite() const noexcept;
 
-	void SetDelete();
-	bool IsMarkedForDelete() const;
+	void SetDelete() noexcept;
+	bool IsMarkedForDelete() const noexcept;
 
 	std::string tag;
 
