@@ -14,7 +14,7 @@ public:
 	void Add(std::vector<std::shared_ptr<GameEntity>>& entities);
 	void ProcessRemovals();
 	void Update();
-	void Clear();
+	void Clear() noexcept;
 
 private:
 	std::map<CollisionLayer, std::vector<std::shared_ptr<C_Collision>>> collidables;

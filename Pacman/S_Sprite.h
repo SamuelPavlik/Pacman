@@ -20,7 +20,7 @@ public:
 	void Add(const std::shared_ptr<GameEntity>& entity);
 
 	void ProcessRemovals();
-	void Clear();
+	void Clear() noexcept;
 
 	void Draw();
 

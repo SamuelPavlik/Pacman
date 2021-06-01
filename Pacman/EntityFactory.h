@@ -29,7 +29,6 @@ public:
 private:
 	std::shared_ptr<GameEntity> CreateGhost(std::shared_ptr<GameEntity>& ghost, const char* spriteName);
 
-
 	Drawer& drawer;
 	InputManager& inputManager;
 	World& world;

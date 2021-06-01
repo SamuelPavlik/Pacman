@@ -21,7 +21,8 @@ public:
 
 	void ProcessNewEntities();
 	void ProcessRemovals();
-	void Clear();
+
+	void Clear() noexcept;
 
 private:
 	S_Sprite spriteSys;

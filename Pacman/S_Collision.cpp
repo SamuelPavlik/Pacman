@@ -9,7 +9,7 @@ void S_Collision::Add(std::vector<std::shared_ptr<GameEntity>>& entities)
 		auto collider = entity->GetComponent<C_Collision>();
 		if (collider)
 		{
-			collidables[collider->layer].push_back(collider);
+			collidables[collider->layer].push_back(std::move(collider));
 		}
 	}
 }
@@ -56,7 +56,7 @@ void S_Collision::Update()
 	}
 }
 
-void S_Collision::Clear()
+void S_Collision::Clear() noexcept
 {
 	collidables.clear();
 }

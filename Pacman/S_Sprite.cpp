@@ -44,7 +44,7 @@ void S_Sprite::ProcessRemovals()
 	}
 }
 
-void S_Sprite::Clear()
+void S_Sprite::Clear() noexcept
 {
 	drawables.clear();
 }

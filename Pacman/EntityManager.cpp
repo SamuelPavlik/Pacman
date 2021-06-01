@@ -68,7 +68,7 @@ void EntityManager::ProcessRemovals()
 	}
 }
 
-void EntityManager::Clear()
+void EntityManager::Clear() noexcept
 {
 	entities.clear();
 	newEntities.clear();
